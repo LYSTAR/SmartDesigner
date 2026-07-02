@@ -8,7 +8,7 @@ export const constantRoutes: RouteRecordRaw[] = [
     component: () => import("@/views/Home/index.vue"),
     meta: { 
       hidden: true,
-      title: 'yft-home'
+      title: '智绘快设 - 首页'
     },
   },
   {
@@ -16,14 +16,14 @@ export const constantRoutes: RouteRecordRaw[] = [
     name: "/",
     component: () => import("@/views/Editor/index.vue"),
     meta: { 
-      title: 'yft-design'
+      title: '智绘快设'
     },
   },
   {
     path: "/github",
     component: () => import('@/views/OAuth/github.vue'),
     meta: { 
-      title: 'yft-github'
+      title: '智绘快设 - GitHub'
     },
     // children: [
     //   {

@@ -357,7 +357,7 @@ const download = () => {
   if (!state.resultImage) return;
   downloadLinkFile(
     state.resultImage,
-    `yft-design-${Date.now()}-matting-${state.filename}`
+    `SmartDesigner-${Date.now()}-matting-${state.filename}`
   );
 };
 

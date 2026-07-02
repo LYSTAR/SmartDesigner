@@ -44,7 +44,7 @@ export const createVitePlugins = (
       minify: true,
       inject: {
         data: {
-          title: 'yft-design'
+          title: '智绘快设'
         }
       }
     })

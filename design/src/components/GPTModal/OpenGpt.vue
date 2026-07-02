@@ -7,21 +7,15 @@
  * @Description: 开通GPT弹窗
 -->
 <template>
-   <el-dialog v-model="dialogVisible" :width="500" :title="$t('gpt.openGPTTitle')"  class="upload-dialog"  :before-close="handleClose" :close-on-click-modal="false">
+   <el-dialog v-model="dialogVisible" :width="500" title="提示" class="upload-dialog" :before-close="handleClose" :close-on-click-modal="false">
     <div>
-      <div class="mb-[20px] text-center">初级变中级，中级变高级，让前端开发更轻松高效!</div>
-      <div class="mb-[20px] text-center">限时优惠，数量有限，先到先得!</div>
-      <div class="cursor-pointer text-center text-[18px] font-bold" @click="handleCopy">
-        <div>
-          <IconCopyOne />点击复制<IconWechat />微信号 <el-tag>15972699417</el-tag> 
-        </div>
-      </div>
+      <div class="mb-[20px] text-center">本 Demo 采用纯前端 AI 服务 Key 直连模式，确保您的数据与隐私安全。</div>
+      <div class="mb-[20px] text-center text-[#667eea] font-medium">请点击右上角【AI 接口配置】齿轮按钮配置您的接口参数。</div>
     </div>
     <template #footer>
       <div class="dialog-footer">
-        <el-button @click="handleClose">{{ $t('default.cancel') }}</el-button>
         <el-button type="primary" @click="handleClose">
-          {{ $t('default.ok') }}
+          我知道了
         </el-button>
       </div>
     </template>
@@ -45,11 +39,6 @@ const dialogVisible = ref(false)
 const handleClose = debounce(function() {
   dialogVisible.value = false
   emits('close')
-}, 250)
-
-const handleCopy = debounce(async function() {
-  const result = await copyText('15972699417')
-  result && ElMessage.success('复制成功')
 }, 250)
 
 watch(() => props.visible, (val) => {
