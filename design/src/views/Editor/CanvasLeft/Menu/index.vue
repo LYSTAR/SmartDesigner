@@ -59,7 +59,7 @@ const leftToggle = () => {
 .menu-content {
   position: absolute;
   width: 300px;
-  left: 50px;
+  left: 64px;
   top: 40px;
   z-index: 1;
   background: #fff;

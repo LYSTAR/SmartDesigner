@@ -3,14 +3,23 @@
     <div class="left-top-tabs" id="left-top-tabs">
       <div class="top-tab">
         <el-tooltip placement="top" :hide-after="0" content="首页">
-          <IconHome class="handler-item" @click="goHome"/>
+          <IconHome class="handler-item" @click="goHome" />
         </el-tooltip>
       </div>
     </div>
     <div class="left-bottom-tabs">
       <div class="center-tabs">
-        <div class="center-tab" :class="{ 'left-active': tab.key === poolType }" v-for="tab in topTabs" :key="tab.key" @click="setPoolType(tab.key)">
-          <div class="flex justify-center items-center flex-col" :id="`left-tabs-${tab.key}`">
+        <div
+          class="center-tab"
+          :class="{ 'left-active': tab.key === poolType }"
+          v-for="tab in topTabs"
+          :key="tab.key"
+          @click="setPoolType(tab.key)"
+        >
+          <div
+            class="flex justify-center items-center flex-col tab-item"
+            :id="`left-tabs-${tab.key}`"
+          >
             <SvgIcon :icon-class="tab.icon" className="svg-size" />
             <div class="left-name">{{ $t(tab.label) }}</div>
           </div>
@@ -23,7 +32,12 @@
             <div class="left-name">{{ $t("message.layer") }}</div>
           </div>
         </div> -->
-        <div class="bottom-tab" :class="{ 'left-active': 'help' === poolType }" ref="helpRef" @click="setPoolType('help')">
+        <div
+          class="bottom-tab"
+          :class="{ 'left-active': 'help' === poolType }"
+          ref="helpRef"
+          @click="setPoolType('help')"
+        >
           <div :id="`left-tabs-help`">
             <div><SvgIcon icon-class="help" className="svg-size" /></div>
             <div class="left-name">{{ $t("message.help") }}</div>
@@ -40,10 +54,10 @@
 import { useMainStore } from "@/store";
 import { PoolType } from "@/types/common";
 import { storeToRefs } from "pinia";
-import { useRouter } from 'vue-router'
+import { useRouter } from "vue-router";
 import HotkeyDrawer from "./components/HotkeyDrawer.vue";
 import HelpPopover from "./components/HelpPopover.vue";
-const router = useRouter()
+const router = useRouter();
 const mainStore = useMainStore();
 const { poolType, poolShow } = storeToRefs(mainStore);
 
@@ -59,7 +73,7 @@ interface TabItem {
 }
 
 const topTabs: TabItem[] = [
-  { key: "editor", label: "message.edit", icon: `editor`, index: 0 },
+  { key: "editor", label: "message.edit", icon: `add`, index: 0 },
   { key: "template", label: "message.template", icon: `template`, index: 1 },
   { key: "material", label: "message.material", icon: `material`, index: 2 },
   { key: "text", label: "message.text", icon: "text", index: 3 },
@@ -78,8 +92,8 @@ const setPoolType = (tab: PoolType) => {
 };
 
 const goHome = () => {
-  window.open(router.resolve({path: `/home`}).href, '_blank');
-}
+  window.open(router.resolve({ path: `/home` }).href, "_blank");
+};
 </script>
 
 <style lang="scss" scoped>
@@ -109,46 +123,54 @@ const goHome = () => {
   }
 }
 .center-tabs {
-  // overflow-y: scroll;
   overflow-x: hidden;
   height: calc(100vh - 100px);
+  padding: 8px 6px;
+  display: flex;
+  flex-direction: column;
+  gap: 16px;
   .center-tab:hover {
-    background: #f1f1f1;
-    border-radius: 5px;
+    .tab-item {
+      background: #f0f0f0;
+      border-radius: 10px;
+    }
   }
 }
 .center-tab {
   width: 100%;
-  height: 60px;
-  padding-left: 2px;
   text-align: center;
-  font-size: 12px;
   cursor: pointer;
   display: flex;
   flex-direction: column;
   justify-content: center;
+  align-items: center;
   position: relative;
+}
+.tab-item {
+  width: 100%;
+  padding: 8px 4px 6px;
+  border-radius: 10px;
+  display: flex;
+  flex-direction: column;
+  align-items: center;
+  justify-content: center;
+  gap: 4px;
+  transition: background 0.15s ease;
 }
 .left-active {
   color: $themeColor;
+  .tab-item {
+    background: #ebebed;
+    border-radius: 10px;
+  }
 }
 .left-name {
-  font-size: 14px;
+  font-size: 12px;
   line-height: 1.2;
+  color: inherit;
 }
 .svg-size {
-  font-size: 20px;
-}
-.left-active::before {
-  background-color: $themeColor;
-  border-radius: 4px;
-  content: "";
-  height: 41px;
-  left: -3px;
-  position: absolute;
-  transition: top 0.2s;
-  width: 6px;
-  z-index: 20;
+  font-size: 22px;
 }
 .left-content {
   position: relative;
@@ -191,9 +213,10 @@ const goHome = () => {
 .bottom-tabs {
   position: absolute;
   bottom: 0;
-  width: 51px;
+  width: 64px;
   z-index: 30;
   border-right: 1px solid #eee;
+  padding: 0 6px 8px;
 }
 .bottom-tab {
   height: 60px;

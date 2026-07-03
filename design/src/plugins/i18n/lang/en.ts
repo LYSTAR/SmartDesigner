@@ -11,10 +11,10 @@ export default {
   el: el_en.el,
   message: {
     test: 'test',
-    edit: 'Edit',
+    edit: 'Add',
     template: 'Template',
     chatgpt: 'GPT',
-    material: 'Material',
+    material: 'Element',
     text: 'Text',
     image: 'Image',
     tool: 'Tool',

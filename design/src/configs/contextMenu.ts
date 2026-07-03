@@ -4,6 +4,7 @@ import { storeToRefs } from 'pinia'
 import { useMainStore } from '@/store'
 import useHandleElement from '@/hooks/useHandleElement'
 import useHandleTool from '@/hooks/useHandleTool'
+import useCanvas from '@/views/Canvas/useCanvas'
 
 
 
@@ -53,11 +54,12 @@ export const contextMenus = (): ContextMenu[] => {
       },
       {
         text: '标尺',
-        // handler: createSlide,
-      },
-      {
-        text: '网格',
-        // handler: enterScreeningFromStart,
+        handler: () => {
+          const [canvas] = useCanvas()
+          if (canvas.ruler) {
+            canvas.ruler.enabled = !canvas.ruler.enabled
+          }
+        },
       },
       {
         text: '重置',
