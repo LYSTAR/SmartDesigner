@@ -117,6 +117,16 @@ export default () => {
 
   // }
 
+  // 判断当前焦点是否在可编辑的输入控件内（input / textarea / contenteditable）
+  const isEditingInput = () => {
+    const el = document.activeElement;
+    if (!el) return false;
+    const tag = el.tagName.toLowerCase();
+    if (tag === 'input' || tag === 'textarea' || tag === 'select') return true;
+    if ((el as HTMLElement).isContentEditable) return true;
+    return false;
+  };
+
   const golbelPreventDefault = (e: KeyboardEvent) => {
     if (document.activeElement === document.body) {
       e.preventDefault();
@@ -207,26 +217,32 @@ export default () => {
     }
     if (key === KEYS.DELETE || key === KEYS.BACKSPACE) {
       if (disableHotkeys.value) return;
+      // 如果焦点在输入框/文本域内，不拦截，让浏览器处理默认的删除字符行为
+      if (isEditingInput()) return;
       golbelPreventDefault(e);
       remove();
     }
     if (key === KEYS.UP) {
       if (disableHotkeys.value) return;
+      if (isEditingInput()) return;
       golbelPreventDefault(e);
       move(KEYS.UP);
     }
     if (key === KEYS.DOWN) {
       if (disableHotkeys.value) return;
+      if (isEditingInput()) return;
       golbelPreventDefault(e);
       move(KEYS.DOWN);
     }
     if (key === KEYS.LEFT) {
       if (disableHotkeys.value) return;
+      if (isEditingInput()) return;
       golbelPreventDefault(e);
       move(KEYS.LEFT);
     }
     if (key === KEYS.RIGHT) {
       if (disableHotkeys.value) return;
+      if (isEditingInput()) return;
       golbelPreventDefault(e);
       move(KEYS.RIGHT);
     }
