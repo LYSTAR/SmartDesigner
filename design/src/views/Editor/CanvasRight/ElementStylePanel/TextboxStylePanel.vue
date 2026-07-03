@@ -1,33 +1,39 @@
 <template>
   <div class="text-style-panel">
-    <ElementPosition/>
+    <ElementPosition />
     <el-divider style="margin: 12px 0" />
     <el-row>
       <el-col :span="12">
         <el-select v-model="elementFontFamily" placement="left" @change="handleElementFontFamily">
           <el-option-group v-for="group in fontOptionGroups" :key="group.label" :label="group.label">
-            <el-option v-for="item in group.options" :key="item" :value="item.value" :label="item.label" :style="{fontFamily: item.value}"></el-option>
+            <el-option
+              v-for="item in group.options"
+              :key="item"
+              :value="item.value"
+              :label="item.label"
+              :style="{ fontFamily: item.value }"
+            ></el-option>
           </el-option-group>
         </el-select>
       </el-col>
       <el-col :span="12">
-        <el-select 
-          v-model="handleElement.fontSize" 
-          filterable 
-          allow-create 
-          default-first-option 
-          :filterMethod="handleElementInputSize" 
-          placement="left" 
+        <el-select
+          v-model="handleElement.fontSize"
+          filterable
+          allow-create
+          default-first-option
+          :filterMethod="handleElementInputSize"
+          placement="left"
           @change="handleElementFontSize"
         >
           <el-option v-for="item in FontSizeLibs" :key="item" :label="item" :value="item"></el-option>
         </el-select>
       </el-col>
-    </el-row> 
-    
+    </el-row>
+
     <el-row class="mt-10">
       <el-col :span="6">
-        <el-tooltip placement="top" content="文字颜色" :hide-after="0" >
+        <el-tooltip placement="top" content="文字颜色" :hide-after="0">
           <div @click.stop class="tooltip-popover">
             <el-popover trigger="click" placement="bottom" :width="265" @click.stop>
               <template #reference>
@@ -37,7 +43,10 @@
                   </TextColorButton>
                 </el-button>
               </template>
-              <ColorPicker :modelValue="handleElement.color" @update:modelValue="(color: string) => updateFontColor(color)"/>
+              <ColorPicker
+                :modelValue="handleElement.color"
+                @update:modelValue="(color: string) => updateFontColor(color)"
+              />
             </el-popover>
           </div>
         </el-tooltip>
@@ -53,7 +62,10 @@
                   </TextColorButton>
                 </el-button>
               </template>
-              <ColorPicker :modelValue="elementBackgrounColor" @update:modelValue="(color: string) => updateBackgroundColor(color)"/>
+              <ColorPicker
+                :modelValue="elementBackgrounColor"
+                @update:modelValue="(color: string) => updateBackgroundColor(color)"
+              />
             </el-popover>
           </div>
         </el-tooltip>
@@ -61,15 +73,11 @@
       <el-col :span="12">
         <el-button-group class="full-group">
           <el-tooltip placement="top" content="增大字号" :hide-after="0">
-            <el-button class="font-size" @click="handleElementFontsize('+')">
-              <IconFontSize />+
-            </el-button>
+            <el-button class="font-size" @click="handleElementFontsize('+')"> <IconFontSize />+ </el-button>
           </el-tooltip>
 
           <el-tooltip placement="top" content="减小字号" :hide-after="0">
-            <el-button @click="handleElementFontsize('-')">
-              <IconFontSize />-
-            </el-button>
+            <el-button @click="handleElementFontsize('-')"> <IconFontSize />- </el-button>
           </el-tooltip>
         </el-button-group>
       </el-col>
@@ -103,12 +111,12 @@
     <el-row class="mt-10">
       <el-button-group class="full-group">
         <el-tooltip placement="top" content="横向" :hide-after="0">
-          <el-button @click="handleElementArrange(false)" :type="elementGrapheme ? 'primary': ''">
+          <el-button @click="handleElementArrange(false)" :type="elementGrapheme ? 'primary' : ''">
             <IconTextRotationNone />
           </el-button>
         </el-tooltip>
         <el-tooltip placement="top" content="纵向" :hide-after="0">
-          <el-button @click="handleElementArrange(true)" :type="!elementGrapheme ? 'primary': ''">
+          <el-button @click="handleElementArrange(true)" :type="!elementGrapheme ? 'primary' : ''">
             <IconTextRotationDown />
           </el-button>
         </el-tooltip>
@@ -162,7 +170,11 @@
       </el-col>
       <el-col :span="12">
         <el-tooltip placement="top" content="变形" :hide-after="0">
-          <el-button class="full-button" :type="handleElement.type.toLowerCase() === ElementNames.ARCTEXT ? 'primary' : ''" @click="handleElementDeformation">
+          <el-button
+            class="full-button"
+            :type="handleElement.type.toLowerCase() === ElementNames.ARCTEXT ? 'primary' : ''"
+            @click="handleElementDeformation"
+          >
             <i class="handler-item iconfont icon-text-path" />
           </el-button>
         </el-tooltip>
@@ -171,8 +183,17 @@
 
     <el-row class="mt-10" v-show="handleElement.type.toLowerCase() === ElementNames.ARCTEXT">
       <el-col :span="4" class="flex-align">
-        <el-radio-group class="full-ratio" v-model="(handleElement as ArcText).showCurvature" @change="changeArcTextStatus">
-          <el-tooltip placement="top" content="隐藏弧度" :hide-after="0" v-if="(handleElement as ArcText).showCurvature">
+        <el-radio-group
+          class="full-ratio"
+          v-model="(handleElement as ArcText).showCurvature"
+          @change="changeArcTextStatus"
+        >
+          <el-tooltip
+            placement="top"
+            content="隐藏弧度"
+            :hide-after="0"
+            v-if="(handleElement as ArcText).showCurvature"
+          >
             <el-radio-button :value="false">
               <IconPreviewClose />
             </el-radio-button>
@@ -186,11 +207,24 @@
       </el-col>
       <el-col :span="1"></el-col>
       <el-col :span="12" class="flex-align">
-        <el-slider :min="66" :max="1000" :step="1" v-model="(handleElement as ArcText).radius" @change="changeArcTextRadius" size="small"></el-slider>
+        <el-slider
+          :min="66"
+          :max="1000"
+          :step="1"
+          v-model="(handleElement as ArcText).radius"
+          @change="changeArcTextRadius"
+          size="small"
+        ></el-slider>
       </el-col>
       <el-col :span="1"></el-col>
       <el-col :span="6" class="flex-align">
-        <el-input :min="1" :max="10" v-model="(handleElement as ArcText).radius" controls-position="right" size="default"/>
+        <el-input
+          :min="1"
+          :max="10"
+          v-model="(handleElement as ArcText).radius"
+          controls-position="right"
+          size="default"
+        />
       </el-col>
     </el-row>
 
@@ -199,13 +233,23 @@
     <el-divider style="margin: 12px 0" />
 
     <div class="row">
-      <div style="flex: 2;">行距：</div>
-      <el-select style="flex: 3" suffix-icon="IconRowHeight" v-model="handleElement.lineHeight" @change="changeLineHeight">
+      <div style="flex: 2">行距：</div>
+      <el-select
+        style="flex: 3"
+        suffix-icon="IconRowHeight"
+        v-model="handleElement.lineHeight"
+        @change="changeLineHeight"
+      >
         <el-option v-for="item in LineHeightLibs" :key="item" :value="item" :label="item"></el-option>
       </el-select>
-      <div style="flex: 1;"></div>
-      <div style="flex: 2;">字距：</div>
-      <el-select style="flex: 3" suffix-icon="IconFullwidth" v-model="handleElement.charSpacing" @change="changeCharSpacing">
+      <div style="flex: 1"></div>
+      <div style="flex: 2">字距：</div>
+      <el-select
+        style="flex: 3"
+        suffix-icon="IconFullwidth"
+        v-model="handleElement.charSpacing"
+        @change="changeCharSpacing"
+      >
         <el-option v-for="item in CharSpaceLibs" :key="item" :value="item" :label="item"></el-option>
       </el-select>
     </div>
@@ -239,7 +283,7 @@ import { nanoid } from 'nanoid'
 import { ArcText } from '@/extension/object/ArcText'
 import { CurvedText } from '@/extension/object/CurvedText'
 import { VerticalText } from '@/extension/object/VerticalText'
-import * as opentype from "opentype.js"
+import * as opentype from 'opentype.js'
 import ElementPosition from '../Components/ElementPosition.vue'
 import ElementStroke from '../Components/ElementStroke.vue'
 import ElementShadow from '../Components/ElementShadow.vue'
@@ -247,16 +291,14 @@ import ElementOpacity from '../Components/ElementOpacity.vue'
 import ElementPatterns from '../Components/ElementPatterns.vue'
 import ElementEffects from '../Components/ElementEffects.vue'
 import ElementFill from '../Backgrounds/ElementFill.vue'
-import useHandleCreate from "@/hooks/useHandleCreate"
+import useHandleCreate from '@/hooks/useHandleCreate'
 import useCanvas from '@/views/Canvas/useCanvas'
-
-
 
 const mainStore = useMainStore()
 const templatesStore = useTemplatesStore()
 const { canvasObject, systemFonts, onlineFonts } = storeToRefs(mainStore)
 const { createPathElement } = useHandleCreate()
-const [ canvas ] = useCanvas()
+const [canvas] = useCanvas()
 const handleElement = computed(() => canvasObject.value as Textbox | ArcText)
 const elementGrapheme = computed(() => handleElement.value.type.toLowerCase() !== ElementNames.VERTICALTEXT)
 const elementBackgrounColor = computed(() => {
@@ -271,28 +313,27 @@ const hasFontStyle = computed(() => handleElement.value.fontStyle !== 'normal')
 const hasUnderline = computed(() => handleElement.value.underline)
 const hasLinethrough = computed(() => handleElement.value.linethrough)
 const textAlign = computed(() => handleElement.value.textAlign)
-const hasStroke = computed(() => handleElement.value.stroke ? true : false)
-const hasShadow = computed(() => handleElement.value.shadow ? true : false)
-const hasPatterns = computed(() => (handleElement.value as TextboxElement).fillType === 1 ? true : false)
+const hasStroke = computed(() => (handleElement.value.stroke ? true : false))
+const hasShadow = computed(() => (handleElement.value.shadow ? true : false))
+const hasPatterns = computed(() => ((handleElement.value as TextboxElement).fillType === 1 ? true : false))
 const elementFontFamily = ref<string>(hasFontFamily.value)
 const fontOptionGroups = ref<FontGroupOption[]>([
   {
     label: '系统字体',
-    options: systemFonts.value
+    options: systemFonts.value,
   },
   {
     label: '在线字体',
-    options: onlineFonts.value
-  }
+    options: onlineFonts.value,
+  },
 ])
 
 // 修改字体族
 const handleElementFontFamily = (fontFamily: string) => {
   if (handleElement.value.isEditing) {
-    handleElement.value.setSelectionStyles({fontFamily})
-  }
-  else {
-    templatesStore.modifedElement(handleElement.value, {fontFamily})
+    handleElement.value.setSelectionStyles({ fontFamily })
+  } else {
+    templatesStore.modifedElement(handleElement.value, { fontFamily })
   }
   canvas.renderAll()
 }
@@ -301,7 +342,7 @@ const handleElementFontFamily = (fontFamily: string) => {
 const handleElementInputSize = (val: string) => {
   val = val.replace(/[^\d]/g, '')
   if (val) {
-    templatesStore.modifedElement(handleElement.value, {fontSize: val})
+    templatesStore.modifedElement(handleElement.value, { fontSize: val })
   }
 }
 
@@ -310,22 +351,19 @@ const handleElementFontSize = (fontSize: string) => {
   fontSize = fontSize.replace(/[^\d]/g, '')
   if (!fontSize) return
   if (handleElement.value.isEditing) {
-    handleElement.value.setSelectionStyles({fontSize})
-  }
-  else {
-    templatesStore.modifedElement(handleElement.value, {fontSize})
+    handleElement.value.setSelectionStyles({ fontSize })
+  } else {
+    templatesStore.modifedElement(handleElement.value, { fontSize })
   }
   canvas.renderAll()
 }
 
 // 修改字体颜色
 const updateFontColor = (fill: string) => {
-  
   if (handleElement.value.isEditing) {
-    handleElement.value.setSelectionStyles({fill})
-  }
-  else {
-    templatesStore.modifedElement(handleElement.value, {fill, color: fill})
+    handleElement.value.setSelectionStyles({ fill })
+  } else {
+    templatesStore.modifedElement(handleElement.value, { fill, color: fill })
   }
 }
 
@@ -333,12 +371,11 @@ const updateFontColor = (fill: string) => {
 const updateBackgroundColor = (backgroundColor: string) => {
   let changeData: Record<string, any> = { backgroundColor }
   if (handleElement.value.type.toLowerCase() === ElementNames.ARCTEXT) {
-    changeData = { 'textBackgroundColor': backgroundColor }
+    changeData = { textBackgroundColor: backgroundColor }
   }
   if (handleElement.value.isEditing) {
     handleElement.value.setSelectionStyles(changeData)
-  }
-  else {
+  } else {
     templatesStore.modifedElement(handleElement.value, changeData)
   }
 }
@@ -348,41 +385,38 @@ const handleElementFontsize = (mode: string) => {
   if (handleElement.value.fontSize <= 6) return
   const fontSize = mode === '+' ? handleElement.value.fontSize + 1 : handleElement.value.fontSize - 1
   if (handleElement.value.isEditing) {
-    handleElement.value.setSelectionStyles({fontSize})
-  }
-  else {
-    templatesStore.modifedElement(handleElement.value, {fontSize})
+    handleElement.value.setSelectionStyles({ fontSize })
+  } else {
+    templatesStore.modifedElement(handleElement.value, { fontSize })
   }
   canvas.renderAll()
 }
 
 // 修改字体加粗
 const handleElementBlod = () => {
-  const fontBold = 'bold', fontNormal = 'normal'
+  const fontBold = 'bold',
+    fontNormal = 'normal'
   if (handleElement.value.isEditing) {
     const blodState = handleElement.value.getSelectionStyles().find(item => item.fontWeight !== fontBold)
     if (!blodState || (JSON.stringify(blodState) === '{}' && handleElement.value.fontWeight === fontBold)) {
-      handleElement.value.setSelectionStyles({'fontWeight': fontNormal})
-    } 
-    else {
-      handleElement.value.setSelectionStyles({'fontWeight': fontBold})
+      handleElement.value.setSelectionStyles({ fontWeight: fontNormal })
+    } else {
+      handleElement.value.setSelectionStyles({ fontWeight: fontBold })
     }
-  }
-  else {
+  } else {
     const elementStyle = handleElement.value.styles
     if (handleElement.value.fontWeight === fontBold) {
-      templatesStore.modifedElement(handleElement.value, {fontWeight: fontNormal})
+      templatesStore.modifedElement(handleElement.value, { fontWeight: fontNormal })
       for (let i in elementStyle) {
         for (let j in elementStyle[i]) {
-          (elementStyle[i][j] as TextboxElement).set({fontWeight: fontNormal})
+          ;(elementStyle[i][j] as TextboxElement).set({ fontWeight: fontNormal })
         }
       }
-    }
-    else {
-      templatesStore.modifedElement(handleElement.value, {fontWeight: fontBold})
+    } else {
+      templatesStore.modifedElement(handleElement.value, { fontWeight: fontBold })
       for (let i in elementStyle) {
         for (let j in elementStyle[i]) {
-          (elementStyle[i][j] as TextboxElement).set({fontWeight: fontBold})
+          ;(elementStyle[i][j] as TextboxElement).set({ fontWeight: fontBold })
           // elementStyle[i][j].fontWeight = fontBold
         }
       }
@@ -392,44 +426,39 @@ const handleElementBlod = () => {
 
 // 修改斜体
 const handleElementItalic = () => {
-  const fontStyle = handleElement.value.fontStyle === 'italic' ? 'normal': 'italic'
+  const fontStyle = handleElement.value.fontStyle === 'italic' ? 'normal' : 'italic'
 
   if (handleElement.value.isEditing) {
-    handleElement.value.setSelectionStyles({fontStyle})
+    handleElement.value.setSelectionStyles({ fontStyle })
+  } else {
+    templatesStore.modifedElement(handleElement.value, { fontStyle })
   }
-  else {
-    templatesStore.modifedElement(handleElement.value, {fontStyle})
-  }
-  
 }
 
 // 修改删除线
 const handleElementLinethrough = () => {
   if (handleElement.value.isEditing) {
-    handleElement.value.setSelectionStyles({linethrough: !handleElement.value.linethrough})
-  }
-  else {
-    templatesStore.modifedElement(handleElement.value, {linethrough: !handleElement.value.linethrough})
+    handleElement.value.setSelectionStyles({ linethrough: !handleElement.value.linethrough })
+  } else {
+    templatesStore.modifedElement(handleElement.value, { linethrough: !handleElement.value.linethrough })
   }
 }
 
 // 修改中划线
 const handleElementUnderline = () => {
   if (handleElement.value.isEditing) {
-    handleElement.value.setSelectionStyles({underline: !handleElement.value.underline})
-  }
-  else {
-    templatesStore.modifedElement(handleElement.value, {underline: !handleElement.value.underline})
+    handleElement.value.setSelectionStyles({ underline: !handleElement.value.underline })
+  } else {
+    templatesStore.modifedElement(handleElement.value, { underline: !handleElement.value.underline })
   }
 }
 
 // 修改字体居中
 const handleTextAlign = (textAlign: string) => {
   if (handleElement.value.isEditing) {
-    handleElement.value.setSelectionStyles({textAlign})
-  }
-  else {
-    templatesStore.modifedElement(handleElement.value, {textAlign})
+    handleElement.value.setSelectionStyles({ textAlign })
+  } else {
+    templatesStore.modifedElement(handleElement.value, { textAlign })
   }
 }
 
@@ -442,21 +471,19 @@ const handleElementCharSpacing = (mode: '+' | '-') => {
 
 const changeLineHeight = (lineHeight: number) => {
   if (handleElement.value.isEditing) {
-    handleElement.value.setSelectionStyles({lineHeight})
-  }
-  else {
+    handleElement.value.setSelectionStyles({ lineHeight })
+  } else {
     templatesStore.modifedElement(handleElement.value, { lineHeight })
   }
 }
 
 const changeCharSpacing = (charSpacing: number) => {
   if (handleElement.value.isEditing) {
-    handleElement.value.setSelectionStyles({charSpacing})
+    handleElement.value.setSelectionStyles({ charSpacing })
+  } else {
+    templatesStore.modifedElement(handleElement.value, { charSpacing })
   }
-  else {
-    templatesStore.modifedElement(handleElement.value, {charSpacing})
-  }
-  
+
   canvas.renderAll()
 }
 
@@ -483,7 +510,10 @@ const handleElementCurve = async () => {
   // ElMessage
   let fontElement: opentype.Font | undefined
   if (WEB_FONTS.filter(item => item.value === hasFontFamily.value)[0]) {
-    const fontURL = import.meta.env.MODE === 'production' ? `/assets/${hasFontFamily.value}.ttf` : `/src/assets/fonts/${hasFontFamily.value}.ttf`
+    const fontURL =
+      import.meta.env.MODE === 'production'
+        ? `/assets/${hasFontFamily.value}.ttf`
+        : `/src/assets/fonts/${hasFontFamily.value}.ttf`
     fontElement = await opentype.load(fontURL)
   } else {
     const fontData = await loadFont(hasFontFamily.value)
@@ -493,7 +523,7 @@ const handleElementCurve = async () => {
     fontElement = opentype.parse(fontBuffer)
   }
   if (!fontElement) return
-  const path = fontElement.getPath(handleElement.value.text, 0, 0, handleElement.value.fontSize);
+  const path = fontElement.getPath(handleElement.value.text, 0, 0, handleElement.value.fontSize)
   createPathElement(path.toPathData(2), handleElement.value.left, handleElement.value.top)
   canvas.remove(handleElement.value)
   canvas.renderAll()
@@ -511,22 +541,21 @@ const handleElementDeformation = () => {
     text = new ArcText(options.text, options)
   }
   canvas.add(text)
-  handleElement.value.set({visible: false})
+  handleElement.value.set({ visible: false })
   templatesStore.addElement(text)
   canvas.setActiveObject(text)
   canvas.renderAll()
 }
 
 const changeArcTextRadius = (val: number) => {
-  (handleElement.value as ArcText).setRadius(val)
+  ;(handleElement.value as ArcText).setRadius(val)
   templatesStore.modifedElement(handleElement.value, { radius: val })
 }
 
 const changeArcTextStatus = (showCurvature: boolean) => {
-  (handleElement.value as ArcText).set({showCurvature})
+  ;(handleElement.value as ArcText).set({ showCurvature })
   templatesStore.modifedElement(handleElement.value, { showCurvature })
 }
-
 </script>
 
 <style lang="scss" scoped>
@@ -565,7 +594,7 @@ const changeArcTextStatus = (showCurvature: boolean) => {
   &:nth-child(2n) {
     margin-left: -1px;
   }
-  &:nth-child(n+3) {
+  &:nth-child(n + 3) {
     margin-top: -1px;
   }
 }
@@ -618,7 +647,7 @@ const changeArcTextStatus = (showCurvature: boolean) => {
     flex: 1;
   }
   .el-radio-button__inner {
-    width: 100%
+    width: 100%;
   }
 }
 .flex-align {
@@ -636,7 +665,6 @@ const changeArcTextStatus = (showCurvature: boolean) => {
     font-size: 32px;
   }
 }
-
 </style>
 
 <style scoped>

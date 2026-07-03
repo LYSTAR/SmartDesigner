@@ -1,10 +1,20 @@
 import { TControlSet } from '@/types/fabric'
 import { anchorWrapper, actionHandler } from '@/app/fabricControls'
-import type { Group, Canvas , StaticCanvas , ActiveSelection, TSVGReviver } from 'fabric'
-import { Object as FabricObject, Point, TransformActionHandler, Control, Polygon as OriginPolygon, Line as OriginLine, classRegistry, XY, util, controlsUtils } from 'fabric'
+import type { Group, Canvas, StaticCanvas, ActiveSelection, TSVGReviver } from 'fabric'
+import {
+  Object as FabricObject,
+  Point,
+  TransformActionHandler,
+  Control,
+  Polygon as OriginPolygon,
+  Line as OriginLine,
+  classRegistry,
+  XY,
+  util,
+  controlsUtils,
+} from 'fabric'
 import { ElementNames } from '@/types/elements'
 import { check } from '@/utils/check'
-
 
 type VerticalLineCoords = {
   x: number
@@ -31,7 +41,6 @@ const Keys = <T extends object>(obj: T): (keyof T)[] => {
   return Object.keys(obj) as (keyof T)[]
 }
 
-
 export class Line extends OriginLine {
   private canvasEvents
 
@@ -55,7 +64,7 @@ export class Line extends OriginLine {
       }
     }
 
-    this.canvasEvents = {'mouseup': mouseUp}
+    this.canvasEvents = { mouseup: mouseUp }
     this.on(this.canvasEvents)
     // this.initControls()
   }
@@ -71,12 +80,12 @@ export class Line extends OriginLine {
 
     const canvasObjects: FabricObject[] = []
     const add = (group: Group | Canvas | StaticCanvas | ActiveSelection) => {
-      const objects = group.getObjects().filter((obj) => {
+      const objects = group.getObjects().filter(obj => {
         if (this.ignoreObjTypes.length) {
-          return !this.ignoreObjTypes.some((item) => obj.get(item.key) === item.value)
+          return !this.ignoreObjTypes.some(item => obj.get(item.key) === item.value)
         }
         if (this.pickObjTypes.length) {
-          return this.pickObjTypes.some((item) => obj.get(item.key) === item.value)
+          return this.pickObjTypes.some(item => obj.get(item.key) === item.value)
         }
         // 排除 自己 和 激活选区内的元素
         if (activeObjects.includes(obj)) {
@@ -98,7 +107,7 @@ export class Line extends OriginLine {
         }
         return true
       })
-      canvasObjects.push(...objects as FabricObject[])
+      canvasObjects.push(...(objects as FabricObject[]))
     }
     const parent = this.group ? this.group : this.canvas
     if (check.isNativeGroup(parent)) {
@@ -145,19 +154,16 @@ export class Line extends OriginLine {
     const snapXPoints: Set<number> = new Set()
     const snapYPoints: Set<number> = new Set()
 
-    for (let i = canvasObjects.length; i--;) {
+    for (let i = canvasObjects.length; i--; ) {
       const objCoords = {
         ...this.__getCoords(canvasObjects[i]),
         c: canvasObjects[i].getCenterPoint(),
       } as ACoordsAppendCenter
       const { objHeight, objWidth } = this.getObjMaxWidthHeightByCoords(objCoords)
-      Keys(objCoordsByMovingDistance).forEach((activeObjPoint) => {
+      Keys(objCoordsByMovingDistance).forEach(activeObjPoint => {
         const newCoords = canvasObjects[i].angle !== 0 ? this.omitCoords(objCoords, 'horizontal') : objCoords
 
-        function calcHorizontalLineCoords(
-          objPoint: keyof ACoordsAppendCenter,
-          activeObjCoords: ACoordsAppendCenter,
-        ) {
+        function calcHorizontalLineCoords(objPoint: keyof ACoordsAppendCenter, activeObjCoords: ACoordsAppendCenter) {
           let x1: number, x2: number
           if (objPoint === 'c') {
             x1 = Math.min(objCoords.c.x - objWidth / 2, activeObjCoords[activeObjPoint].x)
@@ -169,7 +175,7 @@ export class Line extends OriginLine {
           return { x1, x2 }
         }
 
-        Keys(newCoords).forEach((objPoint) => {
+        Keys(newCoords).forEach(objPoint => {
           if (this.isInRange(objCoordsByMovingDistance[activeObjPoint].y, objCoords[objPoint].y)) {
             const y = objCoords[objPoint].y
 
@@ -186,12 +192,9 @@ export class Line extends OriginLine {
         })
       })
 
-      Keys(objCoordsByMovingDistance).forEach((activeObjPoint) => {
+      Keys(objCoordsByMovingDistance).forEach(activeObjPoint => {
         const newCoords = canvasObjects[i].angle !== 0 ? this.omitCoords(objCoords, 'vertical') : objCoords
-        function calcVerticalLineCoords(
-          objPoint: keyof ACoordsAppendCenter,
-          activeObjCoords: ACoordsAppendCenter,
-        ) {
+        function calcVerticalLineCoords(objPoint: keyof ACoordsAppendCenter, activeObjCoords: ACoordsAppendCenter) {
           let y1: number, y2: number
           if (objPoint === 'c') {
             y1 = Math.min(newCoords.c.y - objHeight / 2, activeObjCoords[activeObjPoint].y)
@@ -203,7 +206,7 @@ export class Line extends OriginLine {
           return { y1, y2 }
         }
 
-        Keys(newCoords).forEach((objPoint) => {
+        Keys(newCoords).forEach(objPoint => {
           if (this.isInRange(objCoordsByMovingDistance[activeObjPoint].x, objCoords[objPoint].x)) {
             const x = objCoords[objPoint].x
             const offset = objCoordsByMovingDistance[activeObjPoint].x - x
@@ -228,7 +231,7 @@ export class Line extends OriginLine {
   private getObjDraggingObjCoords(): ACoordsAppendCenter {
     const coords = this.__getCoords(this)
     const centerPoint = this.calcCenterPointByACoords(coords).subtract(this.getCenterPoint())
-    const newCoords = Keys(coords).map((key) => coords[key].subtract(centerPoint))
+    const newCoords = Keys(coords).map(key => coords[key].subtract(centerPoint))
     return {
       tl: newCoords[0],
       tr: newCoords[1],
@@ -248,7 +251,7 @@ export class Line extends OriginLine {
   private omitCoords(objCoords: ACoordsAppendCenter, type: 'vertical' | 'horizontal') {
     const newCoords = objCoords
     const axis = type === 'vertical' ? 'x' : 'y'
-    Keys(objCoords).forEach((key) => {
+    Keys(objCoords).forEach(key => {
       if (objCoords[key][axis] < newCoords.tl[axis]) {
         newCoords[key] = objCoords[key]
       }
@@ -273,7 +276,7 @@ export class Line extends OriginLine {
     return new Point((coords.tl.x + coords.br.x) / 2, (coords.tl.y + coords.br.y) / 2)
   }
 
-   /**
+  /**
    * 自动吸附对象
    */
   private snap({
@@ -295,9 +298,7 @@ export class Line extends OriginLine {
       if (list.size === 0) {
         return originPoint
       }
-      const sortedList = [...list].sort(
-        (a, b) => Math.abs(originPoint - a) - Math.abs(originPoint - b),
-      )
+      const sortedList = [...list].sort((a, b) => Math.abs(originPoint - a) - Math.abs(originPoint - b))
       return sortedList[0]
     }
     const snapPoint = new Point(sortPoints(snapXPoints, point.x), sortPoints(snapYPoints, point.y))
@@ -316,32 +317,27 @@ export class Line extends OriginLine {
   _render(ctx: CanvasRenderingContext2D) {
     super._render(ctx)
     if (this.endStyle === ElementNames.ARROW) {
-      ctx.save();
-      const xDiff = (this.x2 - this.x1);
-      const yDiff = (this.y2 - this.y1);
-      const angle = Math.atan2(yDiff, xDiff);
-      ctx.translate(xDiff / 2, yDiff / 2);
-      ctx.rotate(angle);
-      ctx.beginPath();
-      ctx.moveTo(5, 0);
-      ctx.lineTo(-5, 5);
-      ctx.lineTo(-5, -5);
-      ctx.closePath();
-      ctx.fillStyle = this.stroke as string;
-      ctx.fill();
-      ctx.restore();
+      ctx.save()
+      const xDiff = this.x2 - this.x1
+      const yDiff = this.y2 - this.y1
+      const angle = Math.atan2(yDiff, xDiff)
+      ctx.translate(xDiff / 2, yDiff / 2)
+      ctx.rotate(angle)
+      ctx.beginPath()
+      ctx.moveTo(5, 0)
+      ctx.lineTo(-5, 5)
+      ctx.lineTo(-5, -5)
+      ctx.closePath()
+      ctx.fillStyle = this.stroke as string
+      ctx.fill()
+      ctx.restore()
     }
     // this.drawGuideLines()
   }
 
   private drawVerticalLine(coords: VerticalLineCoords, movingCoords: ACoordsAppendCenter) {
     // if (!Object.values(movingCoords).some((coord) => Math.abs(coord.x - coords.x) < 0.0001)) return
-    this.drawLine(
-      coords.x,
-      Math.min(coords.y1, coords.y2),
-      coords.x,
-      Math.max(coords.y1, coords.y2),
-    )
+    this.drawLine(coords.x, Math.min(coords.y1, coords.y2), coords.x, Math.max(coords.y1, coords.y2))
   }
 
   private drawSign(x: number, y: number) {
@@ -378,12 +374,7 @@ export class Line extends OriginLine {
   }
 
   private drawHorizontalLine(coords: HorizontalLineCoords, movingCoords: ACoordsAppendCenter) {
-    this.drawLine(
-      Math.min(coords.x1, coords.x2),
-      coords.y,
-      Math.max(coords.x1, coords.x2),
-      coords.y,
-    )
+    this.drawLine(Math.min(coords.x1, coords.x2), coords.y, Math.max(coords.x1, coords.x2), coords.y)
   }
 
   private drawGuideLines() {
@@ -391,16 +382,16 @@ export class Line extends OriginLine {
 
     const movingCoords = this.getObjDraggingObjCoords()
     if (this.verticalLines.length) {
-      for (let i = this.verticalLines.length; i--;) {
+      for (let i = this.verticalLines.length; i--; ) {
         this.drawVerticalLine(this.verticalLines[i], movingCoords)
       }
     }
     if (this.horizontalLines.length) {
-      for (let i = this.horizontalLines.length; i--;) {
+      for (let i = this.horizontalLines.length; i--; ) {
         this.drawHorizontalLine(this.horizontalLines[i], movingCoords)
       }
     }
-    
+
     this.canvas.calcOffset()
   }
 

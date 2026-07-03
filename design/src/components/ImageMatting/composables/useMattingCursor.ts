@@ -1,4 +1,12 @@
-import { ERASE_POINT_INNER_COLOR, ERASE_POINT_OUTER_COLOR, EventType, INITIAL_HARDNESS, INITIAL_RADIUS, REPAIR_POINT_INNER_COLOR, REPAIR_POINT_OUTER_COLOR } from '../constants'
+import {
+  ERASE_POINT_INNER_COLOR,
+  ERASE_POINT_OUTER_COLOR,
+  EventType,
+  INITIAL_HARDNESS,
+  INITIAL_RADIUS,
+  REPAIR_POINT_INNER_COLOR,
+  REPAIR_POINT_OUTER_COLOR,
+} from '../constants'
 import { drawBrushPoint, getLoadedImage } from '../helpers/domHelper'
 import { DrawingCircularConfig } from '../types/dom'
 import { computed, reactive, ref, Ref, UnwrapRef, watch, watchEffect } from 'vue'

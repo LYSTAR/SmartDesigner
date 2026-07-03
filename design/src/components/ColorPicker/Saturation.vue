@@ -1,5 +1,5 @@
 <template>
-  <div 
+  <div
     class="saturation"
     ref="saturationRef"
     :style="{ background: bgColor }"
@@ -7,7 +7,8 @@
   >
     <div class="saturation-white"></div>
     <div class="saturation-black"></div>
-    <div class="saturation-pointer" 
+    <div
+      class="saturation-pointer"
       :style="{
         top: pointerTop,
         left: pointerLeft,
@@ -45,18 +46,22 @@ const color = computed(() => {
 })
 
 const bgColor = computed(() => `hsl(${color.value.h}, 100%, 50%)`)
-const pointerTop = computed(() => (-(color.value.v * 100) + 1) + 100 + '%')
+const pointerTop = computed(() => -(color.value.v * 100) + 1 + 100 + '%')
 const pointerLeft = computed(() => color.value.s * 100 + '%')
 
-const emitChangeEvent = throttle(function(param: ColorFormats.HSVA) {
-  emit('colorChange', param)
-}, 20, { leading: true, trailing: false })
+const emitChangeEvent = throttle(
+  function (param: ColorFormats.HSVA) {
+    emit('colorChange', param)
+  },
+  20,
+  { leading: true, trailing: false }
+)
 
 const saturationRef = ref<HTMLElement>()
 const handleChange = (e: MouseEvent) => {
   e.preventDefault()
   if (!saturationRef.value) return
-  
+
   const containerWidth = saturationRef.value.clientWidth
   const containerHeight = saturationRef.value.clientHeight
   const xOffset = saturationRef.value.getBoundingClientRect().left + window.pageXOffset
@@ -73,7 +78,6 @@ const handleChange = (e: MouseEvent) => {
     a: color.value.a,
   })
 }
-
 
 const unbindEventListeners = () => {
   window.removeEventListener('mousemove', handleChange)
@@ -108,7 +112,7 @@ onUnmounted(unbindEventListeners)
 .saturation-circle {
   width: 4px;
   height: 4px;
-  box-shadow: 0 0 0 1.5px #fff, inset 0 0 1px 1px rgba(0, 0, 0, .3), 0 0 1px 2px rgba(0, 0, 0, .4);
+  box-shadow: 0 0 0 1.5px #fff, inset 0 0 1px 1px rgba(0, 0, 0, 0.3), 0 0 1px 2px rgba(0, 0, 0, 0.4);
   border-radius: 50%;
   transform: translate(-2px, -2px);
 }

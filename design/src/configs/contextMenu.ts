@@ -6,8 +6,6 @@ import useHandleElement from '@/hooks/useHandleElement'
 import useHandleTool from '@/hooks/useHandleTool'
 import useCanvas from '@/views/Canvas/useCanvas'
 
-
-
 export const contextMenuThumbnails = (): ContextMenu[] => {
   const { pasteElement } = useHandleElement()
   return [
@@ -35,7 +33,16 @@ export const contextMenuThumbnails = (): ContextMenu[] => {
 }
 
 export const contextMenus = (): ContextMenu[] => {
-  const { lockElement, deleteElement, cutElement, copyElement, pasteElement, uncombineElements, combineElements, resetElements } = useHandleElement()
+  const {
+    lockElement,
+    deleteElement,
+    cutElement,
+    copyElement,
+    pasteElement,
+    uncombineElements,
+    combineElements,
+    resetElements,
+  } = useHandleElement()
   const { alignElement, layerElement } = useHandleTool()
   const { canvasObject } = storeToRefs(useMainStore())
   const element = canvasObject.value
@@ -68,10 +75,12 @@ export const contextMenus = (): ContextMenu[] => {
     ]
   }
   if (element.lockMovementX && element.lockMovementY) {
-    return [{
-      text: '解锁', 
-      handler: () => lockElement(element.id, false),
-    }]
+    return [
+      {
+        text: '解锁',
+        handler: () => lockElement(element.id, false),
+      },
+    ]
   }
 
   return [
@@ -95,7 +104,7 @@ export const contextMenus = (): ContextMenu[] => {
       text: '水平居中',
       handler: () => alignElement(AlignCommand.HORIZONTAL),
       children: [
-        { text: '垂直居中', handler: () => alignElement(AlignCommand.CENTER), },
+        { text: '垂直居中', handler: () => alignElement(AlignCommand.CENTER) },
         { text: '水平居中', handler: () => alignElement(AlignCommand.HORIZONTAL) },
         { text: '左对齐', handler: () => alignElement(AlignCommand.LEFT) },
         { text: '右对齐', handler: () => alignElement(AlignCommand.RIGHT) },

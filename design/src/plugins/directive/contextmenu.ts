@@ -11,14 +11,13 @@ const checkElementClick = () => {
   selectElement(elementHover.value)
 }
 
-
 const contextmenuListener = (el: HTMLElement, event: MouseEvent, binding: DirectiveBinding) => {
   event.stopPropagation()
   event.preventDefault()
   checkElementClick()
   const menus = binding.value(el)
   if (!menus) return
-  
+
   let container: HTMLDivElement | null = null
 
   // 移除右键菜单并取消相关的事件监听
@@ -28,7 +27,7 @@ const contextmenuListener = (el: HTMLElement, event: MouseEvent, binding: Direct
       container = null
     }
     // el.classList.remove('contextmenu-active')
-    document.body.removeEventListener('scroll', removeContextmenu)  
+    document.body.removeEventListener('scroll', removeContextmenu)
     window.removeEventListener('resize', removeContextmenu)
   }
 

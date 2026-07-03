@@ -14,8 +14,7 @@ export default () => {
         templatesLoadLimit.value = templatesLoadLimit.value + 20
         loadTemplate()
       }, 600)
-    }
-    else templatesLoadLimit.value = 9999
+    } else templatesLoadLimit.value = 9999
   }
 
   onMounted(loadTemplate)

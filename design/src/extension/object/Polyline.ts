@@ -1,10 +1,19 @@
 import { TControlSet } from '@/types/fabric'
-import { polygonPositionHandler, anchorWrapper, actionHandler} from '@/app/fabricControls'
-import type {  Group , Canvas , StaticCanvas , ActiveSelection, TSVGReviver } from 'fabric'
-import { Object as FabricObject, Point, TransformActionHandler, Control, Polyline as OriginPolyline, classRegistry, XY, util, CanvasEvents } from 'fabric'
+import { polygonPositionHandler, anchorWrapper, actionHandler } from '@/app/fabricControls'
+import type { Group, Canvas, StaticCanvas, ActiveSelection, TSVGReviver } from 'fabric'
+import {
+  Object as FabricObject,
+  Point,
+  TransformActionHandler,
+  Control,
+  Polyline as OriginPolyline,
+  classRegistry,
+  XY,
+  util,
+  CanvasEvents,
+} from 'fabric'
 import { ElementNames, LinePoint } from '@/types/elements'
 import { check } from '@/utils/check'
-
 
 type VerticalLineCoords = {
   x: number
@@ -30,7 +39,6 @@ type ACoordsAppendCenter = NonNullable<FabricObject['aCoords']> & {
 const Keys = <T extends object>(obj: T): (keyof T)[] => {
   return Object.keys(obj) as (keyof T)[]
 }
-
 
 export class Polyline extends OriginPolyline {
   private canvasEvents
@@ -58,7 +66,7 @@ export class Polyline extends OriginPolyline {
       }
     }
 
-    this.canvasEvents = {'mouseup': mouseUp}
+    this.canvasEvents = { mouseup: mouseUp }
     this.on(this.canvasEvents)
     this.initControls()
   }
@@ -68,8 +76,7 @@ export class Polyline extends OriginPolyline {
     // if (pointIndex === 0) {
     //   console.log('pointIndex:', pointIndex, 'point:', point, this.points[0], this.pathOffset)
     // }
-    
-    
+
     this.clearStretLine()
     if (!this.canvas) return point
     const transform = this.canvas._currentTransform
@@ -79,12 +86,12 @@ export class Polyline extends OriginPolyline {
 
     const canvasObjects: FabricObject[] = []
     const add = (group: Group | Canvas | StaticCanvas | ActiveSelection) => {
-      const objects = group.getObjects().filter((obj) => {
+      const objects = group.getObjects().filter(obj => {
         if (this.ignoreObjTypes.length) {
-          return !this.ignoreObjTypes.some((item) => obj.get(item.key) === item.value)
+          return !this.ignoreObjTypes.some(item => obj.get(item.key) === item.value)
         }
         if (this.pickObjTypes.length) {
-          return this.pickObjTypes.some((item) => obj.get(item.key) === item.value)
+          return this.pickObjTypes.some(item => obj.get(item.key) === item.value)
         }
         // 排除 自己 和 激活选区内的元素
         if (activeObjects.includes(obj)) {
@@ -106,7 +113,7 @@ export class Polyline extends OriginPolyline {
         }
         return true
       })
-      canvasObjects.push(...objects as FabricObject[])
+      canvasObjects.push(...(objects as FabricObject[]))
     }
     const parent = this.group ? this.group : this.canvas
     if (check.isNativeGroup(parent)) {
@@ -125,9 +132,12 @@ export class Polyline extends OriginPolyline {
     this.points.forEach((point, index) => {
       controls[index] = new Control({
         positionHandler: polygonPositionHandler,
-        actionHandler: anchorWrapper(index > 0 ? index - 1 : this.points.length - 1, actionHandler) as TransformActionHandler ,
+        actionHandler: anchorWrapper(
+          index > 0 ? index - 1 : this.points.length - 1,
+          actionHandler
+        ) as TransformActionHandler,
         actionName: 'modifyPolyline',
-        pointIndex: index
+        pointIndex: index,
       })
     })
     this.controls = controls
@@ -138,7 +148,7 @@ export class Polyline extends OriginPolyline {
     const snapXPoints: Set<number> = new Set()
     const snapYPoints: Set<number> = new Set()
 
-    for (let i = canvasObjects.length; i--;) {
+    for (let i = canvasObjects.length; i--; ) {
       const objCoords = {
         ...this.__getCoords(canvasObjects[i]),
         c: canvasObjects[i].getCenterPoint(),
@@ -148,13 +158,10 @@ export class Polyline extends OriginPolyline {
       // this.horizontalLines.push({ y, x1, x2 })
       // this.verticalLines.push({ x, y1, y2 })
       const { objHeight, objWidth } = this.getObjMaxWidthHeightByCoords(objCoords)
-      Keys(objCoordsByMovingDistance).forEach((activeObjPoint) => {
+      Keys(objCoordsByMovingDistance).forEach(activeObjPoint => {
         const newCoords = canvasObjects[i].angle !== 0 ? this.omitCoords(objCoords, 'horizontal') : objCoords
 
-        function calcHorizontalLineCoords(
-          objPoint: keyof ACoordsAppendCenter,
-          activeObjCoords: ACoordsAppendCenter,
-        ) {
+        function calcHorizontalLineCoords(objPoint: keyof ACoordsAppendCenter, activeObjCoords: ACoordsAppendCenter) {
           let x1: number, x2: number
           if (objPoint === 'c') {
             x1 = Math.min(objCoords.c.x - objWidth / 2, activeObjCoords[activeObjPoint].x)
@@ -166,7 +173,7 @@ export class Polyline extends OriginPolyline {
           return { x1, x2 }
         }
 
-        Keys(newCoords).forEach((objPoint) => {
+        Keys(newCoords).forEach(objPoint => {
           if (this.isInRange(objCoordsByMovingDistance[activeObjPoint].y, objCoords[objPoint].y)) {
             const y = objCoords[objPoint].y
 
@@ -183,12 +190,9 @@ export class Polyline extends OriginPolyline {
         })
       })
 
-      Keys(objCoordsByMovingDistance).forEach((activeObjPoint) => {
+      Keys(objCoordsByMovingDistance).forEach(activeObjPoint => {
         const newCoords = canvasObjects[i].angle !== 0 ? this.omitCoords(objCoords, 'vertical') : objCoords
-        function calcVerticalLineCoords(
-          objPoint: keyof ACoordsAppendCenter,
-          activeObjCoords: ACoordsAppendCenter,
-        ) {
+        function calcVerticalLineCoords(objPoint: keyof ACoordsAppendCenter, activeObjCoords: ACoordsAppendCenter) {
           let y1: number, y2: number
           if (objPoint === 'c') {
             y1 = Math.min(newCoords.c.y - objHeight / 2, activeObjCoords[activeObjPoint].y)
@@ -200,7 +204,7 @@ export class Polyline extends OriginPolyline {
           return { y1, y2 }
         }
 
-        Keys(newCoords).forEach((objPoint) => {
+        Keys(newCoords).forEach(objPoint => {
           if (this.isInRange(objCoordsByMovingDistance[activeObjPoint].x, objCoords[objPoint].x)) {
             const x = objCoords[objPoint].x
 
@@ -228,7 +232,7 @@ export class Polyline extends OriginPolyline {
   private getObjDraggingObjCoords(): ACoordsAppendCenter {
     const coords = this.__getCoords(this)
     const centerPoint = this.calcCenterPointByACoords(coords).subtract(this.getCenterPoint())
-    const newCoords = Keys(coords).map((key) => coords[key].subtract(centerPoint))
+    const newCoords = Keys(coords).map(key => coords[key].subtract(centerPoint))
     return {
       tl: newCoords[0],
       tr: newCoords[1],
@@ -248,7 +252,7 @@ export class Polyline extends OriginPolyline {
   private omitCoords(objCoords: ACoordsAppendCenter, type: 'vertical' | 'horizontal') {
     const newCoords = objCoords
     const axis = type === 'vertical' ? 'x' : 'y'
-    Keys(objCoords).forEach((key) => {
+    Keys(objCoords).forEach(key => {
       if (objCoords[key][axis] < newCoords.tl[axis]) {
         newCoords[key] = objCoords[key]
       }
@@ -280,7 +284,7 @@ export class Polyline extends OriginPolyline {
     return new Point((coords.tl.x + coords.br.x) / 2, (coords.tl.y + coords.br.y) / 2)
   }
 
-   /**
+  /**
    * 自动吸附对象
    */
   private snap({
@@ -303,9 +307,7 @@ export class Polyline extends OriginPolyline {
         return originPoint
       }
 
-      const sortedList = [...list].sort(
-        (a, b) => Math.abs(originPoint - a) - Math.abs(originPoint - b),
-      )
+      const sortedList = [...list].sort((a, b) => Math.abs(originPoint - a) - Math.abs(originPoint - b))
 
       return sortedList[0]
     }
@@ -347,9 +349,9 @@ export class Polyline extends OriginPolyline {
     if (!this.startStyle) return
     const firstPoint = this.points[0]
     const lastPoint = this.points[this.points.length - 1]
-    const xDiff = firstPoint.x - lastPoint.x;
-    const yDiff = firstPoint.y - lastPoint.y;
-    const angle = Math.atan2(yDiff, xDiff);
+    const xDiff = firstPoint.x - lastPoint.x
+    const yDiff = firstPoint.y - lastPoint.y
+    const angle = Math.atan2(yDiff, xDiff)
     this.renderPointStyle(ctx, xDiff, yDiff, angle, this.startStyle)
   }
 
@@ -357,39 +359,33 @@ export class Polyline extends OriginPolyline {
     if (!this.endStyle) return
     const firstPoint = this.points[this.points.length - 2]
     const lastPoint = this.points[this.points.length - 1]
-    const xDiff = lastPoint.x - firstPoint.x;
-    const yDiff = lastPoint.y - firstPoint.y;
-    const angle = Math.atan2(yDiff, xDiff);
+    const xDiff = lastPoint.x - firstPoint.x
+    const yDiff = lastPoint.y - firstPoint.y
+    const angle = Math.atan2(yDiff, xDiff)
     this.renderPointStyle(ctx, xDiff, yDiff, angle, this.endStyle)
   }
 
   renderPointStyle(ctx: CanvasRenderingContext2D, xDiff: number, yDiff: number, angle: number, style: LinePoint) {
-    ctx.save();
-    ctx.translate(xDiff / 2, yDiff / 2);
-    ctx.rotate(angle);
-    ctx.beginPath();
+    ctx.save()
+    ctx.translate(xDiff / 2, yDiff / 2)
+    ctx.rotate(angle)
+    ctx.beginPath()
     if (style === 'arrow') {
-      ctx.moveTo(this.pointSize, 0);
-      ctx.lineTo(-this.pointSize, this.pointSize);
-      ctx.lineTo(-this.pointSize, -this.pointSize);
-    }
-    else {
+      ctx.moveTo(this.pointSize, 0)
+      ctx.lineTo(-this.pointSize, this.pointSize)
+      ctx.lineTo(-this.pointSize, -this.pointSize)
+    } else {
       ctx.arc(0, 0, this.pointSize, 0, 2 * Math.PI)
     }
-    ctx.closePath();
-    ctx.fillStyle = this.stroke as string;
-    ctx.fill();
-    ctx.restore();
+    ctx.closePath()
+    ctx.fillStyle = this.stroke as string
+    ctx.fill()
+    ctx.restore()
   }
 
   private drawVerticalLine(coords: VerticalLineCoords, movingCoords: ACoordsAppendCenter) {
     // if (!Object.values(movingCoords).some((coord) => Math.abs(coord.x - coords.x) < 0.0001)) return
-    this.drawLine(
-      coords.x,
-      Math.min(coords.y1, coords.y2),
-      coords.x,
-      Math.max(coords.y1, coords.y2),
-    )
+    this.drawLine(coords.x, Math.min(coords.y1, coords.y2), coords.x, Math.max(coords.y1, coords.y2))
   }
 
   private drawSign(x: number, y: number) {
@@ -434,12 +430,7 @@ export class Polyline extends OriginPolyline {
 
   private drawHorizontalLine(coords: HorizontalLineCoords, movingCoords: ACoordsAppendCenter) {
     // if (!Object.values(movingCoords).some((coord) => Math.abs(coord.y - coords.y) < 0.0001)) return
-    this.drawLine(
-      Math.min(coords.x1, coords.x2),
-      coords.y,
-      Math.max(coords.x1, coords.x2),
-      coords.y,
-    )
+    this.drawLine(Math.min(coords.x1, coords.x2), coords.y, Math.max(coords.x1, coords.x2), coords.y)
   }
 
   private drawGuideLines() {
@@ -447,16 +438,16 @@ export class Polyline extends OriginPolyline {
 
     const movingCoords = this.getObjDraggingObjCoords()
     if (this.verticalLines.length) {
-      for (let i = this.verticalLines.length; i--;) {
+      for (let i = this.verticalLines.length; i--; ) {
         this.drawVerticalLine(this.verticalLines[i], movingCoords)
       }
     }
     if (this.horizontalLines.length) {
-      for (let i = this.horizontalLines.length; i--;) {
+      for (let i = this.horizontalLines.length; i--; ) {
         this.drawHorizontalLine(this.horizontalLines[i], movingCoords)
       }
     }
-    
+
     this.canvas.calcOffset()
   }
 

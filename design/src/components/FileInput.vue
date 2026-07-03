@@ -1,14 +1,14 @@
 <template>
   <div class="file-input" @click="handleClick()">
     <slot></slot>
-    <input 
+    <input
       class="input"
-      type="file" 
-      name="upload" 
-      ref="inputRef" 
-      :accept="accept" 
+      type="file"
+      name="upload"
+      ref="inputRef"
+      :accept="accept"
       @change="$event => handleChange($event)"
-    >
+    />
   </div>
 </template>
 

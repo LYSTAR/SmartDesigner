@@ -1,11 +1,7 @@
 <template>
-  <div 
-    class="mask"
-    @contextmenu.prevent="removeContextmenu()"
-    @mousedown="removeContextmenu()"
-  ></div>
+  <div class="mask" @contextmenu.prevent="removeContextmenu()" @mousedown="removeContextmenu()"></div>
 
-  <div 
+  <div
     class="contextmenu"
     :style="{
       left: style.left + 'px',
@@ -13,10 +9,7 @@
     }"
     @contextmenu.prevent
   >
-    <MenuContent 
-      :menus="menus"
-      :handleClickMenuItem="handleClickMenuItem" 
-    />
+    <MenuContent :menus="menus" :handleClickMenuItem="handleClickMenuItem" />
   </div>
 </template>
 

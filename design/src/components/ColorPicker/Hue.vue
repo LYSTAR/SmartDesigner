@@ -1,14 +1,7 @@
 <template>
   <div class="hue">
-    <div 
-      class="hue-container"
-      ref="hueRef"
-      @mousedown="$event => handleMouseDown($event)"
-    >
-      <div 
-        class="hue-pointer"
-        :style="{ left: pointerLeft }"
-      >
+    <div class="hue-container" ref="hueRef" @mousedown="$event => handleMouseDown($event)">
+      <div class="hue-pointer" :style="{ left: pointerLeft }">
         <div class="hue-picker"></div>
       </div>
     </div>
@@ -45,16 +38,19 @@ const color = computed(() => {
 
 const pointerLeft = computed(() => {
   if (color.value.h === 0 && pullDirection.value === 'right') return '100%'
-  return color.value.h * 100 / 360 + '%'
+  return (color.value.h * 100) / 360 + '%'
 })
 
-watch(() => props.value, () => {
-  const hsla = tinycolor(props.value).toHsl()
-  const h = hsla.s === 0 ? props.hue : hsla.h
-  if (h !== 0 && h - oldHue.value > 0) pullDirection.value = 'right'
-  if (h !== 0 && h - oldHue.value < 0) pullDirection.value = 'left'
-  oldHue.value = h
-})
+watch(
+  () => props.value,
+  () => {
+    const hsla = tinycolor(props.value).toHsl()
+    const h = hsla.s === 0 ? props.hue : hsla.h
+    if (h !== 0 && h - oldHue.value > 0) pullDirection.value = 'right'
+    if (h !== 0 && h - oldHue.value < 0) pullDirection.value = 'left'
+    oldHue.value = h
+  }
+)
 
 const hueRef = ref<HTMLElement>()
 const handleChange = (e: MouseEvent) => {
@@ -65,12 +61,12 @@ const handleChange = (e: MouseEvent) => {
   const xOffset = hueRef.value.getBoundingClientRect().left + window.pageXOffset
   const left = e.pageX - xOffset
   let h, percent
-  
+
   if (left < 0) h = 0
   else if (left > containerWidth) h = 360
   else {
-    percent = left * 100 / containerWidth
-    h = 360 * percent / 100
+    percent = (left * 100) / containerWidth
+    h = (360 * percent) / 100
   }
   if (props.hue === -1 || color.value.h !== h) {
     emit('colorChange', {
@@ -116,7 +112,7 @@ onUnmounted(unbindEventListeners)
   margin-top: 1px;
   width: 4px;
   height: 8px;
-  box-shadow: 0 0 2px rgba(0, 0, 0, .6);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
   background: #fff;
   transform: translateX(-2px);
 }

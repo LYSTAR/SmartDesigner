@@ -1,29 +1,26 @@
 <template>
-  <div class="oauth-container">
-    
-  </div>
+  <div class="oauth-container"></div>
 </template>
 
-
 <script setup lang="ts">
-import { onMounted } from 'vue';
-import { useRouter } from "vue-router";
-import { oauthCallbackGithub } from "@/api/oauth";
-import { useUserStore } from '@/store';
+import { onMounted } from 'vue'
+import { useRouter } from 'vue-router'
+import { oauthCallbackGithub } from '@/api/oauth'
+import { useUserStore } from '@/store'
 
 const getQueryParams = (name: string) => {
-  const reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i');
-  const r = window.location.search.substr(1).match(reg);
+  const reg = new RegExp('(^|&)' + name + '=([^&]*)(&|$)', 'i')
+  const r = window.location.search.substr(1).match(reg)
   if (r != null) {
-    return decodeURI(r[2]);
+    return decodeURI(r[2])
   }
-  return null;
+  return null
 }
 
 const oauthCallback = async (code: string) => {
-  const res = await oauthCallbackGithub({code})
+  const res = await oauthCallbackGithub({ code })
   if (res.data && res.data.data) {
-    window.opener.postMessage(res.data.data, '*');
+    window.opener.postMessage(res.data.data, '*')
   }
 }
 
@@ -32,8 +29,6 @@ onMounted(() => {
   if (!code) return
   oauthCallback(code)
 })
-
 </script>
 
-<style lang="scss" scoped>
-</style>
+<style lang="scss" scoped></style>

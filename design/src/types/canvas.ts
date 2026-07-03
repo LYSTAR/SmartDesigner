@@ -1,11 +1,27 @@
-import type { Gradient, Pattern, Textbox, SerializedImageProps, Path, Rect, Image, Point, Polygon, Group, Line, FabricObject, ImageProps, IText, SerializedObjectProps } from "fabric"
-import { ColorStop } from "./elements"
-import JsBarcode from "jsbarcode"
-import { EffectItem } from "./common"
+import type {
+  Gradient,
+  Pattern,
+  Textbox,
+  SerializedImageProps,
+  Path,
+  Rect,
+  Image,
+  Point,
+  Polygon,
+  Group,
+  Line,
+  FabricObject,
+  ImageProps,
+  IText,
+  SerializedObjectProps,
+} from 'fabric'
+import { ColorStop } from './elements'
+import JsBarcode from 'jsbarcode'
+import { EffectItem } from './common'
 export type LineOption = [number, number, number, number]
 export type TPatternRepeat = 'repeat' | 'repeat-x' | 'repeat-y' | 'no-repeat'
 export type ImageSource = HTMLImageElement | HTMLVideoElement | HTMLCanvasElement
-export type QRCodeType = 'A1' | 'A2' | 'A3' | 'SP1' | 'SP2' | 'SP3' | 'B1'| 'C1'| 'A_a1'| 'A_a2'| 'A_b1'| 'A_b2'
+export type QRCodeType = 'A1' | 'A2' | 'A3' | 'SP1' | 'SP2' | 'SP3' | 'B1' | 'C1' | 'A_a1' | 'A_a2' | 'A_b1' | 'A_b2'
 export interface QRCodeOption {
   codeStyle: QRCodeType
   codeSpace: boolean
@@ -15,7 +31,7 @@ export interface QRCodeOption {
 export interface CommenElement {
   id: string
   name: string
-  version: string 
+  version: string
   left: number
   top: number
   fillType: number
@@ -26,8 +42,6 @@ export interface GradientElement extends Gradient<'linear' | 'radial'> {
   gradientName: string
 }
 
-
-
 export interface Template {
   id: string
   version: string
@@ -37,7 +51,7 @@ export interface Template {
   zoom: number
   width: number
   height: number
-  clip: number,
+  clip: number
   objects: SerializedObjectProps[]
 }
 
@@ -127,13 +141,13 @@ export interface QRCodeElement extends Image, CommenElement {
 export interface BarCodeElement extends Image, CommenElement {
   type: string
   codeContent: string
-  codeOption: JsBarcode.BaseOptions     
+  codeOption: JsBarcode.BaseOptions
 }
 
 export interface BarcodeProps extends ImageProps {
   type: string
   codeContent: string
-  codeOption: JsBarcode.BaseOptions 
+  codeOption: JsBarcode.BaseOptions
 }
 
 export interface QRCodeProps extends ImageProps {
@@ -152,7 +166,7 @@ export interface ImageElement extends SerializedImageProps, CommenElement {
   effects?: EffectItem[]
   pixiFilters?: any[]
   mask?: FabricObject
-  originSrc?: string 
+  originSrc?: string
   isCropping?: boolean
   originId?: string
   cropPath?: FabricObject
@@ -162,7 +176,6 @@ export interface ImageElement extends SerializedImageProps, CommenElement {
   originCropY?: number
 }
 
-
 export interface GroupElement extends Group, CommenElement {
   type: string
   isShow: boolean
@@ -170,4 +183,13 @@ export interface GroupElement extends Group, CommenElement {
   _objects: FabricObject[]
 }
 
-export type CanvasElement = TextboxElement | LineElement | QRCodeElement | BarCodeElement | ImageElement | PathElement | GroupElement | PolygonElement | RectElement
+export type CanvasElement =
+  | TextboxElement
+  | LineElement
+  | QRCodeElement
+  | BarCodeElement
+  | ImageElement
+  | PathElement
+  | GroupElement
+  | PolygonElement
+  | RectElement

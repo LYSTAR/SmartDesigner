@@ -1,5 +1,5 @@
 <template>
-  <div class="page-section-container mb-10" >
+  <div class="page-section-container mb-10">
     <section>
       <div class="section-header">
         <h2 class="title-wrapper">常用工具</h2>
@@ -32,16 +32,14 @@
       </div>
       <div class="editor-recommend">
         <div>
-          <div v-for="item in ['img1','img2','img3','img4']" :key="item">{{ item }}</div>
+          <div v-for="item in ['img1', 'img2', 'img3', 'img4']" :key="item">{{ item }}</div>
           <p>每日-新品推介</p>
         </div>
         <div>
           <div>img1</div>
           <div>img2</div>
-          <p>
-            夏日精选营销物料
-          </p>
-       </div>
+          <p>夏日精选营销物料</p>
+        </div>
       </div>
     </section>
     <section>
@@ -58,7 +56,7 @@
 </template>
 
 <script setup lang="ts">
-import { HomeTools, HomeMaterials } from '@/configs/home';
+import { HomeTools, HomeMaterials } from '@/configs/home'
 </script>
 
 <style lang="scss" scoped>
@@ -68,7 +66,7 @@ import { HomeTools, HomeMaterials } from '@/configs/home';
   @media (min-width: 1152px) {
     grid-template-columns: repeat(6, minmax(0, 1fr));
 
-    &>section {
+    & > section {
       grid-column: span 3 / span 3;
     }
   }
@@ -76,11 +74,11 @@ import { HomeTools, HomeMaterials } from '@/configs/home';
   @media (min-width: 1408px) {
     grid-template-columns: repeat(5, minmax(0, 1fr));
 
-    &>section:nth-child(1) {
+    & > section:nth-child(1) {
       grid-column: span 3 / span 3;
     }
 
-    &>section:nth-child(2) {
+    & > section:nth-child(2) {
       grid-column: span 2 / span 2;
     }
   }
@@ -111,7 +109,7 @@ import { HomeTools, HomeMaterials } from '@/configs/home';
     padding: 8px;
     overflow: hidden;
 
-    &>div {
+    & > div {
       display: flex;
       align-items: center;
       background-color: #fff;
@@ -121,11 +119,11 @@ import { HomeTools, HomeMaterials } from '@/configs/home';
       font-weight: 500;
       text-align: left;
       padding: 8px;
-      transition: cubic-bezier(.2, 0, 0, 1) .3s;
+      transition: cubic-bezier(0.2, 0, 0, 1) 0.3s;
       cursor: pointer;
     }
 
-    &>div:hover {
+    & > div:hover {
       background-color: #f6f7f9;
       transform: translateY(-2px);
       box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.2), 0px 8px 32px 2px rgba(0, 0, 0, 0.08);
@@ -146,7 +144,7 @@ import { HomeTools, HomeMaterials } from '@/configs/home';
         padding: 8px;
         overflow: hidden;
         height: 120px;
-        &>div {
+        & > div {
           padding: 8px;
           background-color: #fff;
           border-radius: 6px;
@@ -154,57 +152,57 @@ import { HomeTools, HomeMaterials } from '@/configs/home';
           cursor: pointer;
           font-size: 14px;
           font-weight: 500;
-          transition: cubic-bezier(.2, 0, 0, 1) .3s;
+          transition: cubic-bezier(0.2, 0, 0, 1) 0.3s;
         }
-        &>div:hover {
+        & > div:hover {
           transform: translateY(-2px);
           box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.2), 0px 8px 32px 2px rgba(0, 0, 0, 0.08);
         }
       }
     }
   }
-  .editor-recommend{
+  .editor-recommend {
     display: grid;
     grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap:24px;
+    gap: 24px;
     height: 227px;
-    &>div{
+    & > div {
       background-color: #f6f7f9;
       border-radius: 12px;
     }
-    &>div:nth-child(1) {
-      grid-column: span 2/ span 2;
+    & > div:nth-child(1) {
+      grid-column: span 2 / span 2;
       @media (min-width: 1152px) {
-        grid-column: span 3/ span 3;
+        grid-column: span 3 / span 3;
       }
       @media (min-width: 1408px) {
-        grid-column: span 2/ span 2;
+        grid-column: span 2 / span 2;
       }
       display: flex;
       justify-content: center;
-      gap:4px;
+      gap: 4px;
       padding-top: 20px;
       position: relative;
-      &>div{
-        color:#f6f7f9;
-        width:88px;
+      & > div {
+        color: #f6f7f9;
+        width: 88px;
         height: 156px;
-        background-color:orangered;
+        background-color: orangered;
         opacity: 0.1;
         border-radius: 8px;
-        transition: cubic-bezier(.2, 0, 0, 1) .3s;
+        transition: cubic-bezier(0.2, 0, 0, 1) 0.3s;
       }
-      &>div:hover{
+      & > div:hover {
         background-color: #f6f7f9;
         transform: translateY(-2px);
         box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.2), 0px 8px 32px 2px rgba(0, 0, 0, 0.08);
       }
-      &>div:nth-child(2n){
-        margin-top:20px;
+      & > div:nth-child(2n) {
+        margin-top: 20px;
       }
-      &>p{
+      & > p {
         width: inherit;
-        position:absolute;
+        position: absolute;
         bottom: 0;
         left: 0;
         right: 0;
@@ -212,19 +210,18 @@ import { HomeTools, HomeMaterials } from '@/configs/home';
         height: 45px;
         background: #f6f7f9;
         // opacity: .8;
-        content: "";
+        content: '';
         padding: 12px 16px;
         font-size: 14px;
         font-weight: 500;
       }
-
     }
- 
-    &>div:nth-child(2) {
+
+    & > div:nth-child(2) {
       display: flex;
       grid-column: span 1;
       justify-content: center;
-      gap:4px;
+      gap: 4px;
       padding-top: 20px;
       position: relative;
       @media (min-width: 1152px) {
@@ -233,27 +230,27 @@ import { HomeTools, HomeMaterials } from '@/configs/home';
       @media (min-width: 1408px) {
         display: flex;
       }
-      &>div{
-        color:#f6f7f9;
-        width:88px;
+      & > div {
+        color: #f6f7f9;
+        width: 88px;
         height: 156px;
-        background-color:orangered;
+        background-color: orangered;
         opacity: 0.1;
         border-radius: 8px;
-        transition: cubic-bezier(.2, 0, 0, 1) .3s;
+        transition: cubic-bezier(0.2, 0, 0, 1) 0.3s;
       }
-      &>div:hover{
+      & > div:hover {
         background-color: #f6f7f9;
         transform: translateY(-2px);
         box-shadow: 0px 0px 1px 0px rgba(0, 0, 0, 0.2), 0px 8px 32px 2px rgba(0, 0, 0, 0.08);
       }
-      &>div:nth-child(2){
-        margin-top:20px;
+      & > div:nth-child(2) {
+        margin-top: 20px;
         margin-left: -24px;
       }
-      &>p{
+      & > p {
         width: inherit;
-        position:absolute;
+        position: absolute;
         bottom: 0;
         left: 0;
         right: 0;
@@ -261,15 +258,14 @@ import { HomeTools, HomeMaterials } from '@/configs/home';
         height: 45px;
         background: #f6f7f9;
         // opacity: .8;
-        content: "";
+        content: '';
         padding: 12px 16px;
         font-size: 14px;
         font-weight: 500;
       }
     }
-   
   }
-  .hot-topic-calendar{
+  .hot-topic-calendar {
     display: grid;
     grid-template-columns: repeat(2, minmax(0, 1fr));
     grid-template-rows: repeat(2, minmax(0, 1fr));
@@ -277,15 +273,15 @@ import { HomeTools, HomeMaterials } from '@/configs/home';
     row-gap: 12px;
     column-gap: 24px;
     height: 227px;
-    &>div{
+    & > div {
       border-radius: 12px;
     }
-    &>div:nth-child(1){
-      grid-area:span 2/auto;
+    & > div:nth-child(1) {
+      grid-area: span 2 / auto;
       background-color: orangered;
-      opacity: 0.1
+      opacity: 0.1;
     }
-    &>div{
+    & > div {
       background-color: #f6f7f9;
     }
   }

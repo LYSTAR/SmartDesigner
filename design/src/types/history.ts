@@ -1,4 +1,4 @@
-import type { SerializedObjectProps, Transform, FabricObject } from "fabric"
+import type { SerializedObjectProps, Transform, FabricObject } from 'fabric'
 
 export interface Snapshot {
   index: number

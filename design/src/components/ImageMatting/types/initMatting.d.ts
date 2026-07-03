@@ -1,6 +1,14 @@
 import ListenerManager from '../helpers/listenerManager'
 import { Ref } from 'vue'
-import { BoardContext2Ds, BoardRect, GapSize, MattingBoardBaseConfig, PositionRange, RectSize, TransformConfig } from './common'
+import {
+  BoardContext2Ds,
+  BoardRect,
+  GapSize,
+  MattingBoardBaseConfig,
+  PositionRange,
+  RectSize,
+  TransformConfig,
+} from './common'
 
 /** 抠图画板配置 */
 export interface MattingProps {

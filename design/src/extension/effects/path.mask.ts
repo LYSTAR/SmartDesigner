@@ -1,5 +1,5 @@
-import { Path as OriginPath,  } from "@/extension/object/Path"
-import { Image as FabricImage, SerializedPathProps } from "fabric"
+import { Path as OriginPath } from '@/extension/object/Path'
+import { Image as FabricImage, SerializedPathProps } from 'fabric'
 
 const isBlack = (num: number) => {
   return num - 0 === 0
@@ -17,7 +17,7 @@ const drawRectByCanvas = (ctx: CanvasRenderingContext2D, path: OriginPath, mask:
     ctx.fillRect(0, 0, path.width, top)
   }
   if (left > 0) {
-    ctx.fillRect(0 , 0, left, path.height)
+    ctx.fillRect(0, 0, left, path.height)
   }
   if (top + mask.height < path.height) {
     ctx.fillRect(0, top + mask.height, path.width, path.height - mask.height - top)
@@ -48,18 +48,17 @@ export const getPathMask = async (path: OriginPath) => {
       const g = maskData.data[i + 1]
       const b = maskData.data[i + 2]
       if (r === g && g === b) {
-        maskData.data[i + 3] = r 
-      }
-      else {
+        maskData.data[i + 3] = r
+      } else {
         if (isBlack(r) && isBlack(g) && isBlack(b)) {
           maskData.data[i + 3] = 0
-         }
+        }
       }
     }
     maskCtx.putImageData(maskData, 0, 0)
     canvas.width = path.width
     canvas.height = path.height
-    
+
     ctx.drawImage(maskCanvas, mask.left - path.left, mask.top - path.top)
     if (defaultColor === 255) {
       drawRectByCanvas(ctx, path, mask)
@@ -72,8 +71,7 @@ export const getPathMask = async (path: OriginPath) => {
     return image
     // path.set({'dirty': true})
     // path.canvas?.renderAll()
-  } 
-  catch (error) {
+  } catch (error) {
     console.log(error)
     return null
   }
@@ -83,7 +81,7 @@ export const getImageBitmap = async (src: string): Promise<ImageBitmap> => {
   const img = new Image()
   img.crossOrigin = 'anonymous'
   img.src = src
-  await new Promise<void>((resolve) => {
+  await new Promise<void>(resolve => {
     img.onload = () => resolve()
   })
   return createImageBitmap(img)

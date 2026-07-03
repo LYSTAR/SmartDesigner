@@ -3,7 +3,7 @@
 module.exports = {
   extends: 'stylelint-config-standard',
   rules: {
-    'indentation': 2,
+    indentation: 2,
     'max-nesting-depth': 5,
     'max-empty-lines': null,
     'no-eol-whitespace': true,
@@ -25,9 +25,12 @@ module.exports = {
     'block-no-empty': true,
     'block-opening-brace-newline-after': 'always',
     'block-opening-brace-space-before': 'always',
-    'declaration-block-no-duplicate-properties': [true, {
-      ignoreProperties: ['overflow'],
-    }],
+    'declaration-block-no-duplicate-properties': [
+      true,
+      {
+        ignoreProperties: ['overflow'],
+      },
+    ],
     'declaration-block-semicolon-newline-after': 'always',
     'declaration-block-trailing-semicolon': 'always',
     'selector-pseudo-element-colon-notation': 'double',

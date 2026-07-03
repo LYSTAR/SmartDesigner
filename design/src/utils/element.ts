@@ -19,11 +19,11 @@ interface RotatedElementData {
 export const getRectRotatedRange = (element: RotatedElementData) => {
   const { left, top, width, height, rotate = 0 } = element
 
-  const radius = Math.sqrt( Math.pow(width, 2) + Math.pow(height, 2) ) / 2
-  const auxiliaryAngle = Math.atan(height / width) * 180 / Math.PI
+  const radius = Math.sqrt(Math.pow(width, 2) + Math.pow(height, 2)) / 2
+  const auxiliaryAngle = (Math.atan(height / width) * 180) / Math.PI
 
-  const tlbraRadian = (180 - rotate - auxiliaryAngle) * Math.PI / 180
-  const trblaRadian = (auxiliaryAngle - rotate) * Math.PI / 180
+  const tlbraRadian = ((180 - rotate - auxiliaryAngle) * Math.PI) / 180
+  const trblaRadian = ((auxiliaryAngle - rotate) * Math.PI) / 180
 
   const middleLeft = left + width / 2
   const middleTop = top + height / 2
@@ -169,11 +169,11 @@ export const createTemplateIdMap = (templates: Template[]) => {
 }
 
 /**
-   * 以元素列表为基础，为每一个元素生成新的ID，并关联到旧ID形成一个字典
-   * 主要用于复制元素时，维持数据中各处元素ID原有的关系
-   * 例如：原本两个组合的元素拥有相同的groupId，复制后依然会拥有另一个相同的groupId
-   * @param elements 元素列表数据
-   */
+ * 以元素列表为基础，为每一个元素生成新的ID，并关联到旧ID形成一个字典
+ * 主要用于复制元素时，维持数据中各处元素ID原有的关系
+ * 例如：原本两个组合的元素拥有相同的groupId，复制后依然会拥有另一个相同的groupId
+ * @param elements 元素列表数据
+ */
 export const createElementIdMap = (elements: CanvasOption[]) => {
   const groupIdMap = {}
   const elIdMap = {}
@@ -196,10 +196,7 @@ export const createElementIdMap = (elements: CanvasOption[]) => {
  */
 export const getTableSubThemeColor = (themeColor: string) => {
   const rgba = tinycolor(themeColor)
-  return [
-    rgba.setAlpha(0.3).toRgbString(),
-    rgba.setAlpha(0.1).toRgbString(),
-  ]
+  return [rgba.setAlpha(0.3).toRgbString(), rgba.setAlpha(0.1).toRgbString()]
 }
 
 // /**

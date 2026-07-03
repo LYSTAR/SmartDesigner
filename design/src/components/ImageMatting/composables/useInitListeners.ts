@@ -7,7 +7,15 @@ import { onBeforeUnmount, watch, watchEffect } from 'vue'
 
 export function useInitDrawingListeners(props: MattingProps, config: UseInitListenersConfig) {
   const { radius, hardness, isErasing } = props
-  const { boardContexts, transformConfig, mattingSources, draggingInputBoard, initialized, boardRect, listenerManager } = config
+  const {
+    boardContexts,
+    transformConfig,
+    mattingSources,
+    draggingInputBoard,
+    initialized,
+    boardRect,
+    listenerManager,
+  } = config
   const { inputCtx } = boardContexts
   watchEffect(() => {
     if (initialized.value) {
@@ -49,7 +57,7 @@ export function useInitTransformListener(config: UseInitListenersConfig) {
         }
       }
     },
-    { deep: true },
+    { deep: true }
   )
   watch([transformConfig], async () => {
     if (initialized.value) {

@@ -1,5 +1,10 @@
-
-import { INITIAL_RADIUS, INITIAL_HARDNESS, RADIUS_TO_BRUSH_SIZE_RATIO, HARDNESS_ZOOM_TO_SLIDER_RATIO, INITIAL_TRANSFORM_CONFIG } from '../constants'
+import {
+  INITIAL_RADIUS,
+  INITIAL_HARDNESS,
+  RADIUS_TO_BRUSH_SIZE_RATIO,
+  HARDNESS_ZOOM_TO_SLIDER_RATIO,
+  INITIAL_TRANSFORM_CONFIG,
+} from '../constants'
 import { createContext2D } from '../helpers/domHelper'
 import ListenerManager from '../helpers/listenerManager'
 import { BoardRect, TransformConfig } from '../types/common'

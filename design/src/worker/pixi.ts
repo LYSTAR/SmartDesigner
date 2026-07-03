@@ -1,25 +1,24 @@
-import { Application, Texture, Sprite, Container, Filter, Graphics } from '@pixi/webworker';
+import { Application, Texture, Sprite, Container, Filter, Graphics } from '@pixi/webworker'
 
 import { GlowFilter, ColorOverlayFilter, ColorGradientFilter, BevelFilter, EmbossFilter } from 'pixi-filters'
-import { 
-  PixiFilter, 
-  PixiGlowFilter, 
-  PixiColorOverlayFilter, 
-  PixiColorGradientFilter, 
-  PixiBlendModeFilter ,
+import {
+  PixiFilter,
+  PixiGlowFilter,
+  PixiColorOverlayFilter,
+  PixiColorGradientFilter,
+  PixiBlendModeFilter,
   PixiBevelFilter,
-  PixiEmbossFilter
-} from '@/types/pixiFilter';
+  PixiEmbossFilter,
+} from '@/types/pixiFilter'
 
 let app: Application | undefined = undefined
 
-self.onmessage = async (e) => {
+self.onmessage = async e => {
   const { type } = e.data
   if (!type) {
     const { width, height, resolution, view } = e.data
     app = new Application<HTMLCanvasElement>({ width, height, resolution, view })
-  }
-  else if (type === 'filter') {
+  } else if (type === 'filter') {
     const { src, pixiFilters, width, height, id } = e.data
     app?.renderer.clear()
     app?.renderer.resize(width, height)
@@ -48,10 +47,9 @@ self.onmessage = async (e) => {
     console.log('sprite.filters:', sprite.filters)
     app?.stage.addChild(sprite)
     const res = await app?.renderer.plugins.extract.base64(sprite)
-    const data = {res, id}
+    const data = { res, id }
     postMessage(data)
-  }
-  else if (type === 'mask') {
+  } else if (type === 'mask') {
     const { id, width, height, mask, src } = e.data
     app?.renderer.clear()
     app?.renderer.resize(width, height)
@@ -65,18 +63,18 @@ self.onmessage = async (e) => {
     spriteLayer.mask = spriteMask
     app?.stage.addChild(spriteLayer)
     const res = await app?.renderer.plugins.extract.base64(spriteLayer)
-    const data = {res, id}
+    const data = { res, id }
     postMessage(data)
   }
 }
 
 const handleGlowFilter = (item: PixiGlowFilter, filters: Filter[]) => {
   const glowFilter = new GlowFilter({
-    distance: 15, 
+    distance: 15,
     outerStrength: 2,
     innerStrength: 2,
     color: item.color,
-    alpha: item.alpha
+    alpha: item.alpha,
   })
   filters.push(glowFilter)
 }
@@ -93,7 +91,7 @@ const handleColorGradientFilter = (item: PixiColorGradientFilter, filters: Filte
     angle: item.angle,
     alpha: item.alpha,
     maxColors: item.maxColors,
-    stops: item.stops
+    stops: item.stops,
   })
   filters.push(colorGradientFilter)
 }

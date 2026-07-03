@@ -70,7 +70,7 @@ export class Graph<T> {
       data.push(
         `${key}\n\t(-> incoming)[${[...value.incoming.keys()].join(', ')}]\n\t(outgoing ->)[${[
           ...value.outgoing.keys(),
-        ].join(',')}]\n`,
+        ].join(',')}]\n`
       )
     }
     return data.join('\n')

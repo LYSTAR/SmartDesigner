@@ -18,31 +18,31 @@
       <el-tab-pane :label="$t('message.recommendImages')" name="data">
         <IllustrationCategory />
       </el-tab-pane>
-      <el-tab-pane :label="$t('message.myBookmarks')" name="self">{{ $t("message.myBookmarks") }}</el-tab-pane>
-      <el-tab-pane :label="$t('message.teamTemplates')" name="team">{{ $t("message.teamTemplates")}}</el-tab-pane>
+      <el-tab-pane :label="$t('message.myBookmarks')" name="self">{{ $t('message.myBookmarks') }}</el-tab-pane>
+      <el-tab-pane :label="$t('message.teamTemplates')" name="team">{{ $t('message.teamTemplates') }}</el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from "vue";
-import { Search } from "@element-plus/icons-vue";
-import { getImageDataURL } from "@/utils/image";
+import { onMounted, ref } from 'vue'
+import { Search } from '@element-plus/icons-vue'
+import { getImageDataURL } from '@/utils/image'
 
-import useHandleCreate from "@/hooks/useHandleCreate";
-import ImageCategory from "./ImageComponents/ImageCategory.vue";
-import IllustrationCategory from "./ImageComponents/IllustrationCategory.vue";
-import useI18n from "@/hooks/useI18n";
+import useHandleCreate from '@/hooks/useHandleCreate'
+import ImageCategory from './ImageComponents/ImageCategory.vue'
+import IllustrationCategory from './ImageComponents/IllustrationCategory.vue'
+import useI18n from '@/hooks/useI18n'
 
-const { t } = useI18n();
-const { createImageElement } = useHandleCreate();
+const { t } = useI18n()
+const { createImageElement } = useHandleCreate()
 
-const activeImage = ref("data");
+const activeImage = ref('data')
 const drawImage = (files: FileList) => {
-  const imageFile = files[0];
-  if (!imageFile) return;
-  getImageDataURL(imageFile).then((dataURL) => createImageElement(dataURL));
-};
+  const imageFile = files[0]
+  if (!imageFile) return
+  getImageDataURL(imageFile).then(dataURL => createImageElement(dataURL))
+}
 </script>
 
 <style lang="scss" scoped>

@@ -1,10 +1,10 @@
-import { getFabricWindow } from 'fabric';
-import { noop } from '../../constants';
-import type { Abortable } from '../../typedefs';
+import { getFabricWindow } from 'fabric'
+import { noop } from '../../constants'
+import type { Abortable } from '../../typedefs'
 
 type requestOptions = Abortable & {
-  onComplete?: (xhr: XMLHttpRequest) => void;
-};
+  onComplete?: (xhr: XMLHttpRequest) => void
+}
 
 /**
  * Cross-browser abstraction for sending XMLHttpRequest
@@ -21,32 +21,32 @@ export function request(url: string, options: requestOptions = {}) {
     xhr = new (getFabricWindow().XMLHttpRequest)(),
     signal = options.signal,
     abort = function () {
-      xhr.abort();
+      xhr.abort()
     },
     removeListener = function () {
-      signal && signal.removeEventListener('abort', abort);
-      xhr.onerror = xhr.ontimeout = noop;
-    };
+      signal && signal.removeEventListener('abort', abort)
+      xhr.onerror = xhr.ontimeout = noop
+    }
 
   if (signal && signal.aborted) {
-    throw new Error('`options.signal` is in `aborted` state');
+    throw new Error('`options.signal` is in `aborted` state')
   } else if (signal) {
-    signal.addEventListener('abort', abort, { once: true });
+    signal.addEventListener('abort', abort, { once: true })
   }
 
   /** @ignore */
   xhr.onreadystatechange = function () {
     if (xhr.readyState === 4) {
-      removeListener();
-      onComplete(xhr);
-      xhr.onreadystatechange = noop;
+      removeListener()
+      onComplete(xhr)
+      xhr.onreadystatechange = noop
     }
-  };
+  }
 
-  xhr.onerror = xhr.ontimeout = removeListener;
+  xhr.onerror = xhr.ontimeout = removeListener
 
-  xhr.open('get', url, true);
+  xhr.open('get', url, true)
 
-  xhr.send();
-  return xhr;
+  xhr.send()
+  return xhr
 }

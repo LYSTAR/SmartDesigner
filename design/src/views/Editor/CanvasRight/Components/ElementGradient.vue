@@ -1,24 +1,33 @@
 <template>
   <div class="element-color-mask">
     <div class="row">
-      <div style="flex: 1;"><b>{{$t('style.enableGradient')}}：</b></div>
-      <div class="switch-wrapper" style="flex: 1;">
+      <div style="flex: 1">
+        <b>{{ $t('style.enableGradient') }}：</b>
+      </div>
+      <div class="switch-wrapper" style="flex: 1">
         <el-switch v-model="hasGradient" @change="toggleColorMask(hasGradient)"></el-switch>
       </div>
     </div>
     <template v-if="hasGradient">
-      <div class="row" style="margin-top: 15px;">
-        <div style="flex: 2;">{{$t('style.maskColor')}}：</div>
+      <div class="row" style="margin-top: 15px">
+        <div style="flex: 2">{{ $t('style.maskColor') }}：</div>
         <el-popover trigger="click" width="265">
           <template #reference>
-            <ColorButton :color="maskColor" style="flex: 3;" />
+            <ColorButton :color="maskColor" style="flex: 3" />
           </template>
-          <ColorPicker :modelValue="maskColor" @update:modelValue="(color: string) => updateMaskColor(color)"/>
+          <ColorPicker :modelValue="maskColor" @update:modelValue="(color: string) => updateMaskColor(color)" />
         </el-popover>
       </div>
       <div class="row">
-        <div style="flex: 2;">{{$t('style.opacity')}}：</div>
-        <el-slider class="opacity-slider" :min="0" :step="0.01" :max="1" v-model="maskAlpha" @change="updateMaskAlpha"></el-slider>
+        <div style="flex: 2">{{ $t('style.opacity') }}：</div>
+        <el-slider
+          class="opacity-slider"
+          :min="0"
+          :step="0.01"
+          :max="1"
+          v-model="maskAlpha"
+          @change="updateMaskAlpha"
+        ></el-slider>
       </div>
     </template>
   </div>
@@ -54,7 +63,7 @@ const changeImageFilter = () => {
   const blendFilter = new filters.BlendColor({
     color: maskColor.value,
     mode: 'add',
-    alpha: maskAlpha.value
+    alpha: maskAlpha.value,
   })
   handleElement.value.filters = handleElement.value.filters?.filter(obj => obj.type !== BlendColorFilter)
   // @ts-ignore
@@ -64,11 +73,8 @@ const changeImageFilter = () => {
 
 const toggleColorMask = (status: boolean) => {
   if (!handleElement.value) return
-  const [ canvas ] = useCanvas()
-  
+  const [canvas] = useCanvas()
 }
-
-
 </script>
 
 <style lang="scss" scoped>

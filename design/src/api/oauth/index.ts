@@ -1,18 +1,17 @@
 import request from '@/utils/request'
 import { AxiosPromise } from 'axios'
-import { 
-  OauthWechatResult, 
-  ImageCaptchaResult, 
+import {
+  OauthWechatResult,
+  ImageCaptchaResult,
   EmailCaptchaResult,
-  OauthVerifyData, 
+  OauthVerifyData,
   OauthCheckData,
-  OauthGithubResult, 
-  CodeParams, 
+  OauthGithubResult,
+  CodeParams,
   EmailData,
   OauthUserResult,
-  OauthRegisterResult
+  OauthRegisterResult,
 } from './types'
-
 
 export function imageCaptcha(): AxiosPromise<ImageCaptchaResult> {
   return request({
@@ -25,7 +24,7 @@ export function emailCaptcha(data: EmailData): AxiosPromise<EmailCaptchaResult> 
   return request({
     url: '/api/oauth/captcha/email',
     method: 'post',
-    data
+    data,
   })
 }
 
@@ -33,7 +32,7 @@ export function oauthRegister(data: OauthVerifyData): AxiosPromise<OauthRegister
   return request({
     url: '/api/oauth/register',
     method: 'post',
-    data
+    data,
   })
 }
 
@@ -41,7 +40,7 @@ export function oauthLogin(data: OauthVerifyData): AxiosPromise<OauthUserResult>
   return request({
     url: '/api/oauth/login',
     method: 'post',
-    data
+    data,
   })
 }
 

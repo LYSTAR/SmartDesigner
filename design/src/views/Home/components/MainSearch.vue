@@ -14,6 +14,6 @@
 </template>
 
 <script setup lang="ts">
-import { Search } from '@element-plus/icons-vue';
+import { Search } from '@element-plus/icons-vue'
 const searchSelect = ref<string>('1')
 </script>

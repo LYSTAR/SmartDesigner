@@ -1,7 +1,9 @@
 <template>
   <div class="element-opacity">
     <el-row>
-      <el-col :span="7" class="slider-name"><b>{{$t('style.opacity')}}：</b></el-col>
+      <el-col :span="7" class="slider-name"
+        ><b>{{ $t('style.opacity') }}：</b></el-col
+      >
       <el-col :span="13">
         <el-slider class="slider" v-model="opacity" :min="0" :max="1" :step="0.01" @change="updateOpacity"></el-slider>
       </el-col>
@@ -20,7 +22,7 @@ const { canvasObject } = storeToRefs(useMainStore())
 const opacity = ref<number>(canvasObject.value ? canvasObject.value.opacity : 1)
 
 const updateOpacity = () => {
-  const [ canvas ] = useCanvas()
+  const [canvas] = useCanvas()
   if (!canvasObject.value) return
   canvasObject.value.opacity = opacity.value
   canvas.renderAll()
@@ -41,7 +43,7 @@ const updateOpacity = () => {
   display: flex;
   align-items: center;
 }
-.slider-num{
+.slider-num {
   display: flex;
   align-items: center;
   justify-content: center;

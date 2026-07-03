@@ -1,39 +1,55 @@
 <template>
   <div class="line-style-panel">
-    <ElementPosition/>
+    <ElementPosition />
     <el-divider style="margin: 12px 0" />
     <div class="row">
-      <div style="flex: 2;">线条样式：</div>
-      <el-select style="flex: 3;" v-model="lineStyle" @change="changeLineStyle">
+      <div style="flex: 2">线条样式：</div>
+      <el-select style="flex: 3" v-model="lineStyle" @change="changeLineStyle">
         <el-option :value="0" label="实线"></el-option>
         <el-option :value="1" label="虚线"></el-option>
       </el-select>
     </div>
     <div class="row">
-      <div style="flex: 2;">线条颜色：</div>
-      <el-popover trigger="click" width="265"> 
+      <div style="flex: 2">线条颜色：</div>
+      <el-popover trigger="click" width="265">
         <template #reference>
-          <ColorButton :color="handleElement.stroke" style="flex: 3;" />
+          <ColorButton :color="handleElement.stroke" style="flex: 3" />
         </template>
-        <ColorPicker :modelValue="handleElement.stroke" @update:modelValue="(color: string) => updateStrokeColor(color)"/>
+        <ColorPicker
+          :modelValue="handleElement.stroke"
+          @update:modelValue="(color: string) => updateStrokeColor(color)"
+        />
       </el-popover>
     </div>
     <div class="row">
-      <div style="flex: 2;">线条宽度：</div>
-      <el-input-number :min="1" style="flex: 3;" v-model="handleElement.strokeWidth" @change="updateTemplateElement"></el-input-number>
+      <div style="flex: 2">线条宽度：</div>
+      <el-input-number
+        :min="1"
+        style="flex: 3"
+        v-model="handleElement.strokeWidth"
+        @change="updateTemplateElement"
+      ></el-input-number>
     </div>
-    
+
     <div class="row">
-      <div style="flex: 2;">起点样式：</div>
-      <el-select style="flex: 3;" v-model="handleElement.startStyle" @change="(value: LinePoint) => changeLineMode(value, 'start')">
+      <div style="flex: 2">起点样式：</div>
+      <el-select
+        style="flex: 3"
+        v-model="handleElement.startStyle"
+        @change="(value: LinePoint) => changeLineMode(value, 'start')"
+      >
         <el-option value="" label="无"></el-option>
         <el-option value="arrow" label="箭头"></el-option>
         <el-option value="dot" label="圆点"></el-option>
       </el-select>
     </div>
     <div class="row">
-      <div style="flex: 2;">终点样式：</div>
-      <el-select style="flex: 3;" v-model="handleElement.endStyle" @change="(value: LinePoint) => changeLineMode(value, 'end')">
+      <div style="flex: 2">终点样式：</div>
+      <el-select
+        style="flex: 3"
+        v-model="handleElement.endStyle"
+        @change="(value: LinePoint) => changeLineMode(value, 'end')"
+      >
         <el-option value="" label="无"></el-option>
         <el-option value="arrow" label="箭头"></el-option>
         <el-option value="dot" label="圆点"></el-option>
@@ -41,7 +57,7 @@
     </div>
 
     <el-divider style="margin: 12px 0" />
-    <ElementShadow :hasShadow="hasShadow"/>
+    <ElementShadow :hasShadow="hasShadow" />
   </div>
 </template>
 
@@ -59,29 +75,29 @@ import { LinePoint } from '@/types/elements'
 const mainStore = useMainStore()
 const templatesStore = useTemplatesStore()
 const { canvasObject } = storeToRefs(mainStore)
-const [ canvas ] = useCanvas()
+const [canvas] = useCanvas()
 const handleElement = computed(() => canvasObject.value as Polyline)
-const hasShadow = computed(() => handleElement.value.shadow ? true : false)
+const hasShadow = computed(() => (handleElement.value.shadow ? true : false))
 const lineStyle = ref<number>(handleElement.value.strokeDashArray ? 1 : 0)
 
 const updateStrokeColor = (color: string) => {
   if (!handleElement.value) return
   handleElement.value.stroke = color
-  updateTemplateElement({stroke: color})
+  updateTemplateElement({ stroke: color })
 }
 
 const changeLineStyle = () => {
   if (!handleElement.value) return
   const strokeDashArray = lineStyle.value === 1 ? [6, 6] : null
-  handleElement.value.set({strokeDashArray})
-  updateTemplateElement({strokeDashArray})
+  handleElement.value.set({ strokeDashArray })
+  updateTemplateElement({ strokeDashArray })
 }
 
 const changeLineMode = (value: LinePoint, mode: 'start' | 'end') => {
   handleElement.value.setLineMode(value, mode)
-  let options: Record<string, any> = { 'startStyle': value }
+  let options: Record<string, any> = { startStyle: value }
   if (mode === 'end') {
-    options = {'endStyle': value }
+    options = { endStyle: value }
   }
   updateTemplateElement(options)
 }
@@ -90,7 +106,6 @@ const updateTemplateElement = (options: Record<string, any>) => {
   canvas.renderAll()
   templatesStore.modifedElement(handleElement.value, options)
 }
-
 </script>
 
 <style lang="scss" scoped>

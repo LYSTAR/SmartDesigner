@@ -78,7 +78,13 @@ function initBuffers(gl: WebGLRenderingContext) {
   return true
 }
 
-function bindArrayBuffer(gl: WebGLRenderingContext, buffer: WebGLBuffer, attrib: number, data: Float32Array, pointNum = 2) {
+function bindArrayBuffer(
+  gl: WebGLRenderingContext,
+  buffer: WebGLBuffer,
+  attrib: number,
+  data: Float32Array,
+  pointNum = 2
+) {
   gl.bindBuffer(gl.ARRAY_BUFFER, buffer)
   gl.bufferData(gl.ARRAY_BUFFER, data, gl.STATIC_DRAW)
   gl.vertexAttribPointer(attrib, pointNum, gl.FLOAT, false, 0, 0)

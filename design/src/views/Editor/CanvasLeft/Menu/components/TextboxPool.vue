@@ -4,13 +4,13 @@
       <el-input :prefix-icon="Search" :placeholder="t('message.searchText')"></el-input>
     </el-row>
     <el-row class="layout-text" @click="drawText(80)">
-      <div class="large">{{ t("message.addTitle") }}</div>
+      <div class="large">{{ t('message.addTitle') }}</div>
     </el-row>
     <el-row class="layout-text" @click="drawText(60)">
-      <div class="middle">{{ t("message.addSubtitle") }}</div>
+      <div class="middle">{{ t('message.addSubtitle') }}</div>
     </el-row>
     <el-row class="layout-text" @click="drawText(36)">
-      <div class="small">{{ t("message.addBodyText") }}</div>
+      <div class="small">{{ t('message.addBodyText') }}</div>
     </el-row>
     <el-row class="layout-style">
       <el-col :span="16">
@@ -18,39 +18,37 @@
           <el-radio-button :label="t('message.transverse')" value="transverse"
             ><IconTextRotationNone
           /></el-radio-button>
-          <el-radio-button :label="t('message.direction')" value="direction"
-            ><IconTextRotationDown
-          /></el-radio-button>
+          <el-radio-button :label="t('message.direction')" value="direction"><IconTextRotationDown /></el-radio-button>
         </el-radio-group>
       </el-col>
       <el-col :span="8">
-        <el-checkbox-button v-model="textHollow"><IconText />{{ t("message.hollowOut") }}</el-checkbox-button>
+        <el-checkbox-button v-model="textHollow"><IconText />{{ t('message.hollowOut') }}</el-checkbox-button>
       </el-col>
     </el-row>
     <el-tabs v-model="activeTemplate" class="layout-tabs">
-      <el-tab-pane :label="t('message.recommendText')" name="data">{{t("message.recommendText")}}</el-tab-pane>
-      <el-tab-pane :label="t('message.myBookmarksText')" name="self">{{t("message.myTemplate")}}</el-tab-pane>
-      <el-tab-pane :label="t('message.myPurchasesText')" name="team">{{t("message.TeamTemplate")}}</el-tab-pane>
+      <el-tab-pane :label="t('message.recommendText')" name="data">{{ t('message.recommendText') }}</el-tab-pane>
+      <el-tab-pane :label="t('message.myBookmarksText')" name="self">{{ t('message.myTemplate') }}</el-tab-pane>
+      <el-tab-pane :label="t('message.myPurchasesText')" name="team">{{ t('message.TeamTemplate') }}</el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { onMounted, ref } from "vue";
-import { Search } from "@element-plus/icons-vue";
-import useHandleCreate from "@/hooks/useHandleCreate";
-import useI18n from "@/hooks/useI18n";
+import { onMounted, ref } from 'vue'
+import { Search } from '@element-plus/icons-vue'
+import useHandleCreate from '@/hooks/useHandleCreate'
+import useI18n from '@/hooks/useI18n'
 
-const { t } = useI18n();
-const { createTextElement } = useHandleCreate();
+const { t } = useI18n()
+const { createTextElement } = useHandleCreate()
 
-const textStyle = ref<"transverse" | "direction">("transverse");
-const textHollow = ref(false);
-const activeTemplate = ref("data");
+const textStyle = ref<'transverse' | 'direction'>('transverse')
+const textHollow = ref(false)
+const activeTemplate = ref('data')
 
 const drawText = (fontSize: number) => {
-  createTextElement(fontSize, textStyle.value, textHollow.value);
-};
+  createTextElement(fontSize, textStyle.value, textHollow.value)
+}
 </script>
 
 <style lang="scss" scoped>
@@ -87,9 +85,9 @@ const drawText = (fontSize: number) => {
     font-size: 24px;
     font-weight: bold;
     margin-top: 0px;
-    overflow: hidden; 
+    overflow: hidden;
     text-overflow: ellipsis;
-    white-space: nowrap; 
+    white-space: nowrap;
     &:hover {
       overflow: visible;
       padding: 0 5px;

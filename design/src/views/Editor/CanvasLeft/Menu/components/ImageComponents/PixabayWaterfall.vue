@@ -15,11 +15,11 @@ const emit = defineEmits(['loadMore'])
 const props = defineProps({
   data: {
     type: Array<ImageHit>,
-    default: []
+    default: [],
   },
   reset: {
     type: Boolean,
-    default: true
+    default: true,
   },
   width: {
     type: Number,
@@ -35,27 +35,27 @@ const props = defineProps({
   // }),
   cols: {
     type: Number,
-    default: 2
+    default: 2,
   },
   loadingText: {
     type: String,
-    default: '加载中'
+    default: '加载中',
   },
   loading: {
     type: Boolean,
-    default: false
+    default: false,
   },
   end: {
     type: Boolean,
-    default: false
+    default: false,
   },
   endText: {
     type: String,
-    default: '没有更多了'
+    default: '没有更多了',
   },
   autoCenter: {
     type: Boolean,
-    default: true
+    default: true,
   },
   // layout: propTypes.oneOf(['javascript', 'flex']).def('flex')
 })
@@ -81,7 +81,7 @@ const flexWaterfall = async () => {
   await nextTick()
 
   const container = unref(wrapEl) as HTMLElement
-  if (!container || !data ) return
+  if (!container || !data) return
   innerCols.value = props.cols ?? Math.floor(container.clientWidth / (width + gap))
 
   const length = data.length
@@ -96,9 +96,13 @@ const flexWaterfall = async () => {
   console.log('filterData.value:', filterData.value)
 }
 
-watch([props.data], () => {
-  flexWaterfall()
-}, {immediate: true})
+watch(
+  [props.data],
+  () => {
+    flexWaterfall()
+  },
+  { immediate: true }
+)
 
 onMounted(() => {
   if (unref(props.reset)) {
@@ -112,7 +116,7 @@ onMounted(() => {
       }
     },
     {
-      threshold: 0.1
+      threshold: 0.1,
     }
   )
 })
@@ -127,7 +131,7 @@ onMounted(() => {
           :key="`waterWrap-${$index}`"
           class="flex-1"
           :style="{
-            marginRight: $index === filterData.length - 1 ? '0' : `${gap}px`
+            marginRight: $index === filterData.length - 1 ? '0' : `${gap}px`,
           }"
         >
           <div
@@ -146,7 +150,7 @@ onMounted(() => {
           ref="loadMore"
           class="h-40px flex justify-center absolute w-full items-center"
           :style="{
-            bottom: 0
+            bottom: 0,
           }"
         >
           {{ end ? endText : loadingText }}

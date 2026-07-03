@@ -3,7 +3,7 @@ export const getRandom = (n: number, m: number) => Math.floor(Math.random() * (m
 
 // 生成 100 长度的数组
 export function createArr(defaultParams = 'Tom') {
-  const allItems = Array.from(Array(100).keys(), (item) => {
+  const allItems = Array.from(Array(100).keys(), item => {
     return { defaultParams, idx: item }
   })
   // const fillArr = new Array(10).fill({ defaultParams })
@@ -19,7 +19,7 @@ export const getLevel = (list: any) => {
     for (let i = 0; i < data.length; i++) {
       const item = data[i]
       if (Array.isArray(item)) {
-        (item as any).level = (data.level || 1) + 1
+        ;(item as any).level = (data.level || 1) + 1
         max = Math.max((item as any).level, max)
         stack.push(item)
       }

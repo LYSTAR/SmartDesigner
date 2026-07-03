@@ -60,10 +60,9 @@ export interface RulerOptions {
    * 高亮颜色
    */
   unitName: string
-
 }
 
-export type HighlightRect = {skip?: TAxis} & Rect
+export type HighlightRect = { skip?: TAxis } & Rect
 
 export class FabricRuler extends Disposable {
   private canvasEvents
@@ -71,11 +70,13 @@ export class FabricRuler extends Disposable {
   public workSpaceDraw?: fabricRect
   public options: Required<RulerOptions>
   public tempReferenceLine?: ReferenceLine
-  private activeOn: string = "up"
-  private objectRect: undefined | { 
-    x: HighlightRect[],
-    y: HighlightRect[]
-  }
+  private activeOn: string = 'up'
+  private objectRect:
+    | undefined
+    | {
+        x: HighlightRect[]
+        y: HighlightRect[]
+      }
 
   constructor(private readonly canvas: FabricCanvas) {
     super()
@@ -89,13 +90,13 @@ export class FabricRuler extends Disposable {
 
     // const { isDark } = useThemes()
     const isDark = false
-    
+
     const { unitMode } = storeToRefs(useMainStore())
     watchEffect(() => {
       const unitName = DesignUnitMode.filter(ele => ele.id === unitMode.value)[0].name
       this.options = {
         ...this.options,
-        ...(isDark 
+        ...(isDark
           ? {
               backgroundColor: '#242424',
               borderColor: '#555',
@@ -113,7 +114,7 @@ export class FabricRuler extends Disposable {
       }
       this.render({ ctx: this.canvas.contextContainer })
     })
-    
+
     this.canvasEvents = {
       'after:render': this.render.bind(this),
       'mouse:move': this.mouseMove.bind(this),
@@ -136,42 +137,41 @@ export class FabricRuler extends Disposable {
         absolutePositioned: true,
       }).containsPoint(point)
     ) {
-      return 'vertical';
+      return 'vertical'
     } else if (
       new fabricRect({
         left: 0,
         top: 0,
-        width: this.canvas.width, 
+        width: this.canvas.width,
         height: this.options.ruleSize,
         absolutePositioned: true,
       }).containsPoint(point)
     ) {
-      return 'horizontal';
+      return 'horizontal'
     }
-    return '';
+    return ''
   }
 
   private mouseMove(e: TPointerEventInfo<TPointerEvent>) {
     if (!e.viewportPoint) return
     if (this.tempReferenceLine && e.scenePoint) {
-      const pos: Partial<ReferenceLine> = {};
+      const pos: Partial<ReferenceLine> = {}
       if (this.tempReferenceLine.axis === 'horizontal') {
-        pos.top = e.scenePoint.y;
-      } 
-      else {
-        pos.left = e.scenePoint.x;
+        pos.top = e.scenePoint.y
+      } else {
+        pos.left = e.scenePoint.x
       }
-      this.tempReferenceLine.set({ ...pos, visible: true });
-      this.canvas.renderAll();
-      const event = this.getCommonEventInfo(e) as any;
-      this.canvas.fire('object:moving', event);
-      this.tempReferenceLine.fire('moving', event);
+      this.tempReferenceLine.set({ ...pos, visible: true })
+      this.canvas.renderAll()
+      const event = this.getCommonEventInfo(e) as any
+      this.canvas.fire('object:moving', event)
+      this.tempReferenceLine.fire('moving', event)
     }
     const status = this.getPointHover(e.viewportPoint)
     this.canvas.defaultCursor = this.lastCursor
     if (!status) return
     this.lastCursor = this.canvas.defaultCursor
-    this.canvas.defaultCursor = status === 'horizontal' ? 'ns-resize' : 'ew-resize';
+    this.canvas.defaultCursor = status === 'horizontal' ? 'ns-resize' : 'ew-resize'
   }
 
   private mouseDown(e: TPointerEventInfo<TPointerEvent>) {
@@ -181,34 +181,31 @@ export class FabricRuler extends Disposable {
       this.canvas.selection = false
       this.activeOn = 'down'
       const point = pointHover === 'horizontal' ? e.viewportPoint.y : e.viewportPoint.x
-      this.tempReferenceLine = new ReferenceLine(
-        point,
-        {
-          type: 'ReferenceLine',
-          axis: pointHover,
-          visible: false,
-          name: 'ReferenceLine',
-          hasControls: false,
-          hasBorders: false,
-          stroke: 'pink',
-          fill: 'pink',
-          originX: 'center',
-          originY: 'center',
-          padding: 4,
-          globalCompositeOperation: 'difference',
-        }
-      );
+      this.tempReferenceLine = new ReferenceLine(point, {
+        type: 'ReferenceLine',
+        axis: pointHover,
+        visible: false,
+        name: 'ReferenceLine',
+        hasControls: false,
+        hasBorders: false,
+        stroke: 'pink',
+        fill: 'pink',
+        originX: 'center',
+        originY: 'center',
+        padding: 4,
+        globalCompositeOperation: 'difference',
+      })
       this.canvas.add(this.tempReferenceLine)
       const templatesStore = useTemplatesStore()
       templatesStore.addElement(this.tempReferenceLine)
       this.canvas.setActiveObject(this.tempReferenceLine)
       this.canvas._setupCurrentTransform(e.e, this.tempReferenceLine, true)
-      this.tempReferenceLine.fire('down', this.getCommonEventInfo(e));
+      this.tempReferenceLine.fire('down', this.getCommonEventInfo(e))
     }
   }
 
   private getCommonEventInfo(e: TPointerEventInfo<TPointerEvent>) {
-    if (!this.tempReferenceLine || !e.scenePoint) return;
+    if (!this.tempReferenceLine || !e.scenePoint) return
     return {
       e: e.e,
       transform: this.tempReferenceLine.get('transform'),
@@ -217,18 +214,18 @@ export class FabricRuler extends Disposable {
         y: e.scenePoint.y,
       },
       target: this.tempReferenceLine,
-    };
+    }
   }
 
   private mouseUp(e: TPointerEventInfo<TPointerEvent>) {
-    if (this.activeOn !== 'down') return;
+    if (this.activeOn !== 'down') return
     this.canvas.selection = true
     this.tempReferenceLine!.selectable = false
     this.canvas.renderAll()
-    this.activeOn = 'up';
+    this.activeOn = 'up'
     // @ts-ignore
-    this.tempReferenceLine?.fire('up', this.getCommonEventInfo(e));
-    this.tempReferenceLine = undefined;
+    this.tempReferenceLine?.fire('up', this.getCommonEventInfo(e))
+    this.tempReferenceLine = undefined
   }
 
   public setWorkSpaceDraw() {
@@ -252,34 +249,34 @@ export class FabricRuler extends Disposable {
 
     // if (target.isHorizontal() && (top > targetTop + 1 || top + height < targetTop + targetHeight - 1)) {
     //   return true;
-    // } 
+    // }
     // else if (!target.isHorizontal() && (left > targetLeft + 1 || left + width < targetLeft + targetWidth - 1)) {
     //   return true;
     // }
 
-    return false;
-  };
+    return false
+  }
 
   referenceLineMoving(e: any) {
     if (!this.workSpaceDraw) {
-      this.setWorkSpaceDraw();
-      return;
+      this.setWorkSpaceDraw()
+      return
     }
-    const { target } = e;
+    const { target } = e
     if (this.isRectOut(this.workSpaceDraw, target)) {
-      target.moveCursor = 'not-allowed';
+      target.moveCursor = 'not-allowed'
     }
-  } 
+  }
 
   referenceLineMouseup(e: any) {
     if (!this.workSpaceDraw) {
-      this.setWorkSpaceDraw();
-      return;
+      this.setWorkSpaceDraw()
+      return
     }
-    const { target } = e;
+    const { target } = e
     if (this.isRectOut(this.workSpaceDraw, target)) {
-      this.canvas.remove(target);
-      this.canvas.setCursor(this.canvas.defaultCursor ?? '');
+      this.canvas.remove(target)
+      this.canvas.setCursor(this.canvas.defaultCursor ?? '')
     }
   }
 
@@ -292,8 +289,7 @@ export class FabricRuler extends Disposable {
     if (value) {
       this.canvas.on(this.canvasEvents)
       this.render({ ctx: this.canvas.contextContainer })
-    } 
-    else {
+    } else {
       this.canvas.off(this.canvasEvents)
       this.canvas.requestRenderAll()
     }
@@ -352,7 +348,12 @@ export class FabricRuler extends Disposable {
     })
   }
 
-  private draw(opt: {ctx: CanvasRenderingContext2D, isHorizontal: boolean, rulerLength: number, startCalibration: number}) {
+  private draw(opt: {
+    ctx: CanvasRenderingContext2D
+    isHorizontal: boolean
+    rulerLength: number
+    startCalibration: number
+  }) {
     const { ctx, isHorizontal, rulerLength, startCalibration } = opt
     const zoom = this.canvas.getZoom()
 
@@ -383,7 +384,9 @@ export class FabricRuler extends Disposable {
       for (let index = 0; index < 10; index++) {
         const position = Math.round((startOffset + pos + (gap * index) / 10) * zoom)
         const isMajorLine = index === 0
-        const [left, top] = isHorizontal ? [position, isMajorLine ? 0 : ruleSize - 8] : [isMajorLine ? 0 : ruleSize - 8, position]
+        const [left, top] = isHorizontal
+          ? [position, isMajorLine ? 0 : ruleSize - 8]
+          : [isMajorLine ? 0 : ruleSize - 8, position]
         const [width, height] = isHorizontal ? [0, ruleSize - top] : [ruleSize - left, 0]
         this.darwLine(ctx, {
           left,
@@ -398,11 +401,13 @@ export class FabricRuler extends Disposable {
     // 标尺蓝色遮罩
     if (this.objectRect) {
       const axis = isHorizontal ? 'x' : 'y'
-      this.objectRect[axis].forEach((rect) => {
+      this.objectRect[axis].forEach(rect => {
         // 跳过指定矩形
         if (rect.skip === axis) return
 
-        const [left, top, width, height] = isHorizontal ? [(rect.left - startCalibration) * zoom, 0, rect.width * zoom, ruleSize] : [0, (rect.top - startCalibration) * zoom, ruleSize, rect.height * zoom]
+        const [left, top, width, height] = isHorizontal
+          ? [(rect.left - startCalibration) * zoom, 0, rect.width * zoom, ruleSize]
+          : [0, (rect.top - startCalibration) * zoom, ruleSize, rect.height * zoom]
 
         // 高亮遮罩
         // ctx.save()
@@ -467,7 +472,7 @@ export class FabricRuler extends Disposable {
       fill?: string | CanvasGradient | CanvasPattern
       stroke?: string
       strokeWidth?: number
-    },
+    }
   ) {
     ctx.save()
     ctx.beginPath()
@@ -502,7 +507,7 @@ export class FabricRuler extends Disposable {
       baseline?: CanvasTextBaseline
       angle?: number
       fontSize?: number
-    },
+    }
   ) {
     ctx.save()
     fill && (ctx.fillStyle = fill)
@@ -534,7 +539,7 @@ export class FabricRuler extends Disposable {
       height: number
       stroke?: string | CanvasGradient | CanvasPattern
       lineWidth?: number
-    },
+    }
   ) {
     ctx.save()
     ctx.beginPath()
@@ -580,8 +585,7 @@ export class FabricRuler extends Disposable {
       if (currentLine[axis] + currentLine[length] >= line[axis]) {
         // 当前线段和下一个线段相交，合并宽度
         currentLine[length] =
-          Math.max(currentLine[axis] + currentLine[length], line[axis] + line[length]) -
-          currentLine[axis]
+          Math.max(currentLine[axis] + currentLine[length], line[axis] + line[length]) - currentLine[axis]
       } else {
         // 当前线段和下一个线段不相交，将当前线段加入结果数组中，并更新当前线段为下一个线段
         mergedLines.push(currentLine)

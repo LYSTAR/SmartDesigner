@@ -1,5 +1,13 @@
 import { EventType } from '../constants'
-import { UnbindDownUpCache, UnbindMoveCache, MouseListenerContext, UnbindDownUpConfig, ListenerConfig, UnbindWheelCache, WheelListenerContext } from '../types/listenerManager'
+import {
+  UnbindDownUpCache,
+  UnbindMoveCache,
+  MouseListenerContext,
+  UnbindDownUpConfig,
+  ListenerConfig,
+  UnbindWheelCache,
+  WheelListenerContext,
+} from '../types/listenerManager'
 
 const { MouseDown, Mouseup, Mousemove } = EventType
 
@@ -76,7 +84,7 @@ export default class ListenerManager {
 
   /** 解绑wheel事件监听器 */
   removeWheelListeners() {
-    this.unbindWheelCache.forEach((unbind) => unbind())
+    this.unbindWheelCache.forEach(unbind => unbind())
     this.unbindWheelCache.clear()
   }
 
@@ -86,24 +94,28 @@ export default class ListenerManager {
     return this.listenEvent(
       {
         eventType: EventType.Wheel,
-        listener: (ev) => {
+        listener: ev => {
           if (this.canWheel(ev, mattingBoards)) {
             wheel(ev as WheelEvent)
           }
         },
       },
       false,
-      ...mattingBoards,
+      ...mattingBoards
     )
   }
 
   /** 是否可以滚动 */
   private canWheel(ev: Event, mattingBoards: HTMLCanvasElement[]): boolean {
-    return mattingBoards.some((board) => ev.target === board)
+    return mattingBoards.some(board => ev.target === board)
   }
 
   /** 监听事件，返回移除监听器的回调 */
-  private listenEvent(listenerConfig: ListenerConfig, options: boolean | AddEventListenerOptions = false, ...targets: HTMLElement[]): VoidFunction {
+  private listenEvent(
+    listenerConfig: ListenerConfig,
+    options: boolean | AddEventListenerOptions = false,
+    ...targets: HTMLElement[]
+  ): VoidFunction {
     const { eventType } = listenerConfig
     const wrapListener = this.genWrapListener(listenerConfig)
     let removeListenerCallback: VoidFunction
@@ -134,18 +146,28 @@ export default class ListenerManager {
   }
 
   /** 为单个目标绑定监听器 */
-  private bindListener(target: Window | HTMLElement, eventType: string, listener: EventListener, options: boolean | AddEventListenerOptions): VoidFunction {
+  private bindListener(
+    target: Window | HTMLElement,
+    eventType: string,
+    listener: EventListener,
+    options: boolean | AddEventListenerOptions
+  ): VoidFunction {
     target.addEventListener(eventType, listener, options)
     return () => target.removeEventListener(eventType, listener, options)
   }
 
   /** 为多个目标绑定监听器 */
-  private bindListeners(targets: HTMLElement[], eventType: string, listener: EventListener, options: boolean | AddEventListenerOptions): VoidFunction {
-    targets.forEach((target) => {
+  private bindListeners(
+    targets: HTMLElement[],
+    eventType: string,
+    listener: EventListener,
+    options: boolean | AddEventListenerOptions
+  ): VoidFunction {
+    targets.forEach(target => {
       target.addEventListener(eventType, listener, options)
     })
     return () =>
-      targets.forEach((target) => {
+      targets.forEach(target => {
         target.removeEventListener(eventType, listener, options)
       })
   }

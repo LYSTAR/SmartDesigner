@@ -6,7 +6,6 @@
 </template>
 
 <script lang="ts" setup>
-
 import Computer from '@/views/Editor/computer.vue'
 import Mobile from '@/views/Editor/mobile.vue'
 import useI18n from '@/hooks/useI18n'
@@ -16,7 +15,7 @@ import { isMobile } from '@/utils/common'
 import { LocalStorageDiscardedKey } from '@/configs/canvas'
 import { deleteDiscardedDB } from '@/utils/database'
 
-const { messages }= useI18n()
+const { messages } = useI18n()
 const { databaseId } = storeToRefs(useMainStore())
 const locale = computed(() => messages.value)
 if (import.meta.env.MODE === 'production') {

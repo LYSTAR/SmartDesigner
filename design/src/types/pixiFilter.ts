@@ -41,8 +41,8 @@ export interface PixiBevelFilter extends PixiFilter {
   rotation?: number
   shadowColor?: number
   thickness?: number
-} 
+}
 
 export interface PixiEmbossFilter extends PixiFilter {
   strength?: number
-} 
+}

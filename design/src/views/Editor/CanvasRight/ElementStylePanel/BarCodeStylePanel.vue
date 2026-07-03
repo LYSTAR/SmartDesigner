@@ -2,35 +2,24 @@
   <div class="image-style-panel">
     <ElementPosition />
     <el-divider style="margin: 12px 0" />
-    <div class="title">{{ $t("style.code") }}：</div>
-    <el-select
-      class="full-row mb-10"
-      v-model="handleElement.codeOption.format"
-      @change="generateBarCode"
-    >
-      <el-option
-        v-for="item in BarCodeStyleLibs"
-        :key="item.index"
-        :value="item.name"
-      ></el-option>
+    <div class="title">{{ $t('style.code') }}：</div>
+    <el-select class="full-row mb-10" v-model="handleElement.codeOption.format" @change="generateBarCode">
+      <el-option v-for="item in BarCodeStyleLibs" :key="item.index" :value="item.name"></el-option>
     </el-select>
-    <div class="title">{{ $t("style.codeValue") }}：</div>
+    <div class="title">{{ $t('style.codeValue') }}：</div>
     <div class="row">
-      <el-input
-        v-model="handleElement.codeContent"
-        @change="generateBarCode"
-      ></el-input>
+      <el-input v-model="handleElement.codeContent" @change="generateBarCode"></el-input>
     </div>
     <el-row>
       <el-col :span="11">
-        <div class="title">{{ $t("style.width") }}：</div>
+        <div class="title">{{ $t('style.width') }}：</div>
         <div class="row">
           <el-input v-model="handleElement.codeOption.width" @change="generateBarCode"></el-input>
         </div>
       </el-col>
       <el-col :span="2"></el-col>
       <el-col :span="11">
-        <div class="title">{{ $t("style.height") }}：</div>
+        <div class="title">{{ $t('style.height') }}：</div>
         <div class="row">
           <el-input v-model="handleElement.codeOption.height" @change="generateBarCode"></el-input>
         </div>
@@ -39,14 +28,11 @@
 
     <el-row>
       <el-col :span="11">
-        <div class="title">{{ $t("style.bgColor") }}：</div>
+        <div class="title">{{ $t('style.bgColor') }}：</div>
         <div class="row">
           <el-popover trigger="click" width="265">
             <template #reference>
-              <ColorButton
-                :color="handleElement.codeOption.background || '#000'"
-                style="flex: 3"
-              />
+              <ColorButton :color="handleElement.codeOption.background || '#000'" style="flex: 3" />
             </template>
             <ColorPicker
               :modelValue="handleElement.codeOption.background"
@@ -57,14 +43,11 @@
       </el-col>
       <el-col :span="2"></el-col>
       <el-col :span="11">
-        <div class="title">{{ $t("style.codeColor") }}：</div>
+        <div class="title">{{ $t('style.codeColor') }}：</div>
         <div class="row">
           <el-popover trigger="click" width="265">
             <template #reference>
-              <ColorButton
-                :color="handleElement.codeOption.lineColor || '#000'"
-                style="flex: 3"
-              />
+              <ColorButton :color="handleElement.codeOption.lineColor || '#000'" style="flex: 3" />
             </template>
             <ColorPicker
               :modelValue="handleElement.codeOption.lineColor"
@@ -83,66 +66,62 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, onMounted, ref } from "vue";
-import { storeToRefs } from "pinia";
-import { useMainStore, useTemplatesStore } from "@/store";
-import { BarCodeStyleLibs } from "@/configs/codeStyles";
-import { BarCodeElement } from "@/types/canvas";
-import JsBarCode from "jsbarcode";
-import useCanvas from "@/views/Canvas/useCanvas";
-import ElementPosition from "../Components/ElementPosition.vue";
-import ElementOutline from "../Components/ElementOutline.vue";
-import ElementShadow from "../Components/ElementShadow.vue";
+import { computed, onMounted, ref } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useMainStore, useTemplatesStore } from '@/store'
+import { BarCodeStyleLibs } from '@/configs/codeStyles'
+import { BarCodeElement } from '@/types/canvas'
+import JsBarCode from 'jsbarcode'
+import useCanvas from '@/views/Canvas/useCanvas'
+import ElementPosition from '../Components/ElementPosition.vue'
+import ElementOutline from '../Components/ElementOutline.vue'
+import ElementShadow from '../Components/ElementShadow.vue'
 // const carousel = ref<HTMLFormElement>()
-const QRSize = ref(118);
-const mainStore = useMainStore();
-const templatesStore = useTemplatesStore();
-const [canvas] = useCanvas();
-const { canvasObject } = storeToRefs(mainStore);
+const QRSize = ref(118)
+const mainStore = useMainStore()
+const templatesStore = useTemplatesStore()
+const [canvas] = useCanvas()
+const { canvasObject } = storeToRefs(mainStore)
 
-const handleElement = computed(() => canvasObject.value as BarCodeElement);
-const hasShadow = computed(() => (handleElement.value.shadow ? true : false));
+const handleElement = computed(() => canvasObject.value as BarCodeElement)
+const hasShadow = computed(() => (handleElement.value.shadow ? true : false))
 
 // 更新背景颜色
 const updateBackgroundColor = (color: string) => {
-  handleElement.value.codeOption.background = color;
-  generateBarCode();
-};
+  handleElement.value.codeOption.background = color
+  generateBarCode()
+}
 
 // 更新条码颜色
 const updateLineColor = (color: string) => {
-  handleElement.value.codeOption.lineColor = color;
-  generateBarCode();
-};
+  handleElement.value.codeOption.lineColor = color
+  generateBarCode()
+}
 
 // 输入二位码内容
 const updateCodeContent = () => {
-  generateBarCode();
-};
+  generateBarCode()
+}
 
 // 修改码边距
 const updateCodeSpace = () => {
-  generateBarCode();
-};
+  generateBarCode()
+}
 
 // 修改容错率
 const updateCodeError = () => {
-  generateBarCode();
-};
+  generateBarCode()
+}
 
 const generateBarCode = async () => {
-  JsBarCode(
-    "#barcode",
-    handleElement.value.codeContent,
-    handleElement.value.codeOption
-  );
-  const barcode = document.getElementById("barcode");
-  if (!barcode) return;
-  const src = `data:image/svg+xml;base64,` + btoa(new XMLSerializer().serializeToString(barcode));
-  await handleElement.value.setSrc(src);
-  templatesStore.modifedElement(handleElement.value, { src });
-  canvas.renderAll();
-};
+  JsBarCode('#barcode', handleElement.value.codeContent, handleElement.value.codeOption)
+  const barcode = document.getElementById('barcode')
+  if (!barcode) return
+  const src = `data:image/svg+xml;base64,` + btoa(new XMLSerializer().serializeToString(barcode))
+  await handleElement.value.setSrc(src)
+  templatesStore.modifedElement(handleElement.value, { src })
+  canvas.renderAll()
+}
 </script>
 
 <style lang="scss" scoped>
@@ -247,7 +226,7 @@ const generateBarCode = async () => {
 .el-carousel__item div {
   color: #475669;
   opacity: 0.75;
-  line-height: var(--QRSize) + "px";
+  line-height: var(--QRSize) + 'px';
   margin: 0;
   text-align: center;
 }

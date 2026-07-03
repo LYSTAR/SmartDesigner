@@ -107,7 +107,7 @@ export default {
 
     searchTools: 'Search tools',
     barCode: 'Bar code',
-    fabricTable:"Table",
+    fabricTable: 'Table',
     barCodeTips: 'Quickly generate one-dimensional codes, supporting 4 types of coding',
     QRCode: 'QR code',
     QRCodeTips: 'Quickly generate QR codes, supporting 13 styles',
@@ -150,14 +150,14 @@ export default {
     UserGuide: 'UserGuide',
     Shortcuts: 'Shortcuts',
     Suggestions: 'Suggestions',
-    OnlineSupport: 'OnlineSupport'
+    OnlineSupport: 'OnlineSupport',
   },
   default: {
     textValue: 'Double Click Edit Text',
     cancel: 'Cancel',
     ok: 'OK',
     cleanUp: 'Clean Up',
-    direction: 'Direction'
+    direction: 'Direction',
   },
   style: {
     canvas: 'Canvas',
@@ -315,27 +315,27 @@ export default {
     decreaseIndent: 'Decrease Indent',
   },
   waterMark: {
-    text: "Canvas Mark",
-    modalTitle: "WaterMark Setting",
+    text: 'Canvas Mark',
+    modalTitle: 'WaterMark Setting',
     setting: {
-      name: "Name",
-      size: "Size",
-      angle: "Angle",
+      name: 'Name',
+      size: 'Size',
+      angle: 'Angle',
       position: {
-        label: "Position",
-        lt: "Left Top",
-        rt: "Right Top",
-        lb: "Left Bottom",
-        rb: "Right Bottom",
-        full: "Full"
-      }
-    }
+        label: 'Position',
+        lt: 'Left Top',
+        rt: 'Right Top',
+        lb: 'Left Bottom',
+        rb: 'Right Bottom',
+        full: 'Full',
+      },
+    },
   },
   gpt: {
     openGPTTitle: 'Open ChatGPT-4',
     openGPTIntro: 'Contact me to Open ChatGPT-4',
-    
+
     gptTitle: 'Experience GPT',
-    gptIntro: 'Experience GPT'
-  }
-};
+    gptIntro: 'Experience GPT',
+  },
+}

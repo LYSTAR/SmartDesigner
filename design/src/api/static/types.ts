@@ -15,7 +15,6 @@ export interface FontInfoResult {
   data: FontInfo[]
 }
 
-
 export interface QueryPgaes {
   t: string
   page: number

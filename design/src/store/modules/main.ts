@@ -13,8 +13,8 @@ import useCanvas from '@/views/Canvas/useCanvas'
 
 export interface MainState {
   canvasObject: FabricObject | undefined
-  hoveredObject: FabricObject | undefined 
-  leavedObject: FabricObject | undefined 
+  hoveredObject: FabricObject | undefined
+  leavedObject: FabricObject | undefined
   clonedObject: FabricObject | undefined
   currentPoint: PointElement | null
   rightState: RightStates
@@ -56,8 +56,8 @@ export const useMainStore = defineStore('main', {
     illustrationCategoryType: [],
     illustrationCategoryData: ImageCategoryInfo,
     handleElementId: '', // 正在操作的元素ID
-    sizeMode: 0,  // 模板样式
-    unitMode: 0,  // 单位
+    sizeMode: 0, // 模板样式
+    unitMode: 0, // 单位
     gridColorSelf: [[]], // 自定义颜色
     databaseId, // 标识当前应用的indexedDB数据库ID
     selectedTemplatesIndex: [],
@@ -75,21 +75,20 @@ export const useMainStore = defineStore('main', {
 
   getters: {
     activeElementList() {
-    //   const slidesStore = useSlidesStore()
-    //   const currentSlide = slidesStore.currentSlide
-    //   if (!currentSlide || !currentSlide.elements) return []
+      //   const slidesStore = useSlidesStore()
+      //   const currentSlide = slidesStore.currentSlide
+      //   if (!currentSlide || !currentSlide.elements) return []
     },
-  
+
     handleElement() {
-    //   const slidesStore = useSlidesStore()
-    //   const currentSlide = slidesStore.currentSlide
-    //   if (!currentSlide || !currentSlide.elements) return null
-    //   return currentSlide.elements.find(element => state.handleElementId === element.id) || null
+      //   const slidesStore = useSlidesStore()
+      //   const currentSlide = slidesStore.currentSlide
+      //   if (!currentSlide || !currentSlide.elements) return null
+      //   return currentSlide.elements.find(element => state.handleElementId === element.id) || null
     },
   },
 
   actions: {
-    
     setCanvasObject(canvasObject: FabricObject | undefined) {
       this.canvasObject = canvasObject
       // this.getFonts()
@@ -104,22 +103,22 @@ export const useMainStore = defineStore('main', {
     },
 
     setActiveObject() {
-      const [ canvas ] = useCanvas()
+      const [canvas] = useCanvas()
       if (!canvas) return
       const activeObject = canvas._activeObject as CanvasElement | null
     },
     // setHandleElementId(handleElementId: string) {
     //   this.handleElementId = handleElementId
     // },
-    
+
     // setActiveGroupElementId(activeGroupElementId: string) {
     //   this.activeGroupElementId = activeGroupElementId
     // },
-    
+
     // setHiddenElementIdList(hiddenElementIdList: string[]) {
     //   this.hiddenElementIdList = hiddenElementIdList
     // },
-  
+
     // setCanvasDragged(isDragged: boolean) {
     //   this.canvasDragged = isDragged
     // },
@@ -132,7 +131,7 @@ export const useMainStore = defineStore('main', {
     setRightState(rightState: RightStates) {
       this.rightState = rightState
     },
-  
+
     setThumbnailsFocus(isFocus: boolean) {
       this.thumbnailsFocus = isFocus
     },
@@ -150,18 +149,20 @@ export const useMainStore = defineStore('main', {
       const res = await getFontInfo()
       if (res.data.code === 200) {
         // this.onlineFonts = res.data.data
-        const style = document.createElement("style");
-        style.type = "text/css";
+        const style = document.createElement('style')
+        style.type = 'text/css'
         res.data.data.forEach(fontInfo => {
-          this.onlineFonts.push({label: fontInfo.fontname, value: fontInfo.fontname})
-          style.appendChild(document.createTextNode(
-            `@font-face {font-family: '${fontInfo.fontname}'; src: url(${fontInfo.url}) format('truetype');}`
-          ));
+          this.onlineFonts.push({ label: fontInfo.fontname, value: fontInfo.fontname })
+          style.appendChild(
+            document.createTextNode(
+              `@font-face {font-family: '${fontInfo.fontname}'; src: url(${fontInfo.url}) format('truetype');}`
+            )
+          )
         })
-        document.head.appendChild(style);
+        document.head.appendChild(style)
       }
     },
-    
+
     setExportType(type: ExportTypes) {
       this.exportType = type
     },
@@ -169,15 +170,15 @@ export const useMainStore = defineStore('main', {
     setDrawAreaFocus(status: boolean) {
       this.drawAreaFocus = status
     },
-  
+
     // setDisableHotkeysState(disable: boolean) {
     //   this.disableHotkeys = disable
     // },
-  
+
     // setGridLineSize(size: number) {
     //   this.gridLineSize = size
     // },
-  
+
     // setRulerState(show: boolean) {
     //   this.showRuler = show
     // },
@@ -185,15 +186,15 @@ export const useMainStore = defineStore('main', {
     // setClipingImageElementId(elId: string) {
     //   this.clipingImageElementId = elId
     // },
-  
+
     // setSelectedTableCells(cells: string[]) {
     //   this.selectedTableCells = cells
     // },
-  
+
     // setScalingState(isScaling: boolean) {
     //   this.isScaling = isScaling
     // },
-    
+
     updateSelectedTemplatesIndex(selectedTemplatesIndex: number[]) {
       this.selectedTemplatesIndex = selectedTemplatesIndex
     },

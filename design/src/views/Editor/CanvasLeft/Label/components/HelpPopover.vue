@@ -12,31 +12,31 @@
     >
       <el-row class="help-pop-row">
         <IconGuideBoard class="help-pop-icon" />
-        <span class="help-pop-text">{{ $t("message.BeginnerGuide") }}</span>
+        <span class="help-pop-text">{{ $t('message.BeginnerGuide') }}</span>
       </el-row>
       <el-row class="help-pop-row">
         <IconVideoTwo class="help-pop-icon" />
-        <span class="help-pop-text">{{ $t("message.UserGuide") }}</span>
+        <span class="help-pop-text">{{ $t('message.UserGuide') }}</span>
       </el-row>
       <el-row class="help-pop-row" @click="hasHotkey = true">
         <IconKeyboardOne class="help-pop-icon" />
-        <span class="help-pop-text">{{ $t("message.Shortcuts") }}</span>
+        <span class="help-pop-text">{{ $t('message.Shortcuts') }}</span>
       </el-row>
       <el-row class="help-pop-row">
         <IconEdit class="help-pop-icon" />
-        <span class="help-pop-text">{{ $t("message.Suggestions") }}</span>
+        <span class="help-pop-text">{{ $t('message.Suggestions') }}</span>
       </el-row>
       <el-row class="help-pop-row">
         <IconHeadsetOne class="help-pop-icon" />
-        <span class="help-pop-text">{{ $t("message.OnlineSupport") }}</span>
+        <span class="help-pop-text">{{ $t('message.OnlineSupport') }}</span>
       </el-row>
     </el-popover>
   </div>
 </template>
 <script lang="ts" setup>
-import { ref } from "vue";
-const hasHelp = ref(false);
-const hasHotkey = ref(false);
+import { ref } from 'vue'
+const hasHelp = ref(false)
+const hasHotkey = ref(false)
 
 const props = defineProps({
   helpRef: {
@@ -45,15 +45,15 @@ const props = defineProps({
   helpPopoverRef: {
     type: null,
   },
-});
+})
 
 const emit = defineEmits<{
-  (event: "change", payload: FileList): void;
-}>();
+  (event: 'change', payload: FileList): void
+}>()
 
 const setHelp = (val: boolean) => {
-  hasHelp.value = val;
-};
+  hasHelp.value = val
+}
 </script>
 <style lang="scss" scoped>
 .help-pop-row {

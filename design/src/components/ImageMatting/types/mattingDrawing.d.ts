@@ -1,1 +1,1 @@
-export type GLColor = [number, number, number, number];
+export type GLColor = [number, number, number, number]

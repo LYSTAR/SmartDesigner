@@ -6,12 +6,7 @@ class DomListener implements IDisposable {
   private readonly _type: string
   private readonly _options: boolean | AddEventListenerOptions
 
-  constructor(
-    node: EventTarget,
-    type: string,
-    handler: (e: any) => void,
-    options?: boolean | AddEventListenerOptions,
-  ) {
+  constructor(node: EventTarget, type: string, handler: (e: any) => void, options?: boolean | AddEventListenerOptions) {
     this._node = node
     this._type = type
     this._handler = handler
@@ -37,25 +32,25 @@ export function addDisposableListener<K extends keyof GlobalEventHandlersEventMa
   node: EventTarget,
   type: K,
   handler: (event: GlobalEventHandlersEventMap[K]) => void,
-  useCapture?: boolean,
+  useCapture?: boolean
 ): IDisposable
 export function addDisposableListener(
   node: EventTarget,
   type: string,
   handler: (event: any) => void,
-  useCapture?: boolean,
+  useCapture?: boolean
 ): IDisposable
 export function addDisposableListener(
   node: EventTarget,
   type: string,
   handler: (event: any) => void,
-  options: AddEventListenerOptions,
+  options: AddEventListenerOptions
 ): IDisposable
 export function addDisposableListener(
   node: EventTarget,
   type: string,
   handler: (event: any) => void,
-  useCaptureOrOptions?: boolean | AddEventListenerOptions,
+  useCaptureOrOptions?: boolean | AddEventListenerOptions
 ): IDisposable {
   return new DomListener(node, type, handler, useCaptureOrOptions)
 }

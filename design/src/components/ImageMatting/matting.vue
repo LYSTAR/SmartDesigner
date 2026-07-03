@@ -15,12 +15,28 @@
         </div>
         <div class="option">
           <label for="radius">画笔尺寸：</label>
-          <input id="radius" v-model="radius" class="range-input" type="range" :max="RADIUS_SLIDER_MAX" :min="RADIUS_SLIDER_MIN" :step="RADIUS_SLIDER_STEP" />
+          <input
+            id="radius"
+            v-model="radius"
+            class="range-input"
+            type="range"
+            :max="RADIUS_SLIDER_MAX"
+            :min="RADIUS_SLIDER_MIN"
+            :step="RADIUS_SLIDER_STEP"
+          />
           <span>{{ brushSize }}</span>
         </div>
         <div class="option">
           <label for="hardness">画笔硬度：</label>
-          <input id="hardness" v-model="hardness" class="range-input" type="range" :max="HARDNESS_SLIDER_MAX" :min="HARDNESS_SLIDER_MIN" :step="HARDNESS_SLIDER_STEP" />
+          <input
+            id="hardness"
+            v-model="hardness"
+            class="range-input"
+            type="range"
+            :max="HARDNESS_SLIDER_MAX"
+            :min="HARDNESS_SLIDER_MIN"
+            :step="HARDNESS_SLIDER_STEP"
+          />
           <span>{{ hardnessText }}</span>
         </div>
         <button :class="saveBtnClass" :disabled="cantSave" @click="onDownloadResult">{{ saveBtnText }}</button>
@@ -44,7 +60,16 @@
 import { ref, onMounted, Ref, computed, nextTick, watch, defineExpose, onUnmounted, defineComponent } from 'vue'
 import { useMatting, useMattingBoard } from './composables/useMatting'
 import useMattingCursor from './composables/useMattingCursor'
-import { RADIUS_SLIDER_MIN, RADIUS_SLIDER_MAX, RADIUS_SLIDER_STEP, HARDNESS_SLIDER_MAX, HARDNESS_SLIDER_STEP, HARDNESS_SLIDER_MIN, EventType, DEFAULT_MASK_COLOR } from './constants'
+import {
+  RADIUS_SLIDER_MIN,
+  RADIUS_SLIDER_MAX,
+  RADIUS_SLIDER_STEP,
+  HARDNESS_SLIDER_MAX,
+  HARDNESS_SLIDER_STEP,
+  HARDNESS_SLIDER_MIN,
+  EventType,
+  DEFAULT_MASK_COLOR,
+} from './constants'
 
 import { generateResultImageURL, getLoadedImage } from './helpers/domHelper'
 
@@ -64,7 +89,19 @@ export default defineComponent({
     const resultLink: Ref<null | HTMLAnchorElement> = ref(null)
     const generating: Ref<boolean> = ref(false)
     const { picFile, isErasing, radius, hardness, brushSize, hardnessText } = useMatting()
-    const { width, height, inputCtx, inputHiddenCtx, outputCtx, outputHiddenCtx, draggingInputBoard, initialized, mattingSources, transformConfig, inputDrawingCtx } = useMattingBoard({ picFile, isErasing, radius, hardness })
+    const {
+      width,
+      height,
+      inputCtx,
+      inputHiddenCtx,
+      outputCtx,
+      outputHiddenCtx,
+      draggingInputBoard,
+      initialized,
+      mattingSources,
+      transformConfig,
+      inputDrawingCtx,
+    } = useMattingBoard({ picFile, isErasing, radius, hardness })
     const { cursorImage, mattingCursorStyle, renderOutputCursor } = useMattingCursor({
       inputCtx,
       isDragging: draggingInputBoard,
@@ -89,11 +126,11 @@ export default defineComponent({
     const initLoadImages = (source: string, result: string) => {
       nextTick(() => {
         fetch(source)
-          .then((response) => response.blob())
-          .then((blob) => {
+          .then(response => response.blob())
+          .then(blob => {
             picFile.value = new File([blob], `image_${Math.random()}.jpg`, { type: 'image/jpeg' })
           })
-          .catch((error) => {
+          .catch(error => {
             console.error('获取图片失败:', error)
           })
 
@@ -136,13 +173,13 @@ export default defineComponent({
                 }, 100)
               }, 100)
             }, 100)
-          },
+          }
         )
       })
     }
     // 加载网络图片
     function loadNetImg(src: string) {
-      return new Promise((resolve) => {
+      return new Promise(resolve => {
         let image = new Image()
         image.crossOrigin = 'anonymous'
         image.src = src
@@ -302,7 +339,9 @@ export default defineComponent({
     flex: 1 50%;
     border: 1px solid #c3c7c9;
     background: #e3e7e9;
-    background-image: linear-gradient(45deg, #f6fafc 25%, transparent 0), linear-gradient(45deg, transparent 75%, #f6fafc 0), linear-gradient(45deg, #f6fafc 25%, transparent 0), linear-gradient(45deg, transparent 75%, #f6fafc 0);
+    background-image: linear-gradient(45deg, #f6fafc 25%, transparent 0),
+      linear-gradient(45deg, transparent 75%, #f6fafc 0), linear-gradient(45deg, #f6fafc 25%, transparent 0),
+      linear-gradient(45deg, transparent 75%, #f6fafc 0);
     background-position: 0 0, 12px 12px, 12px 12px, 24px 24px;
     background-size: 24px 24px;
   }

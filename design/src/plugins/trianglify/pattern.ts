@@ -1,37 +1,34 @@
 // import { createCanvas } from 'canvas' // this is a simple shim in browsers
 import getScalingRatio from './utils/getScalingRatio'
-const isBrowser = (typeof window !== 'undefined' && typeof document !== 'undefined')
+const isBrowser = typeof window !== 'undefined' && typeof document !== 'undefined'
 const doc = isBrowser && document
 
 // utility for building up SVG node trees with the DOM API
 const sDOM = (tagName, attrs = {}, children, existingRoot) => {
   const elem = existingRoot || doc.createElementNS('http://www.w3.org/2000/svg', tagName)
-  Object.keys(attrs).forEach(
-    k => attrs[k] !== undefined && elem.setAttribute(k, attrs[k])
-  )
+  Object.keys(attrs).forEach(k => attrs[k] !== undefined && elem.setAttribute(k, attrs[k]))
   children && children.forEach(c => elem.appendChild(c))
   return elem
 }
 
 // serialize attrs object to XML attributes. Assumes everything is already
 // escaped (safe input).
-const serializeAttrs = attrs => (
+const serializeAttrs = attrs =>
   Object.entries(attrs)
     .filter(([_, v]) => v !== undefined)
     .map(([k, v]) => `${k}='${v}'`)
     .join(' ')
-)
 
 // minimal XML-tree builder for use in Node
 const sNode = (tagName, attrs = {}, children) => ({
   tagName,
   attrs,
   children,
-  toString: () => `<${tagName} ${serializeAttrs(attrs)}>${children ? children.join('') : ''}</${tagName}>`
+  toString: () => `<${tagName} ${serializeAttrs(attrs)}>${children ? children.join('') : ''}</${tagName}>`,
 })
 
 export default class Pattern {
-  constructor (points, polys, opts) {
+  constructor(points, polys, opts) {
     this.points = points
     this.polys = polys
     this.opts = opts
@@ -46,11 +43,10 @@ export default class Pattern {
 
     // only round points if the coordinateDecimals option is non-negative
     // set coordinateDecimals to -1 to disable point rounding
-    const roundedPoints = (svgOpts.coordinateDecimals < 0) ? points : points.map(
-      p => p.map(x => +x.toFixed(svgOpts.coordinateDecimals))
-    )
+    const roundedPoints =
+      svgOpts.coordinateDecimals < 0 ? points : points.map(p => p.map(x => +x.toFixed(svgOpts.coordinateDecimals)))
 
-    const paths = polys.map((poly) => {
+    const paths = polys.map(poly => {
       const xys = poly.vertexIndices.map(i => `${roundedPoints[i][0]},${roundedPoints[i][1]}`)
       const d = 'M' + xys.join('L') + 'Z'
       const hasStroke = opts.strokeWidth > 0
@@ -63,7 +59,7 @@ export default class Pattern {
         stroke: hasStroke ? poly.color.css() : undefined,
         'stroke-width': hasStroke ? opts.strokeWidth : undefined,
         'stroke-linejoin': hasStroke ? 'round' : undefined,
-        'shape-rendering': opts.fill ? 'crispEdges' : undefined
+        'shape-rendering': opts.fill ? 'crispEdges' : undefined,
       })
     })
 
@@ -72,7 +68,7 @@ export default class Pattern {
       {
         xmlns: svgOpts.includeNamespace ? 'http://www.w3.org/2000/svg' : undefined,
         width,
-        height
+        height,
       },
       paths,
       destSVG
@@ -81,7 +77,7 @@ export default class Pattern {
     return svg
   }
 
-  toSVGTree = (svgOpts) => this._toSVG(sNode, null, svgOpts)
+  toSVGTree = svgOpts => this._toSVG(sNode, null, svgOpts)
 
   toSVG = isBrowser
     ? (destSVG, svgOpts) => this._toSVG(sDOM, destSVG, svgOpts)
@@ -90,7 +86,7 @@ export default class Pattern {
   toCanvas = (destCanvas, _canvasOpts = {}) => {
     const defaultCanvasOptions = {
       scaling: isBrowser ? 'auto' : false,
-      applyCssScaling: !!isBrowser
+      applyCssScaling: !!isBrowser,
     }
     const canvasOpts = { ...defaultCanvasOptions, ..._canvasOpts }
     const { points, polys, opts } = this
@@ -100,9 +96,7 @@ export default class Pattern {
     const ctx = canvas.getContext('2d')
 
     if (canvasOpts.scaling) {
-      const drawRatio = canvasOpts.scaling === 'auto'
-        ? getScalingRatio(ctx)
-        : canvasOpts.scaling
+      const drawRatio = canvasOpts.scaling === 'auto' ? getScalingRatio(ctx) : canvasOpts.scaling
 
       if (drawRatio !== 1) {
         // set the 'real' canvas size to the higher width/height
@@ -152,11 +146,13 @@ export default class Pattern {
     }
 
     // draw visible fills and strokes
-    polys.forEach(poly => drawPoly(
-      poly,
-      opts.fill && { color: poly.color },
-      (opts.strokeWidth > 0) && { color: poly.color, width: opts.strokeWidth }
-    ))
+    polys.forEach(poly =>
+      drawPoly(
+        poly,
+        opts.fill && { color: poly.color },
+        opts.strokeWidth > 0 && { color: poly.color, width: opts.strokeWidth }
+      )
+    )
 
     return canvas
   }

@@ -1,10 +1,5 @@
 <template>
-  <div 
-    ref="wrapperRef" 
-    @mousedown="addDrawAreaFocus"
-    v-contextmenu="contextMenus" 
-    v-click-outside="remDrawAreaFocus"
-  >
+  <div ref="wrapperRef" @mousedown="addDrawAreaFocus" v-contextmenu="contextMenus" v-click-outside="remDrawAreaFocus">
     <canvas ref="canvasRef" class="background-grid"></canvas>
   </div>
 </template>
@@ -14,7 +9,7 @@ import { storeToRefs } from 'pinia'
 import { onMounted, onUnmounted } from 'vue'
 import { useFabricStore, useMainStore, useTemplatesStore } from '@/store'
 import { useRouter } from 'vue-router'
-import { unzip } from "@/utils/crypto"
+import { unzip } from '@/utils/crypto'
 import { getTemplateData } from '@/api/template'
 import { contextMenus } from '@/configs/contextMenu'
 import { initEditor } from '@/views/Canvas/useCanvas'
@@ -27,7 +22,6 @@ const templatesStore = useTemplatesStore()
 const { wrapperRef, canvasRef } = storeToRefs(fabricStore)
 const { drawAreaFocus } = storeToRefs(mainStore)
 const { keydownListener, keyupListener, pasteListener } = useCanvasHotkey()
-
 
 const addDrawAreaFocus = () => {
   if (!drawAreaFocus.value) mainStore.setDrawAreaFocus(true)
@@ -45,8 +39,7 @@ const getTemplateDetail = async (pk: number) => {
       console.log('result.data.data.id:', result.data.data.id)
       const data = unzip(result.data.data.data)
       await templatesStore.changeTemplate(data)
-    } 
-    catch (error) {
+    } catch (error) {
       ElMessage({
         type: 'error',
         message: '模板加载失败,请联系管理员修改bug了',
@@ -80,7 +73,6 @@ onUnmounted(() => {
   window.removeEventListener('blur', keyupListener)
   window.removeEventListener('paste', pasteListener as any)
 })
-
 </script>
 
 <style lang="scss" scoped>

@@ -1,6 +1,6 @@
 <template>
   <div class="shape-style-panel">
-    <ElementPosition/>
+    <ElementPosition />
     <el-divider style="margin: 12px 0" />
     <ElementFill />
     <el-divider style="margin: 12px 0" />
@@ -18,7 +18,6 @@ import ElementOpacity from '../Components/ElementOpacity.vue'
 import ElementOutline from '../Components/ElementOutline.vue'
 import ElementShadow from '../Components/ElementShadow.vue'
 import ElementFill from '../Backgrounds/ElementFill.vue'
-
 </script>
 
 <style lang="scss" scoped>

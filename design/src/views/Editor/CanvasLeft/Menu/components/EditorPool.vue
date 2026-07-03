@@ -4,7 +4,16 @@
       <div class="font-bold text-lg mb-6px">{{ $t('message.files') }}</div>
       <el-row :gutter="10" class="mt-10">
         <el-col :span="8">
-          <el-upload ref="uploadRef" :on-exceed="handleExceed" action="http" :http-request="uploadHandle" :limit="1" :accept="fileAccept" v-loading="uploading" class="edit-upload">
+          <el-upload
+            ref="uploadRef"
+            :on-exceed="handleExceed"
+            action="http"
+            :http-request="uploadHandle"
+            :limit="1"
+            :accept="fileAccept"
+            v-loading="uploading"
+            class="edit-upload"
+          >
             <div class="item-box">
               <IconUpload class="icon-font" />
               <div class="mt-8px">{{ $t('message.uploadFiles') }}</div>
@@ -60,8 +69,22 @@
         <el-col :span="8" v-for="(shape, index) in PathShapeLibs" :key="index" @click="drawPath(shape)">
           <div class="item-box">
             <svg overflow="visible" width="20" height="20">
-              <g :transform="`scale(${20 / shape.viewBox[0]}, ${20 / shape.viewBox[1]}) translate(0,0) matrix(1,0,0,1,0,0)`">
-                <path class="shape-path" :class="{ outlined: shape.outlined }" vector-effect="non-scaling-stroke" stroke-linecap="butt" stroke-miterlimit="8" :fill="shape.outlined ? '#999' : 'transparent'" :stroke="shape.outlined ? 'transparent' : '#999'" stroke-width="2" :d="shape.path"></path>
+              <g
+                :transform="`scale(${20 / shape.viewBox[0]}, ${
+                  20 / shape.viewBox[1]
+                }) translate(0,0) matrix(1,0,0,1,0,0)`"
+              >
+                <path
+                  class="shape-path"
+                  :class="{ outlined: shape.outlined }"
+                  vector-effect="non-scaling-stroke"
+                  stroke-linecap="butt"
+                  stroke-miterlimit="8"
+                  :fill="shape.outlined ? '#999' : 'transparent'"
+                  :stroke="shape.outlined ? 'transparent' : '#999'"
+                  stroke-width="2"
+                  :d="shape.path"
+                ></path>
               </g>
             </svg>
           </div>
@@ -70,8 +93,24 @@
           <div class="item-box">
             <svg overflow="visible" width="20" height="20">
               <defs>
-                <LinePointMarker class="line-marker" v-if="line.points[0]" :id="`preset-line-${j}`" position="start" :type="line.points[0]" color="currentColor" :baseSize="2" />
-                <LinePointMarker class="line-marker" v-if="line.points[1]" :id="`preset-line-${j}`" position="end" :type="line.points[1]" color="currentColor" :baseSize="2" />
+                <LinePointMarker
+                  class="line-marker"
+                  v-if="line.points[0]"
+                  :id="`preset-line-${j}`"
+                  position="start"
+                  :type="line.points[0]"
+                  color="currentColor"
+                  :baseSize="2"
+                />
+                <LinePointMarker
+                  class="line-marker"
+                  v-if="line.points[1]"
+                  :id="`preset-line-${j}`"
+                  position="end"
+                  :type="line.points[1]"
+                  color="currentColor"
+                  :baseSize="2"
+                />
               </defs>
               <path
                 class="line-path"
@@ -95,25 +134,25 @@
         <el-col :span="8">
           <div class="item-box" @click="drawTable">
             <IconInsertTable class="icon-font" />
-            <div class="mt-5px">{{ $t("message.fabricTable") }}</div>
+            <div class="mt-5px">{{ $t('message.fabricTable') }}</div>
           </div>
         </el-col>
         <el-col :span="8">
           <div class="item-box" @click="createBarElement">
             <IconPayCodeTwo class="icon-font" />
-            <div class="mt-5px">{{ $t("message.barCode") }}</div>
+            <div class="mt-5px">{{ $t('message.barCode') }}</div>
           </div>
         </el-col>
         <el-col :span="8">
           <div class="item-box" @click="createQRElement('A1')">
             <IconTwoDimensionalCodeTwo class="icon-font" />
-            <div class="mt-5px">{{ $t("message.QRCode") }}</div>
+            <div class="mt-5px">{{ $t('message.QRCode') }}</div>
           </div>
         </el-col>
         <el-col :span="8">
           <div class="item-box" @click="openUpload">
             <IconMagicWand class="icon-font" />
-            <div class="mt-5px">{{ $t("message.AICutoutImage") }}</div>
+            <div class="mt-5px">{{ $t('message.AICutoutImage') }}</div>
           </div>
         </el-col>
       </el-row>
@@ -123,43 +162,58 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
-import { ShapePathFormulasKeys, PathListItem } from "@/types/elements";
-import { ElMessage, genFileId, UploadInstance, UploadProps, UploadRawFile } from "element-plus"
-import { encodeData, renderer25D, rendererRect, rendererRound, rendererRandRound, rendererDSJ, rendererRandRect, rendererImage, rendererCircle, rendererLine, rendererLine2, rendererFuncA, rendererFuncB, CodeOption } from "beautify-qrcode";
+import { ref } from 'vue'
+import { ShapePathFormulasKeys, PathListItem } from '@/types/elements'
+import { ElMessage, genFileId, UploadInstance, UploadProps, UploadRawFile } from 'element-plus'
+import {
+  encodeData,
+  renderer25D,
+  rendererRect,
+  rendererRound,
+  rendererRandRound,
+  rendererDSJ,
+  rendererRandRect,
+  rendererImage,
+  rendererCircle,
+  rendererLine,
+  rendererLine2,
+  rendererFuncA,
+  rendererFuncB,
+  CodeOption,
+} from 'beautify-qrcode'
 import { PathPoolItem } from '@/types/elements'
-import { QRCodeType, Template } from "@/types/canvas";
-import { getImageDataURL, getImageText } from "@/utils/image";
-import { LinePoolItems, LinePoolItem } from "@/configs/lines";
+import { QRCodeType, Template } from '@/types/canvas'
+import { getImageDataURL, getImageText } from '@/utils/image'
+import { LinePoolItems, LinePoolItem } from '@/configs/lines'
 import { loadSVGFromString } from 'fabric'
 import { uploadFile } from '@/api/file'
 import useCanvasScale from '@/hooks/useCanvasScale'
 import useHandleCreate from '@/hooks/useHandleCreate'
 import useHandleTemplate from '@/hooks/useHandleTemplate'
-import JsBarCode from "jsbarcode";
-import useI18n from "@/hooks/useI18n";
-import useCanvas from "@/views/Canvas/useCanvas";
+import JsBarCode from 'jsbarcode'
+import useI18n from '@/hooks/useI18n'
+import useCanvas from '@/views/Canvas/useCanvas'
 
-const { t } = useI18n();
+const { t } = useI18n()
 const { addTemplate } = useHandleTemplate()
 const { setCanvasTransform } = useCanvasScale()
-const { 
-  createQRCodeElement, 
-  createBarCodeElement, 
-  createImageElement, 
-  createTextElement, 
-  createPathElement, 
-  createLineElement, 
-  createArcTextElement, 
-  createVerticalTextElement, 
+const {
+  createQRCodeElement,
+  createBarCodeElement,
+  createImageElement,
+  createTextElement,
+  createPathElement,
+  createLineElement,
+  createArcTextElement,
+  createVerticalTextElement,
   createVideoElement,
-  createTableElement
-} = useHandleCreate();
-const codeContent = ref<string>(window.location.href);
-const codeSpace = ref<boolean>(true);
-const codeError = ref<number>(0);
+  createTableElement,
+} = useHandleCreate()
+const codeContent = ref<string>(window.location.href)
+const codeSpace = ref<boolean>(true)
+const codeError = ref<number>(0)
 const uploadRef = ref<UploadInstance>()
-const dialogVisible = ref(false);
+const dialogVisible = ref(false)
 const generateQRCodeMap = {
   A1: rendererRect,
   A2: rendererRound,
@@ -173,24 +227,24 @@ const generateQRCodeMap = {
   A_a2: rendererLine2,
   A_b1: rendererFuncA,
   A_b2: rendererFuncB,
-};
-const fileAccept = ref(".pdf,.psd,.cdr,.ai,.svg,.jpg,.jpeg,.png,.webp,.json,.mp4");
-const uploading = ref(false);
+}
+const fileAccept = ref('.pdf,.psd,.cdr,.ai,.svg,.jpg,.jpeg,.png,.webp,.json,.mp4')
+const uploading = ref(false)
 const PathShapeLibs: PathPoolItem[] = [
   {
     viewBox: [200, 200],
-    path: "M 0 0 L 200 0 L 200 200 L 0 200 Z",
+    path: 'M 0 0 L 200 0 L 200 200 L 0 200 Z',
   },
   {
     viewBox: [200, 200],
-    path: "M 100 0 L 0 200 L 200 200 L 100 0 Z",
+    path: 'M 100 0 L 0 200 L 200 200 L 100 0 Z',
     pathFormula: ShapePathFormulasKeys.TRIANGLE,
   },
   {
     viewBox: [200, 200],
-    path: "M 100 0 A 50 50 0 1 1 100 200 A 50 50 0 1 1 100 0 Z",
+    path: 'M 100 0 A 50 50 0 1 1 100 200 A 50 50 0 1 1 100 0 Z',
   },
-];
+]
 
 // 获取qrcode
 const getEncodeData = (width = 118, height = 118) => {
@@ -200,91 +254,91 @@ const getEncodeData = (width = 118, height = 118) => {
     height,
     correctLevel: codeError.value,
     isSpace: codeSpace.value,
-  };
-  return encodeData(codeOption);
-};
+  }
+  return encodeData(codeOption)
+}
 
 const createBarElement = () => {
   const codeOption: JsBarCode.BaseOptions = {
-    format: "pharmacode",
-    lineColor: "#0aa",
+    format: 'pharmacode',
+    lineColor: '#0aa',
     width: 4,
     height: 40,
     displayValue: false,
-  };
-  JsBarCode("#barcode", "1234", codeOption);
-  const barcode = document.getElementById("barcode");
-  if (!barcode) return;
-  const s = new XMLSerializer().serializeToString(barcode);
-  const src = `data:image/svg+xml;base64,` + btoa(s);
-  createBarCodeElement(src, "1234", codeOption);
-};
+  }
+  JsBarCode('#barcode', '1234', codeOption)
+  const barcode = document.getElementById('barcode')
+  if (!barcode) return
+  const s = new XMLSerializer().serializeToString(barcode)
+  const src = `data:image/svg+xml;base64,` + btoa(s)
+  createBarCodeElement(src, '1234', codeOption)
+}
 
 const createQRElement = (style: QRCodeType) => {
-  const src = `data:image/svg+xml;base64,` + btoa(generateQRCodeMap[style](getEncodeData(118, 118)));
+  const src = `data:image/svg+xml;base64,` + btoa(generateQRCodeMap[style](getEncodeData(118, 118)))
   const codeOption = {
     codeStyle: style,
     codeSpace: codeSpace.value,
     codeError: codeError.value,
-  };
-  createQRCodeElement(src, codeOption, codeContent.value);
-};
+  }
+  createQRCodeElement(src, codeOption, codeContent.value)
+}
 
 const openUpload = () => {
-  dialogVisible.value = true;
-};
+  dialogVisible.value = true
+}
 
 const closeUpload = () => {
-  dialogVisible.value = false;
-};
+  dialogVisible.value = false
+}
 
 // 上传文件
 const uploadHandle = async (option: any) => {
-  const [canvas] = useCanvas();
-  const filename = option.file.name;
-  const fileSuffix = filename.split(".").pop();
-  if (!fileAccept.value.split(",").includes(`.${fileSuffix}`)) return;
-  if (fileSuffix === "svg") {
-    const dataText = await getImageText(option.file);
-    const content = await loadSVGFromString(dataText);
-    canvas.add(...content.objects as any);
-    canvas.renderAll();
+  const [canvas] = useCanvas()
+  const filename = option.file.name
+  const fileSuffix = filename.split('.').pop()
+  if (!fileAccept.value.split(',').includes(`.${fileSuffix}`)) return
+  if (fileSuffix === 'svg') {
+    const dataText = await getImageText(option.file)
+    const content = await loadSVGFromString(dataText)
+    canvas.add(...(content.objects as any))
+    canvas.renderAll()
   }
-  if (fileSuffix === "json") {
-    const dataText = await getImageText(option.file);
-    const template = JSON.parse(dataText);
-    addTemplate(template);
+  if (fileSuffix === 'json') {
+    const dataText = await getImageText(option.file)
+    const template = JSON.parse(dataText)
+    addTemplate(template)
   }
-  if (["jpg", "jpeg", "png", "webp"].includes(fileSuffix)) {
-    const dataURL = await getImageDataURL(option.file);
-    createImageElement(dataURL);
+  if (['jpg', 'jpeg', 'png', 'webp'].includes(fileSuffix)) {
+    const dataURL = await getImageDataURL(option.file)
+    createImageElement(dataURL)
   }
   if (['mp4'].includes(fileSuffix)) {
     const dataURL = URL.createObjectURL(option.file)
     createVideoElement(dataURL)
   }
   //   uploading.value = true
-  const res = await uploadFile(option.file, fileSuffix);
-  uploading.value = false;
+  const res = await uploadFile(option.file, fileSuffix)
+  uploading.value = false
   if (res && res.data.code === 200) {
-    const template = res.data.data as Template;
-    if (!template) return;
-    await addTemplate(template);
-    setCanvasTransform();
+    const template = res.data.data as Template
+    if (!template) return
+    await addTemplate(template)
+    setCanvasTransform()
   }
-};
+}
 
-const handleExceed: UploadProps["onExceed"] = (files: File[]) => {
-  uploadRef.value!.clearFiles();
-  const file = files[0] as UploadRawFile;
-  file.uid = genFileId();
-  uploadRef.value!.handleStart(file);
-};
+const handleExceed: UploadProps['onExceed'] = (files: File[]) => {
+  uploadRef.value!.clearFiles()
+  const file = files[0] as UploadRawFile
+  file.uid = genFileId()
+  uploadRef.value!.handleStart(file)
+}
 
 // 添加标题文字
-const drawText = (fontSize: number, textStyle: "transverse" | "direction" = "transverse", textHollow = false) => {
-  createTextElement(fontSize, textStyle, textHollow);
-};
+const drawText = (fontSize: number, textStyle: 'transverse' | 'direction' = 'transverse', textHollow = false) => {
+  createTextElement(fontSize, textStyle, textHollow)
+}
 
 // 添加环形文字
 const drawArcText = () => {
@@ -297,19 +351,19 @@ const drawVerticalText = (fontSize: number) => {
 
 // 添加形状
 const drawPath = (shape: PathPoolItem) => {
-  createPathElement(shape.path);
-};
+  createPathElement(shape.path)
+}
 
 // 添加线条
 const drawLine = (line: LinePoolItem) => {
-  const strokeDashArray: [number, number] | undefined = line.style === "dashed" ? [6, 6] : undefined;
-  createLineElement(line.data, line.points[0], line.points[1], strokeDashArray);
-};
+  const strokeDashArray: [number, number] | undefined = line.style === 'dashed' ? [6, 6] : undefined
+  createLineElement(line.data, line.points[0], line.points[1], strokeDashArray)
+}
 
 // 添加表格
 const drawTable = () => {
-  console.log("==>")
-  createTableElement();
+  console.log('==>')
+  createTableElement()
 }
 </script>
 

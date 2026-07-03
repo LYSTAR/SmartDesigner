@@ -1,7 +1,7 @@
 import { watch } from 'vue'
 import { storeToRefs } from 'pinia'
 import { Canvas, FabricObject, Textbox, Group, Point, IText, Line, ModifiedEvent } from 'fabric'
-import { WorkSpaceThumbType, WorkSpaceDrawType, propertiesToInclude } from "@/configs/canvas"
+import { WorkSpaceThumbType, WorkSpaceDrawType, propertiesToInclude } from '@/configs/canvas'
 import { useFabricStore } from '@/store/modules/fabric'
 import { useElementBounding } from '@vueuse/core'
 import { FabricTool } from '@/app/fabricTool'
@@ -19,9 +19,6 @@ import { useTemplatesStore } from '@/store'
 import useCommon from './useCommon'
 import { SnapshotType, Snapshot } from '@/types/history'
 import useHistorySnapshot from '@/hooks/useHistorySnapshot'
-
-
-
 
 let canvas: null | FabricCanvas = null
 
@@ -76,20 +73,22 @@ const setCanvasTransform = () => {
   const fabricStore = useFabricStore()
   const { zoom, wrapperRef, scalePercentage } = storeToRefs(fabricStore)
   const { width, height } = useElementBounding(wrapperRef.value)
-  canvas.setDimensions({width: width.value, height: height.value})
+  canvas.setDimensions({ width: width.value, height: height.value })
   const objects = canvas.getObjects().filter(ele => !WorkSpaceThumbType.includes(ele.id))
   const boundingBox = getObjectsBoundingBox(objects)
   if (!boundingBox) return
-  let boxWidth = boundingBox.width, boxHeight = boundingBox.height
-  let centerX = boundingBox.centerX, centerY = boundingBox.centerY
+  let boxWidth = boundingBox.width,
+    boxHeight = boundingBox.height
+  let centerX = boundingBox.centerX,
+    centerY = boundingBox.centerY
   const workSpaceDraw = canvas.getObjects().filter(item => item.id === WorkSpaceDrawType)[0]
   if (workSpaceDraw) {
     boxWidth = workSpaceDraw.width
     boxHeight = workSpaceDraw.height
     centerX = workSpaceDraw.left + workSpaceDraw.width / 2
-    centerY = workSpaceDraw.top + workSpaceDraw.height / 2 
+    centerY = workSpaceDraw.top + workSpaceDraw.height / 2
   }
-  zoom.value = Math.min(canvas.getWidth() / boxWidth, canvas.getHeight() / boxHeight) * scalePercentage.value / 100
+  zoom.value = (Math.min(canvas.getWidth() / boxWidth, canvas.getHeight() / boxHeight) * scalePercentage.value) / 100
   canvas.setZoom(zoom.value)
   canvas.absolutePan(new Point(centerX, centerY).scalarMultiply(zoom.value).subtract(canvas.getCenterPoint()), true)
 }
@@ -102,7 +101,7 @@ const initCanvas = () => {
   if (!canvasRef.value) return
   canvas = new FabricCanvas(canvasRef.value, {
     width: fabricWidth,
-    height: fabricHeight
+    height: fabricHeight,
   })
   // const keybinding = new Keybinding()
   new FabricTool(canvas)
@@ -120,7 +119,7 @@ const initEvent = () => {
   const templatesStore = useTemplatesStore()
   const { templateId } = storeToRefs(templatesStore)
   canvas.on('object:modified', (e: ModifiedEvent) => {
-    const { transform, action } = e; 
+    const { transform, action } = e
     const target = canvas?._activeObject?.toObject(propertiesToInclude)
     const index = canvas?._objects.findIndex(item => item.id === target.id)
     if (!index) return
@@ -130,8 +129,8 @@ const initEvent = () => {
       target,
       transform,
       action,
-      tid: templateId.value
-    };
+      tid: templateId.value,
+    }
     const { addHistorySnapshot } = useHistorySnapshot()
     addHistorySnapshot(data)
   })

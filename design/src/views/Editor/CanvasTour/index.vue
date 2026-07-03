@@ -49,14 +49,14 @@
 </template>
 
 <script setup>
-import { ref } from "vue";
-import { localStorage } from "@/utils/storage";
+import { ref } from 'vue'
+import { localStorage } from '@/utils/storage'
 
-const open = ref(localStorage.get("YFT_DESIGN_TOUR") ?? true);
+const open = ref(localStorage.get('YFT_DESIGN_TOUR') ?? true)
 const closeTour = () => {
-  open.value = false;
-  localStorage.set("YFT_DESIGN_TOUR", false);
-};
+  open.value = false
+  localStorage.set('YFT_DESIGN_TOUR', false)
+}
 </script>
 
 <style lang="scss" scoped></style>

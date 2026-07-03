@@ -12,25 +12,23 @@ import { isExternal } from '@/utils/common'
 const props = defineProps({
   iconClass: {
     type: String,
-    required: true
+    required: true,
   },
   className: {
     type: String,
-    default: ''
+    default: '',
   },
 })
 
 const isExternalChar = computed(() => isExternal(props.iconClass))
 const iconName = computed(() => `#icon-${props.iconClass}`)
-const svgClass = computed(() => props.className ? `svg-icon ${props.className}` : `svg-icon`)
+const svgClass = computed(() => (props.className ? `svg-icon ${props.className}` : `svg-icon`))
 const styleExternalIcon = computed(() => {
   return {
-    mask: `url(${props.iconClass}) no-repeat 50% 50%`, 
-    '-webkit-mask': `url(${props.iconClass}) no-repeat 50% 50%`
+    mask: `url(${props.iconClass}) no-repeat 50% 50%`,
+    '-webkit-mask': `url(${props.iconClass}) no-repeat 50% 50%`,
   }
 })
-
-
 </script>
 
 <style scoped>

@@ -1,4 +1,4 @@
-import { Template } from "@/types/canvas"
+import { Template } from '@/types/canvas'
 
 export interface SVGInfo {
   width: number
@@ -42,4 +42,3 @@ export interface ImgData {
   dateTime: string
   imgPath: string
 }
-

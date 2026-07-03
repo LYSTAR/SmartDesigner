@@ -7,11 +7,17 @@
       <div>
         <el-button text>分享</el-button>
         <el-button type="primary" @click="exportFile">下载</el-button>
-        <el-button text href="https://github.com/LYSTAR/SmartDesigner" tag="a" target="_blank" rel="noopener noreferrer">
+        <el-button
+          text
+          href="https://github.com/LYSTAR/SmartDesigner"
+          tag="a"
+          target="_blank"
+          rel="noopener noreferrer"
+        >
           <!-- <a href="https://github.com/LYSTAR/SmartDesigner" target="_blank" rel="noopener noreferrer"> -->
-            <!-- <el-tooltip placement="top" :hide-after="0" :content="t('message.github')"> -->
-            <IconGithub class="footer-button"></IconGithub>
-            <!-- </el-tooltip> -->
+          <!-- <el-tooltip placement="top" :hide-after="0" :content="t('message.github')"> -->
+          <IconGithub class="footer-button"></IconGithub>
+          <!-- </el-tooltip> -->
           <!-- </a> -->
         </el-button>
       </div>
@@ -20,7 +26,7 @@
       <div class="right-tabs">
         <div
           class="tab"
-          :class="[ tab.value === rightState && currentTabs.length > 1 ? 'active' : 'no-active' ]"
+          :class="[tab.value === rightState && currentTabs.length > 1 ? 'active' : 'no-active']"
           v-for="tab in currentTabs"
           :key="tab.value"
           @click="setRightState(tab.value)"
@@ -36,22 +42,21 @@
   </div>
 </template>
 <script lang="ts" setup>
-import { computed, watch } from "vue";
-import { RightStates, ElementNames } from "@/types/elements";
-import { storeToRefs } from "pinia";
-import { useMainStore } from "@/store/modules/main";
-import Lang from "@/components/Lang/index.vue";
-import CanvasStylePanel from "./CanvasStylePanel/index.vue";
-import ElemnetStylePanel from "./ElementStylePanel/index.vue";
-import EffectStylePanel from "./EffectStylePanel/index.vue";
-import LayerStylePanel from "./LayerStylePanel/index.vue";
-import useI18n from "@/hooks/useI18n";
-const { t } = useI18n();
+import { computed, watch } from 'vue'
+import { RightStates, ElementNames } from '@/types/elements'
+import { storeToRefs } from 'pinia'
+import { useMainStore } from '@/store/modules/main'
+import Lang from '@/components/Lang/index.vue'
+import CanvasStylePanel from './CanvasStylePanel/index.vue'
+import ElemnetStylePanel from './ElementStylePanel/index.vue'
+import EffectStylePanel from './EffectStylePanel/index.vue'
+import LayerStylePanel from './LayerStylePanel/index.vue'
+import useI18n from '@/hooks/useI18n'
+const { t } = useI18n()
 
-const mainStore = useMainStore();
-const { canvasObject, rightState } = storeToRefs(mainStore);
+const mainStore = useMainStore()
+const { canvasObject, rightState } = storeToRefs(mainStore)
 const exportFileDialog = ref(false)
-
 
 const exportFileHide = () => {
   exportFileDialog.value = false
@@ -66,32 +71,30 @@ const exportFile = () => {
 }
 
 const canvasTabs = [
-  { label: t("style.canvas"), value: RightStates.ELEMENT_CANVAS },
-  { label: t("style.layer"), value: RightStates.ELEMENT_LAYER },
-];
+  { label: t('style.canvas'), value: RightStates.ELEMENT_CANVAS },
+  { label: t('style.layer'), value: RightStates.ELEMENT_LAYER },
+]
 const styleTabs = [
-  { label: t("style.style"), value: RightStates.ELEMENT_STYLE },
-  { label: t("style.layer"), value: RightStates.ELEMENT_LAYER },
-];
+  { label: t('style.style'), value: RightStates.ELEMENT_STYLE },
+  { label: t('style.layer'), value: RightStates.ELEMENT_LAYER },
+]
 
 const setRightState = (value: RightStates) => {
-  mainStore.setRightState(value);
-};
+  mainStore.setRightState(value)
+}
 
 const currentTabs = computed(() => {
-  if (!canvasObject.value) return canvasTabs;
-  if (canvasObject.value.type.toLowerCase() === ElementNames.REFERENCELINE) return canvasTabs;
-  return styleTabs;
-});
+  if (!canvasObject.value) return canvasTabs
+  if (canvasObject.value.type.toLowerCase() === ElementNames.REFERENCELINE) return canvasTabs
+  return styleTabs
+})
 
 watch(currentTabs, () => {
-  const currentTabsValue: RightStates[] = currentTabs.value.map(
-    (tab) => tab.value
-  );
+  const currentTabsValue: RightStates[] = currentTabs.value.map(tab => tab.value)
   if (!currentTabsValue.includes(rightState.value)) {
-    mainStore.setRightState(currentTabsValue[0]);
+    mainStore.setRightState(currentTabsValue[0])
   }
-});
+})
 
 const currentPanelComponent = computed(() => {
   const panelMap = {
@@ -99,11 +102,10 @@ const currentPanelComponent = computed(() => {
     [RightStates.ELEMENT_STYLE]: ElemnetStylePanel,
     [RightStates.ELEMENT_EFFECT]: EffectStylePanel,
     [RightStates.ELEMENT_LAYER]: LayerStylePanel,
-  };
-  return panelMap[rightState.value as RightStates.ELEMENT_STYLE];
-});
+  }
+  return panelMap[rightState.value as RightStates.ELEMENT_STYLE]
+})
 </script>
-
 
 <style lang="scss" scoped>
 .right-top {

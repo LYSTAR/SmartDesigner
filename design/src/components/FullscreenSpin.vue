@@ -26,6 +26,6 @@ const props = defineProps({
   display: flex;
   justify-content: center;
   align-items: center;
-  background-color: rgba($color: #f1f1f1, $alpha: .7);
+  background-color: rgba($color: #f1f1f1, $alpha: 0.7);
 }
 </style>

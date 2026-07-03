@@ -46,7 +46,6 @@ export interface OauthCheckData {
   password: string
 }
 
-
 export interface RegisterResult {
   code: string
 }

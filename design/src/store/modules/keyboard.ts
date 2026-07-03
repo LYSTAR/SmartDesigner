@@ -32,6 +32,6 @@ export const useKeyboardStore = defineStore('keyboard', {
     },
     setSpaceKeyState(active: boolean) {
       this.spaceKeyState = active
-    }
+    },
   },
 })

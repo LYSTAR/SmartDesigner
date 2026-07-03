@@ -27,7 +27,7 @@ const components = {
   ImageMatting,
   ImageFillColor,
   HomePopover,
-  LoginDialog
+  LoginDialog,
 }
 
 export default {
@@ -35,5 +35,5 @@ export default {
     for (const key of Object.keys(components)) {
       app.component(key, components[key as keyof typeof components])
     }
-  }
+  },
 }

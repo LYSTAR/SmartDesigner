@@ -6,7 +6,7 @@
  * @LastEditTime: 2024-04-14 10:25:55
 -->
 <template>
-   <div>
+  <div>
     <el-row>
       <el-col :span="18">
         <el-button size="large" class="full-btn">{{ $t('style.specialEffects') }}</el-button>
@@ -23,14 +23,13 @@
 <script lang="ts" setup>
 import { storeToRefs } from 'pinia'
 import { useMainStore } from '@/store'
-import { RightStates } from "@/types/elements";
+import { RightStates } from '@/types/elements'
 
 const { rightState } = storeToRefs(useMainStore())
 
 const changeElementEffect = () => {
   rightState.value = RightStates.ELEMENT_EFFECT
 }
-
 </script>
 
 <style lang="scss" scoped>

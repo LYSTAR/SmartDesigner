@@ -4,8 +4,8 @@
       <div class="row">
         <div class="title">{{ t('message.exportRange') }}：</div>
         <el-radio-group class="config-item" v-model="rangeType">
-          <el-radio-button style="width: 50%;" value="all">{{ t('message.allPages') }}</el-radio-button>
-          <el-radio-button style="width: 50%;" value="current">{{ t('message.currentPage') }}</el-radio-button>
+          <el-radio-button style="width: 50%" value="all">{{ t('message.allPages') }}</el-radio-button>
+          <el-radio-button style="width: 50%" value="current">{{ t('message.currentPage') }}</el-radio-button>
         </el-radio-group>
       </div>
       <div class="row">
@@ -25,7 +25,9 @@
     </div>
 
     <div class="btns">
-      <el-button class="btn export" type="primary" @click="exportPDF(rangeType)">{{ t('message.exportPDF') }}</el-button>
+      <el-button class="btn export" type="primary" @click="exportPDF(rangeType)">{{
+        t('message.exportPDF')
+      }}</el-button>
       <el-button class="btn close" @click="emit('close')">{{ t('message.close') }}</el-button>
     </div>
   </div>

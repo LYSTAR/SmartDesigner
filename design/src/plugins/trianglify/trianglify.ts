@@ -29,7 +29,7 @@ const defaultOptions: any = {
   colorFunction: colorFunctions.interpolateLinear(0.5),
   fill: true,
   strokeWidth: 0,
-  points: null
+  points: null,
 }
 
 // This function does the "core" render-independent work:
@@ -39,7 +39,7 @@ const defaultOptions: any = {
 // 3. Generate random points within cell geometry
 // 4. Use the Delaunator library to run the triangulation
 // 5. Do color interpolation to establish the fundamental coloring of the shapes
-export default function trianglify (_opts = {}) {
+export default function trianglify(_opts = {}) {
   Object.keys(_opts).forEach(k => {
     if (defaultOptions[k] === undefined) {
       throw TypeError(`Unrecognized option: ${k}`)
@@ -82,9 +82,7 @@ export default function trianglify (_opts = {}) {
   }
 
   const xColors = processColorOpts(opts.xColors)
-  const yColors = opts.yColors === 'match'
-    ? xColors
-    : processColorOpts(opts.yColors)
+  const yColors = opts.yColors === 'match' ? xColors : processColorOpts(opts.yColors)
 
   const xScale = chroma.scale(xColors).mode(opts.colorSpace)
   const yScale = chroma.scale(yColors).mode(opts.colorSpace)
@@ -105,11 +103,7 @@ export default function trianglify (_opts = {}) {
 
   for (let i = 0; i < geomIndices.length; i += 3) {
     // convert shallow array-packed vertex indices into 3-tuples
-    const vertexIndices = [
-      geomIndices[i],
-      geomIndices[i + 1],
-      geomIndices[i + 2]
-    ]
+    const vertexIndices = [geomIndices[i], geomIndices[i + 1], geomIndices[i + 2]]
 
     // grab a copy of the actual vertices to use for calculations
     const vertices = vertexIndices.map(i => points[i])
@@ -130,13 +124,13 @@ export default function trianglify (_opts = {}) {
       yScale, // y-colors scale for the pattern
       points, // array of generated points for the pattern
       opts, // options used to initialize the pattern
-      random: cRand // seeded randomization function for use by color functions
+      random: cRand, // seeded randomization function for use by color functions
     })
 
     polys.push({
       vertexIndices,
       centroid,
-      color // chroma color object
+      color, // chroma color object
     })
   }
 
@@ -153,8 +147,8 @@ const getPoints = (opts: any, random: any) => {
 
   // determine bleed values to ensure that the grid is centered within the
   // artboard
-  const bleedX = ((colCount * cellSize) - width) / 2
-  const bleedY = ((rowCount * cellSize) - height) / 2
+  const bleedX = (colCount * cellSize - width) / 2
+  const bleedY = (rowCount * cellSize - height) / 2
 
   // apply variance to cellSize to get cellJitter in pixels
   const cellJitter = cellSize * variance
@@ -164,16 +158,15 @@ const getPoints = (opts: any, random: any) => {
 
   const halfCell = cellSize / 2
 
-  const points = Array(pointCount).fill(null).map((_, i) => {
-    const col = i % colCount
-    const row = Math.floor(i / colCount)
+  const points = Array(pointCount)
+    .fill(null)
+    .map((_, i) => {
+      const col = i % colCount
+      const row = Math.floor(i / colCount)
 
-    // [x, y, z]
-    return [
-      -bleedX + col * cellSize + halfCell + getJitter(),
-      -bleedY + row * cellSize + halfCell + getJitter()
-    ]
-  })
+      // [x, y, z]
+      return [-bleedX + col * cellSize + halfCell + getJitter(), -bleedY + row * cellSize + halfCell + getJitter()]
+    })
 
   return points
 }
@@ -181,7 +174,7 @@ const getPoints = (opts: any, random: any) => {
 // tweak some of the exports here
 trianglify.utils = {
   mix: chroma.mix,
-  colorbrewer
+  colorbrewer,
 }
 
 trianglify.colorFunctions = colorFunctions

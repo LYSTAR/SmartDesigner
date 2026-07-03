@@ -1,4 +1,14 @@
-import { Object as FabricObject, Group as OriginGroup, classRegistry, TPointerEventInfo, TPointerEvent, Abortable, TOptions, SerializedGroupProps, GroupProps } from 'fabric'
+import {
+  Object as FabricObject,
+  Group as OriginGroup,
+  classRegistry,
+  TPointerEventInfo,
+  TPointerEvent,
+  Abortable,
+  TOptions,
+  SerializedGroupProps,
+  GroupProps,
+} from 'fabric'
 
 export class Group extends OriginGroup {
   public subTargetCheck = true
@@ -18,7 +28,7 @@ export class Group extends OriginGroup {
       const activeObject = this.canvas?.getActiveObject()
       if (!activeObject || !activeObject.getAncestors().includes(this)) {
         // 关闭
-        this.set({interactive: false, objectCaching: true,})
+        this.set({ interactive: false, objectCaching: true })
       } else {
         // 事件传递
         this.addDeselectedEvent(activeObject)
@@ -31,10 +41,10 @@ export class Group extends OriginGroup {
    */
   public onActiveTarget(target: FabricObject) {
     if (!this.canvas || !target.group || target.group.interactive) return
-    target.getAncestors().forEach((_group) => {
+    target.getAncestors().forEach(_group => {
       const group = _group as Group
       if (group.interactive) return
-      group.set({ interactive: true, objectCaching: false,})
+      group.set({ interactive: true, objectCaching: false })
       group.addDeselectedEvent(target)
     })
   }
@@ -43,10 +53,18 @@ export class Group extends OriginGroup {
    * 双击后启用interactive，离开组后关闭
    */
   public doubleClickHandler(e: TPointerEventInfo<TPointerEvent>) {
-    if (!this.canvas || !e.target || e.target !== this || !e.subTargets || e.subTargets.length === 0 || this.interactive) return
+    if (
+      !this.canvas ||
+      !e.target ||
+      e.target !== this ||
+      !e.subTargets ||
+      e.subTargets.length === 0 ||
+      this.interactive
+    )
+      return
 
     // 启用
-    this.set({interactive: true, objectCaching: false})
+    this.set({ interactive: true, objectCaching: false })
 
     // 绑定事件
     this.addDeselectedEvent(this as FabricObject)
@@ -68,9 +86,12 @@ export class Group extends OriginGroup {
     }
   }
 
-  static async fromObject<T extends TOptions<SerializedGroupProps>>({ type, objects = [], layoutManager, ...options }: T, abortable?: Abortable) {
+  static async fromObject<T extends TOptions<SerializedGroupProps>>(
+    { type, objects = [], layoutManager, ...options }: T,
+    abortable?: Abortable
+  ) {
     if (options.mask) {
-      objects.forEach(obj => obj.groupMask = options.mask)
+      objects.forEach(obj => (obj.groupMask = options.mask))
     }
     return super.fromObject({ type, objects, layoutManager, ...options }, abortable)
   }
@@ -84,7 +105,7 @@ export class Group extends OriginGroup {
   //       ctx.transform(...util.invertTransform(this.calcTransformMatrix()));
   //       this._objects[i].render(ctx);
   //       ctx.restore();
-  //     } 
+  //     }
   //     else if (this._objects[i].group === this) {
   //       this._objects[i].render(ctx);
   //     }

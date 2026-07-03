@@ -1,6 +1,14 @@
 import ListenerManager from '../helpers/listenerManager'
 import { Ref } from 'vue'
-import { BoardContext2Ds, BoardDrawingContexts, BoardRect, MouseMovements, PixelPosition, PositionRange, TransformConfig } from './common'
+import {
+  BoardContext2Ds,
+  BoardDrawingContexts,
+  BoardRect,
+  MouseMovements,
+  PixelPosition,
+  PositionRange,
+  TransformConfig,
+} from './common'
 import { ImageSources } from './initMatting'
 
 /** 初始化抠图绘制的配置对象 */

@@ -1,5 +1,5 @@
-import { Image as FabricImage } from "@/extension/object/Image"
-import { Mask } from "@/types/elements"
+import { Image as FabricImage } from '@/extension/object/Image'
+import { Mask } from '@/types/elements'
 
 const isBlack = (num: number) => {
   return num - 0 === 0
@@ -17,7 +17,7 @@ const drawRectByCanvas = (ctx: CanvasRenderingContext2D, image: FabricImage, mas
     ctx.fillRect(0, 0, image.width, top)
   }
   if (left > 0) {
-    ctx.fillRect(0 , 0, left, image.height)
+    ctx.fillRect(0, 0, left, image.height)
   }
   if (top + mask.height < image.height) {
     ctx.fillRect(0, top + mask.height, image.width, image.height - mask.height - top)
@@ -48,18 +48,17 @@ export const setMaskCanvas = async (image: FabricImage) => {
       const g = maskData.data[i + 1]
       const b = maskData.data[i + 2]
       if (r === g && g === b) {
-        maskData.data[i + 3] = r 
-      }
-      else {
+        maskData.data[i + 3] = r
+      } else {
         if (isBlack(r) && isBlack(g) && isBlack(b)) {
           maskData.data[i + 3] = 0
-         }
+        }
       }
     }
     maskCtx.putImageData(maskData, 0, 0)
     canvas.width = image.width
     canvas.height = image.height
-    
+
     ctx.drawImage(maskCanvas, mask.left - image.left, mask.top - image.top)
     if (defaultColor === 255) {
       drawRectByCanvas(ctx, image, mask)
@@ -68,10 +67,9 @@ export const setMaskCanvas = async (image: FabricImage) => {
     ctx.drawImage(image._element, 0, 0)
     const src = canvas.toDataURL()
     await image.setSrc(src)
-    image.set({'dirty': true})
+    image.set({ dirty: true })
     image.canvas?.renderAll()
-  } 
-  catch (error) {
+  } catch (error) {
     console.log(error)
     return null
   }
@@ -81,7 +79,7 @@ export const getImageBitmap = async (src: string): Promise<ImageBitmap> => {
   const img = new Image()
   img.crossOrigin = 'anonymous'
   img.src = src
-  await new Promise<void>((resolve) => {
+  await new Promise<void>(resolve => {
     img.onload = () => resolve()
   })
   return createImageBitmap(img)

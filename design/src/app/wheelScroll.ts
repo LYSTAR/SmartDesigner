@@ -1,4 +1,3 @@
-
 import { CanvasEvents, Canvas, Point, TPointerEvent, TPointerEventInfo } from 'fabric'
 import { useIntervalFn, useMagicKeys } from '@vueuse/core'
 import { Disposable, toDisposable } from '@/utils/lifecycle'
@@ -42,7 +41,7 @@ export class WheelScroll extends Disposable {
         this.setCoords()
         return
       }
-      
+
       // 滚动画布
       const deltaPoint = new Point()
       if (shift.value) {
@@ -58,7 +57,7 @@ export class WheelScroll extends Disposable {
     this._register(
       toDisposable(() => {
         this.canvas.off('mouse:wheel', mouseWheel)
-      }),
+      })
     )
   }
 
@@ -81,7 +80,8 @@ export class WheelScroll extends Disposable {
     /** 是否需要执行setCoords */
     let needSetCoords = false
 
-    const { pause, resume } = useIntervalFn(() => {
+    const { pause, resume } = useIntervalFn(
+      () => {
         if (!event) return
 
         const A = new Point(24, 24)
@@ -108,7 +108,7 @@ export class WheelScroll extends Disposable {
       16, // 1000 / 60
       {
         immediate: false,
-      },
+      }
     )
 
     // const { isSwiping } = useFabricSwipe({

@@ -6,12 +6,11 @@ import { useFabricStore } from '@/store'
 export const MIN_ZOOM = 0.03
 export const MAX_ZOOM = 5
 
-
 export class FabricTouch extends Disposable {
   isTwoTouch = false
   isDragging = false
   startDistance = 1
-  startX = 0 
+  startX = 0
   startY = 0
   startScale = 1
   lastPan?: Point
@@ -52,10 +51,7 @@ export class FabricTouch extends Disposable {
       this.isTwoTouch = true
       const touch1 = touches[0]
       const touch2 = touches[1]
-      this.startDistance = Math.hypot(
-        touch2.pageX - touch1.pageX,
-        touch2.pageY - touch1.pageY
-      )
+      this.startDistance = Math.hypot(touch2.pageX - touch1.pageX, touch2.pageY - touch1.pageY)
 
       this.startX = (touch1.pageX + touch2.pageX) / 2
       this.startY = (touch1.pageY + touch2.pageY) / 2
@@ -73,10 +69,7 @@ export class FabricTouch extends Disposable {
       const touch1 = touches[0]
       const touch2 = touches[1]
 
-      const currentDistance = Math.hypot(
-        touch2.pageX - touch1.pageX,
-        touch2.pageY - touch1.pageY
-      )
+      const currentDistance = Math.hypot(touch2.pageX - touch1.pageX, touch2.pageY - touch1.pageY)
 
       const x = (touch1.pageX + touch2.pageX) / 2
       const y = (touch1.pageY + touch2.pageY) / 2
@@ -106,12 +99,7 @@ export class FabricTouch extends Disposable {
         //     objectCaching: true
         //   })
         // }
-        canvas.relativePan(
-          new Point(
-            currentPan.x - this.lastPan.x,
-            currentPan.y - this.lastPan.y
-          )
-        )
+        canvas.relativePan(new Point(currentPan.x - this.lastPan.x, currentPan.y - this.lastPan.y))
         this.lastPan = currentPan
         this.saveTransform()
       }

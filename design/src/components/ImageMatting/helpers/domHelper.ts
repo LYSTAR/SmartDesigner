@@ -1,6 +1,27 @@
-import { DEFAULT_IMAGE_SMOOTH_CHOICE, GLOBAL_COMPOSITE_OPERATION_DESTINATION_IN, GRADIENT_BEGIN_OFFSET, GRADIENT_END_OFFSET, GRADIENT_INNER_RADIUS, IMAGE_BORDER_STYLE, INITIAL_IMAGE_BORDER_WIDTH, ONE_TURN_DEGREES, REPAIR_POINT_INNER_COLOR, REPAIR_POINT_OUTER_COLOR, ZERO_DEGREES } from '../constants'
+import {
+  DEFAULT_IMAGE_SMOOTH_CHOICE,
+  GLOBAL_COMPOSITE_OPERATION_DESTINATION_IN,
+  GRADIENT_BEGIN_OFFSET,
+  GRADIENT_END_OFFSET,
+  GRADIENT_INNER_RADIUS,
+  IMAGE_BORDER_STYLE,
+  INITIAL_IMAGE_BORDER_WIDTH,
+  ONE_TURN_DEGREES,
+  REPAIR_POINT_INNER_COLOR,
+  REPAIR_POINT_OUTER_COLOR,
+  ZERO_DEGREES,
+} from '../constants'
 import { PositionRange } from '../types/common'
-import { CreateContext2DConfig, DrawImageLineBorderConfig, DrawingCircularConfig, GetImageSourceConfig, InitHiddenBoardConfig, InitHiddenBoardWithImageConfig, ResizeCanvasConfig, TransformedDrawingImageConfig } from '../types/dom'
+import {
+  CreateContext2DConfig,
+  DrawImageLineBorderConfig,
+  DrawingCircularConfig,
+  GetImageSourceConfig,
+  InitHiddenBoardConfig,
+  InitHiddenBoardWithImageConfig,
+  ResizeCanvasConfig,
+  TransformedDrawingImageConfig,
+} from '../types/dom'
 // import { isString } from 'lodash-es'
 
 function isString(value: string) {
@@ -57,7 +78,7 @@ export async function getLoadedImage(picFile: File | string): Promise<ImageBitma
   const img = new Image()
   img.crossOrigin = 'anonymous'
   img.src = isString(picFile) ? picFile : URL.createObjectURL(picFile)
-  await new Promise<void>((resolve) => {
+  await new Promise<void>(resolve => {
     img.onload = () => resolve()
   })
   return createImageBitmap(img)
@@ -162,7 +183,10 @@ export function generateResultImageURL(rawImage: ImageBitmap, resultCtx: CanvasR
 }
 
 /** 创建绘制了原始尺寸结果图的绘制上下文 */
-function createResultImageContext2D(imageSource: ImageBitmap, resultImageCtx: CanvasRenderingContext2D): CanvasRenderingContext2D {
+function createResultImageContext2D(
+  imageSource: ImageBitmap,
+  resultImageCtx: CanvasRenderingContext2D
+): CanvasRenderingContext2D {
   const context2D = createRawImageContext2D(imageSource)
   drawResultImageInContext2D(context2D, resultImageCtx, imageSource)
   return context2D
@@ -176,7 +200,11 @@ function createRawImageContext2D(imageSource: ImageBitmap): CanvasRenderingConte
 }
 
 /** 在传入的绘制上下文上绘制原始尺寸的结果图 */
-function drawResultImageInContext2D(ctx: CanvasRenderingContext2D, resultImageCtx: CanvasRenderingContext2D, imageSource: ImageBitmap): void {
+function drawResultImageInContext2D(
+  ctx: CanvasRenderingContext2D,
+  resultImageCtx: CanvasRenderingContext2D,
+  imageSource: ImageBitmap
+): void {
   ctx.globalCompositeOperation = GLOBAL_COMPOSITE_OPERATION_DESTINATION_IN
   ctx.drawImage(resultImageCtx.canvas, 0, 0, imageSource.width, imageSource.height)
 }

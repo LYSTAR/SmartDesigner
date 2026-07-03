@@ -1,5 +1,4 @@
-import { SystemFont } from "@/types/common"
-
+import { SystemFont } from '@/types/common'
 
 /**
  * 判断操作系统是否存在某字体
@@ -15,7 +14,7 @@ export const getSupportFonts = (fontNames: SystemFont[]) => {
   const canvas = document.createElement('canvas')
   const ctx = canvas.getContext('2d', { willReadFrequently: true })
   if (!ctx) return supportFonts
-  
+
   canvas.width = width
   canvas.height = height
   ctx.textAlign = 'center'
@@ -40,9 +39,9 @@ export const getSupportFonts = (fontNames: SystemFont[]) => {
 export async function loadFont(fontFamily: string) {
   let font
   try {
-    const fonts = await window.queryLocalFonts();
+    const fonts = await window.queryLocalFonts()
     font = fonts.filter(item => item.family === fontFamily)[0]
-  } catch(e: any) {
+  } catch (e: any) {
     console.log(`Cannot query fonts: ${e.message}`)
   } finally {
     return font

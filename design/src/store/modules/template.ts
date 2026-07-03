@@ -12,7 +12,6 @@ import useCanvas from '@/views/Canvas/useCanvas'
 import useHistorySnapshot from '@/hooks/useHistorySnapshot'
 import useCommon from '@/views/Canvas/useCommon'
 
-
 interface UpdateElementData {
   id: string | string[]
   left?: number
@@ -33,7 +32,7 @@ export const useTemplatesStore = defineStore('Templates', {
     templateId: '',
     templates: Templates, // 页面页面数据
     templateIndex: 0, // 当前页面索引
-    templateCanvas: new Map()
+    templateCanvas: new Map(),
     // fixedRatio: false, // 固定比例
     // slideUnit: 'mm', // 尺寸单位
     // slideName: '', // 模板名称
@@ -65,7 +64,7 @@ export const useTemplatesStore = defineStore('Templates', {
 
   actions: {
     async renderTemplate() {
-      const [ canvas ] = useCanvas()
+      const [canvas] = useCanvas()
       const { initCommon } = useCommon()
       const { setCanvasSize } = useCanvasScale()
       await canvas.loadFromJSON(this.currentTemplate)
@@ -75,7 +74,7 @@ export const useTemplatesStore = defineStore('Templates', {
     },
 
     async renderElement() {
-      const [ canvas ] = useCanvas()
+      const [canvas] = useCanvas()
       const { initCommon } = useCommon()
       const { setCanvasSize } = useCanvasScale()
       const mainStore = useMainStore()
@@ -86,71 +85,69 @@ export const useTemplatesStore = defineStore('Templates', {
       initCommon()
     },
 
-    modifedElement(target: FabricObject, options: Record<string, any>,) {
-      const [ canvas ] = useCanvas()
+    modifedElement(target: FabricObject, options: Record<string, any>) {
+      const [canvas] = useCanvas()
       const { addHistorySnapshot } = useHistorySnapshot()
       const index = canvas._objects.findIndex(item => item.id === target.id)
       const data: Snapshot = {
         type: SnapshotType.MODIFY,
         index,
         target: target.toObject(propertiesToInclude),
-        tid: this.templateId
+        tid: this.templateId,
       }
       const proxyEl: any = this.currentTemplate.objects.find(i => i.id === target.id)
       addHistorySnapshot(data)
-      target.set({...options});
+      target.set({ ...options })
       // 更新target同时更新template的对象
       if (proxyEl) {
-        Object.keys(options).forEach((key) => {
+        Object.keys(options).forEach(key => {
           if (key in proxyEl) {
             proxyEl[key] = options[key]
           }
         })
       }
       if (options.filters) {
-        (target as FabricImage).applyFilters();
+        ;(target as FabricImage).applyFilters()
       }
       canvas.setActiveObject(target)
       canvas.renderAll()
     },
 
     addElement(target: FabricObject) {
-      const [ canvas ] = useCanvas()
+      const [canvas] = useCanvas()
       const { addHistorySnapshot } = useHistorySnapshot()
       const data: Snapshot = {
         type: SnapshotType.ADD,
         index: canvas._objects.indexOf(target),
         target: target.toObject(propertiesToInclude),
-        tid: this.templateId
+        tid: this.templateId,
       }
       addHistorySnapshot(data)
     },
 
     groupElement(target: FabricObject, objects: FabricObject[]) {
-      const [ canvas ] = useCanvas()
+      const [canvas] = useCanvas()
       const { addHistorySnapshot } = useHistorySnapshot()
       const data: Snapshot = {
         type: SnapshotType.GROUP,
         index: canvas._objects.indexOf(target),
         target: target.toObject(propertiesToInclude),
         objects: objects.map(item => item.toObject(propertiesToInclude)),
-        tid: this.templateId
+        tid: this.templateId,
       }
       addHistorySnapshot(data)
     },
 
-    ungroupElement() {
-
-    },
+    ungroupElement() {},
 
     deleteElement(target: FabricObject) {
-      const [ canvas ] = useCanvas()
+      const [canvas] = useCanvas()
       const { addHistorySnapshot } = useHistorySnapshot()
       const data: Snapshot = {
         type: SnapshotType.DELETE,
         index: canvas._objects.indexOf(target),
         target: target.toObject(propertiesToInclude),
-        tid: this.templateId
+        tid: this.templateId,
       }
       canvas.remove(target)
       canvas.renderAll()
@@ -172,10 +169,12 @@ export const useTemplatesStore = defineStore('Templates', {
         template.width = width
         template.height = height
         template.zoom = zoom
-        template.objects.filter(item => item.id === WorkSpaceDrawType).map(ele => {
-          ele.width = width / zoom
-          ele.height = height / zoom
-        })
+        template.objects
+          .filter(item => item.id === WorkSpaceDrawType)
+          .map(ele => {
+            ele.width = width / zoom
+            ele.height = height / zoom
+          })
       })
       initCommon()
       // addHistorySnapshot()
@@ -188,35 +187,35 @@ export const useTemplatesStore = defineStore('Templates', {
           // this.setImageMask(ele as ImageElement)
         }
         if (ele.type.toLowerCase() === ElementNames.GROUP) {
-          this.setObjectFilter(((ele as GroupElement).objects) as CanvasElement[])
+          this.setObjectFilter((ele as GroupElement).objects as CanvasElement[])
         }
       })
     },
 
     setImageFilter(image: ImageElement) {
       if (!image.pixiFilters) return
-      const [ pixi ] = usePixi()
+      const [pixi] = usePixi()
       pixi.postMessage({
         id: image.id,
-        type: "filter", 
-        src: image.src, 
-        pixiFilters: JSON.stringify(image.pixiFilters), 
-        width: image.width, 
-        height: image.height
-      });
+        type: 'filter',
+        src: image.src,
+        pixiFilters: JSON.stringify(image.pixiFilters),
+        width: image.width,
+        height: image.height,
+      })
     },
 
     setImageMask(image: ImageElement) {
       if (!image.mask) return
-      const [ pixi ] = usePixi()
+      const [pixi] = usePixi()
       pixi.postMessage({
         id: image.id,
-        type: "mask", 
+        type: 'mask',
         src: image.src,
-        mask: JSON.stringify(image.mask), 
-        width: image.width, 
-        height: image.height
-      });
+        mask: JSON.stringify(image.mask),
+        width: image.width,
+        height: image.height,
+      })
     },
 
     async changeTemplate(template: Template | Template[]) {
@@ -258,17 +257,17 @@ export const useTemplatesStore = defineStore('Templates', {
     deleteTemplate(templateId: string | string[]) {
       const { addHistorySnapshot } = useHistorySnapshot()
       const templateIds = Array.isArray(templateId) ? templateId : [templateId]
-  
+
       const deleteTemplatesIndex = []
       for (let i = 0; i < templateIds.length; i++) {
         const index = this.templates.findIndex(item => item.id === templateIds[i])
         deleteTemplatesIndex.push(index)
       }
       let newIndex = Math.min(...deleteTemplatesIndex)
-  
+
       const maxIndex = this.templates.length - templateIds.length - 1
       if (newIndex > maxIndex) newIndex = maxIndex
-  
+
       this.templateIndex = newIndex
       this.templates = this.templates.filter(item => !templateIds.includes(item.id))
       // addHistorySnapshot()
@@ -291,7 +290,7 @@ export const useTemplatesStore = defineStore('Templates', {
       const elementIds = typeof id === 'string' ? [id] : id
       if (!elementIds) return
       const template = this.templates[this.templateIndex]
-      const elements = template.objects.map(el => elementIds.includes(el.id) ? { ...el, ...props }: el)
+      const elements = template.objects.map(el => (elementIds.includes(el.id) ? { ...el, ...props } : el))
       this.templates[this.templateIndex].objects = elements as FabricObject[]
       // addHistorySnapshot()
     },
@@ -317,6 +316,5 @@ export const useTemplatesStore = defineStore('Templates', {
     setBackgroundImage(props: SerializedImageProps) {
       this.currentTemplate.backgroundImage = props
     },
-
-  }
+  },
 })

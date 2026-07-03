@@ -2,7 +2,7 @@
   <div
     @mousedown="() => setThumbnailsFocus(true)"
     v-click-outside="() => setThumbnailsFocus(false)"
-    v-contextmenu="contextMenusThumbnails"  
+    v-contextmenu="contextMenusThumbnails"
   >
     <el-row class="thumb-handle items-center">
       <el-col :span="12" class="flex justify-center text-[16px]">
@@ -26,8 +26,8 @@
         <div
           :class="{
             'thumbnail-item': true,
-            'active': templateIndex === index,
-            'selected': selectedTemplatesIndex.includes(index),
+            active: templateIndex === index,
+            selected: selectedTemplatesIndex.includes(index),
           }"
           @mousedown="($event: MouseEvent) => handleClickTemplateThumbnail($event, index)"
           v-contextmenu="contextmenusThumbnailItem"
@@ -66,8 +66,8 @@ const { ctrlKeyState, shiftKeyState } = storeToRefs(keyboardStore)
 const { createTemplate, deleteTemplate, sortTemplates, cutTemplate, pasteTemplate } = useHandleTemplate()
 
 const selectedTemplatesIndex = computed(() => [..._selectedTemplatesIndex.value, templateIndex.value])
-const menuRef = ref();
-const menuPopoverRef = ref();
+const menuRef = ref()
+const menuPopoverRef = ref()
 const contextmenusThumbnailItem = (): ContextMenu[] => {
   return [
     {
@@ -129,7 +129,6 @@ const handleDragEnd = (eventData: { newIndex: number; oldIndex: number }) => {
   sortTemplates(newIndex, oldIndex)
 }
 
-
 // 点击缩略图
 const handleClickTemplateThumbnail = (e: MouseEvent, index: number) => {
   const isMultiSelected = selectedTemplatesIndex.value.length > 1
@@ -144,13 +143,11 @@ const handleClickTemplateThumbnail = (e: MouseEvent, index: number) => {
       // const newSelectedSlidesIndex = selectedSlidesIndex.value.filter(item => item !== index)
       // mainStore.updateSelectedSlidesIndex(newSelectedSlidesIndex)
       // changeSlideIndex(selectedSlidesIndex.value[0])
-    }
-    else {
+    } else {
       if (selectedTemplatesIndex.value.includes(index)) {
         const newSelectedSlidesIndex = selectedTemplatesIndex.value.filter(item => item !== index)
         // mainStore.updateSelectedSlidesIndex(newSelectedSlidesIndex)
-      }
-      else {
+      } else {
         const newSelectedSlidesIndex = [...selectedTemplatesIndex.value, index]
         // mainStore.updateSelectedSlidesIndex(newSelectedSlidesIndex)
         // changeSlideIndex(index)
@@ -187,7 +184,6 @@ const changeSlideIndex = (index: number) => {
   templatesStore.setTemplateIndex(index)
   templatesStore.renderTemplate()
 }
-
 </script>
 
 <style lang="scss" scoped>
@@ -238,7 +234,7 @@ const changeSlideIndex = (index: number) => {
   padding: 5px 0;
 
   .thumbnail {
-    outline: 1px solid rgba($color: $themeColor, $alpha: .15);
+    outline: 1px solid rgba($color: $themeColor, $alpha: 0.15);
   }
 
   &.active {

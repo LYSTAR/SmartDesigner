@@ -185,7 +185,7 @@ import {
   ShareOne,
   Navigation,
   ViewList,
-  Setting
+  Setting,
 } from '@icon-park/vue-next'
 
 export const icons = {
@@ -371,12 +371,11 @@ export const icons = {
   IconMail: Mail,
   IconShareOne: ShareOne,
   IconNavigation: Navigation,
-  IconViewList: ViewList
+  IconViewList: ViewList,
 }
 
 export default {
   install(app: App) {
-  for (const [key, component] of Object.entries(icons))
-    app.component(key, component)
-  }
+    for (const [key, component] of Object.entries(icons)) app.component(key, component)
+  },
 }

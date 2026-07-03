@@ -1,7 +1,6 @@
 import { AxiosPromise } from 'axios'
 import request from '@/utils/request'
-import { PageParams, infoParams, TemplateResult, TemplateInfo } from "./types"
-
+import { PageParams, infoParams, TemplateResult, TemplateInfo } from './types'
 
 export const getTemplateInfoPages = (params: PageParams): AxiosPromise<TemplateResult> => {
   return request({

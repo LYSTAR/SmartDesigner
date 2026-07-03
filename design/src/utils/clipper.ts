@@ -7,27 +7,33 @@ export function clipperPath(fabricObjects: FabricObject[], type: number) {
   changePathPosition(fabricObjects, 'center')
   const subjPath = fabricObjects[0] as Path
   const clipPath = fabricObjects[1] as Path
-  
-  const x = clipPath.left - subjPath.left, y = clipPath.top - subjPath.top
+
+  const x = clipPath.left - subjPath.left,
+    y = clipPath.top - subjPath.top
   const pathOffsetX = clipPath.pathOffset.x - subjPath.pathOffset.x
   const pathOffsetY = clipPath.pathOffset.y - subjPath.pathOffset.y
   const subjPathPoints = getPathPoints(subjPath, subjPath.scaleX, subjPath.scaleY)
-  const clipPathPoints = getPathPoints(clipPath, clipPath.scaleX, clipPath.scaleY, -pathOffsetX+x, -pathOffsetY+y)
-  const scale = 100;
-  ClipperLib.JS.ScaleUpPaths(subjPathPoints, scale);
-  ClipperLib.JS.ScaleUpPaths(clipPathPoints, scale);
-  const cpr = new ClipperLib.Clipper();
-  cpr.AddPaths(subjPathPoints, ClipperLib.PolyType.ptSubject, true);
-  cpr.AddPaths(clipPathPoints, ClipperLib.PolyType.ptClip, true);
-  const subjFillType = ClipperLib.PolyFillType.pftNonZero;
-  const clipFillType = ClipperLib.PolyFillType.pftNonZero;
+  const clipPathPoints = getPathPoints(clipPath, clipPath.scaleX, clipPath.scaleY, -pathOffsetX + x, -pathOffsetY + y)
+  const scale = 100
+  ClipperLib.JS.ScaleUpPaths(subjPathPoints, scale)
+  ClipperLib.JS.ScaleUpPaths(clipPathPoints, scale)
+  const cpr = new ClipperLib.Clipper()
+  cpr.AddPaths(subjPathPoints, ClipperLib.PolyType.ptSubject, true)
+  cpr.AddPaths(clipPathPoints, ClipperLib.PolyType.ptClip, true)
+  const subjFillType = ClipperLib.PolyFillType.pftNonZero
+  const clipFillType = ClipperLib.PolyFillType.pftNonZero
   // var clipTypes = [ClipperLib.ClipType.ctUnion, ClipperLib.ClipType.ctDifference, ClipperLib.ClipType.ctXor, ClipperLib.ClipType.ctIntersection];
   // var clipTypesTexts = "Union, Difference, Xor, Intersection";
   // var solution_paths, svg, cont = document.getElementById('svgcontainer');
   // var i;
-  const clipTypes = [ClipperLib.ClipType.ctUnion, ClipperLib.ClipType.ctDifference, ClipperLib.ClipType.ctIntersection, ClipperLib.ClipType.ctXor];
-  let solutionPaths = new ClipperLib.Paths() as ArrayLike<any>;
-  cpr.Execute(clipTypes[type], solutionPaths, subjFillType, clipFillType);
+  const clipTypes = [
+    ClipperLib.ClipType.ctUnion,
+    ClipperLib.ClipType.ctDifference,
+    ClipperLib.ClipType.ctIntersection,
+    ClipperLib.ClipType.ctXor,
+  ]
+  let solutionPaths = new ClipperLib.Paths() as ArrayLike<any>
+  cpr.Execute(clipTypes[type], solutionPaths, subjFillType, clipFillType)
   // for (i = 0; i < clipTypes.length; i++) {
   //   solution_paths = new ClipperLib.Paths();
   //   cpr.Execute(clipTypes[i], solution_paths, subject_fillType, clip_fillType);
@@ -44,17 +50,16 @@ export function clipperPath(fabricObjects: FabricObject[], type: number) {
   return path2str(solutionPaths, scale)
 }
 
-
-const getPathPoints = (item: Path, scaleX: number, scaleY: number, x = 0, y = 0) : ArrayLike<any> => {
+const getPathPoints = (item: Path, scaleX: number, scaleY: number, x = 0, y = 0): ArrayLike<any> => {
   const itemPath = item.path.toString().replaceAll(',', ' ').split('Z')
   let pathPoints: any = []
   for (let i = 0; i < itemPath.length; i++) {
-    let pathPoint: {X: number, Y: number}[] = []
+    let pathPoint: { X: number; Y: number }[] = []
     const item = itemPath[i]
     if (!item) continue
     for (let c = 0; c < Raphael.getTotalLength(item.trim() + ' Z'); c += 1) {
       let point = Raphael.getPointAtLength(item.trim() + ' Z', c)
-      pathPoint.push({X: point.x * scaleX + x, Y: point.y * scaleY + y})
+      pathPoint.push({ X: point.x * scaleX + x, Y: point.y * scaleY + y })
     }
     pathPoints.push(pathPoint)
   }
@@ -64,18 +69,20 @@ const getPathPoints = (item: Path, scaleX: number, scaleY: number, x = 0, y = 0)
 // Converts Paths to SVG path string
 // and scales down the coordinates
 const path2str = (paths: any, scale: any) => {
-  var svgpath = "", i, j;
-  if (!scale) scale = 1;
+  var svgpath = '',
+    i,
+    j
+  if (!scale) scale = 1
   for (i = 0; i < paths.length; i++) {
     for (j = 0; j < paths[i].length; j++) {
-      if (!j) svgpath += "M";
-      else svgpath += "L";
-      svgpath += (paths[i][j].X / scale) + ", " + (paths[i][j].Y / scale);
+      if (!j) svgpath += 'M'
+      else svgpath += 'L'
+      svgpath += paths[i][j].X / scale + ', ' + paths[i][j].Y / scale
     }
-    svgpath += "Z";
+    svgpath += 'Z'
   }
-  if (svgpath == "") svgpath = "M0,0";
-  return svgpath;
+  if (svgpath == '') svgpath = 'M0,0'
+  return svgpath
 }
 
 const changePathPosition = (fabricObjects: FabricObject[], position: string) => {

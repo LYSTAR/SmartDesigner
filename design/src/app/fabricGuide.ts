@@ -1,4 +1,3 @@
-
 import { StaticCanvas, Canvas, ActiveSelection, Object as FabricObject, Group, Point, util } from 'fabric'
 import { Disposable } from '@/utils/lifecycle'
 import { check } from '@/utils/check'
@@ -76,12 +75,12 @@ export class FabricGuide extends Disposable {
 
     const canvasObjects: FabricObject[] = []
     const add = (group: Group | Canvas | StaticCanvas | ActiveSelection) => {
-      const objects = group.getObjects().filter((obj) => {
+      const objects = group.getObjects().filter(obj => {
         if (this.ignoreObjTypes.length) {
-          return !this.ignoreObjTypes.some((item) => obj.get(item.key) === item.value)
+          return !this.ignoreObjTypes.some(item => obj.get(item.key) === item.value)
         }
         if (this.pickObjTypes.length) {
-          return this.pickObjTypes.some((item) => obj.get(item.key) === item.value)
+          return this.pickObjTypes.some(item => obj.get(item.key) === item.value)
         }
         // 排除 自己 和 激活选区内的元素
         if (activeObjects.includes(obj)) {
@@ -102,16 +101,16 @@ export class FabricGuide extends Disposable {
         }
         return true
       })
-      canvasObjects.push(...objects as FabricObject[])
+      canvasObjects.push(...(objects as FabricObject[]))
     }
 
     if (check.isActiveSelection(target)) {
       const needAddParent = new Set<Group | Canvas | StaticCanvas>()
-      target.forEachObject((obj) => {
+      target.forEachObject(obj => {
         const parent = obj.group ? obj.group : this.canvas
         if (parent) needAddParent.add(parent as Group)
       })
-      needAddParent.forEach((parent) => {
+      needAddParent.forEach(parent => {
         if (check.isNativeGroup(parent)) {
           canvasObjects.push(parent)
         }
@@ -135,7 +134,7 @@ export class FabricGuide extends Disposable {
   private getObjDraggingObjCoords(activeObject: FabricObject): ACoordsAppendCenter {
     const coords = this.getCoords(activeObject)
     const centerPoint = this.calcCenterPointByACoords(coords).subtract(activeObject.getCenterPoint())
-    const newCoords = Keys(coords).map((key) => coords[key].subtract(centerPoint))
+    const newCoords = Keys(coords).map(key => coords[key].subtract(centerPoint))
     return {
       tl: newCoords[0],
       tr: newCoords[1],
@@ -156,7 +155,7 @@ export class FabricGuide extends Disposable {
   private omitCoords(objCoords: ACoordsAppendCenter, type: 'vertical' | 'horizontal') {
     const newCoords = objCoords
     const axis = type === 'vertical' ? 'x' : 'y'
-    Keys(objCoords).forEach((key) => {
+    Keys(objCoords).forEach(key => {
       if (objCoords[key][axis] < newCoords.tl[axis]) {
         newCoords[key] = objCoords[key]
       }
@@ -171,10 +170,7 @@ export class FabricGuide extends Disposable {
    * 检查 value1 和 value2 是否在指定的范围内，用于对齐线的计算
    */
   private isInRange(value1: number, value2: number) {
-    return (
-      Math.abs(Math.round(value1) - Math.round(value2)) <=
-      this.aligningLineMargin / this.canvas.getZoom()
-    )
+    return Math.abs(Math.round(value1) - Math.round(value2)) <= this.aligningLineMargin / this.canvas.getZoom()
   }
 
   private getCoords(obj: FabricObject) {
@@ -195,20 +191,16 @@ export class FabricGuide extends Disposable {
     const snapXPoints: Set<number> = new Set()
     const snapYPoints: Set<number> = new Set()
 
-    for (let i = canvasObjects.length; i--;) {
+    for (let i = canvasObjects.length; i--; ) {
       const objCoords = {
         ...this.getCoords(canvasObjects[i]),
         c: canvasObjects[i].getCenterPoint(),
       } as ACoordsAppendCenter
       const { objHeight, objWidth } = this.getObjMaxWidthHeightByCoords(objCoords)
-      Keys(objCoordsByMovingDistance).forEach((activeObjPoint) => {
-        const newCoords =
-          canvasObjects[i].angle !== 0 ? this.omitCoords(objCoords, 'horizontal') : objCoords
+      Keys(objCoordsByMovingDistance).forEach(activeObjPoint => {
+        const newCoords = canvasObjects[i].angle !== 0 ? this.omitCoords(objCoords, 'horizontal') : objCoords
 
-        function calcHorizontalLineCoords(
-          objPoint: keyof ACoordsAppendCenter,
-          activeObjCoords: ACoordsAppendCenter,
-        ) {
+        function calcHorizontalLineCoords(objPoint: keyof ACoordsAppendCenter, activeObjCoords: ACoordsAppendCenter) {
           let x1: number, x2: number
           if (objPoint === 'c') {
             x1 = Math.min(objCoords.c.x - objWidth / 2, activeObjCoords[activeObjPoint].x)
@@ -220,7 +212,7 @@ export class FabricGuide extends Disposable {
           return { x1, x2 }
         }
 
-        Keys(newCoords).forEach((objPoint) => {
+        Keys(newCoords).forEach(objPoint => {
           if (this.isInRange(objCoordsByMovingDistance[activeObjPoint].y, objCoords[objPoint].y)) {
             const y = objCoords[objPoint].y
 
@@ -237,14 +229,10 @@ export class FabricGuide extends Disposable {
         })
       })
 
-      Keys(objCoordsByMovingDistance).forEach((activeObjPoint) => {
-        const newCoords =
-          canvasObjects[i].angle !== 0 ? this.omitCoords(objCoords, 'vertical') : objCoords
+      Keys(objCoordsByMovingDistance).forEach(activeObjPoint => {
+        const newCoords = canvasObjects[i].angle !== 0 ? this.omitCoords(objCoords, 'vertical') : objCoords
 
-        function calcVerticalLineCoords(
-          objPoint: keyof ACoordsAppendCenter,
-          activeObjCoords: ACoordsAppendCenter,
-        ) {
+        function calcVerticalLineCoords(objPoint: keyof ACoordsAppendCenter, activeObjCoords: ACoordsAppendCenter) {
           let y1: number, y2: number
           if (objPoint === 'c') {
             y1 = Math.min(newCoords.c.y - objHeight / 2, activeObjCoords[activeObjPoint].y)
@@ -256,7 +244,7 @@ export class FabricGuide extends Disposable {
           return { y1, y2 }
         }
 
-        Keys(newCoords).forEach((objPoint) => {
+        Keys(newCoords).forEach(objPoint => {
           if (this.isInRange(objCoordsByMovingDistance[activeObjPoint].x, objCoords[objPoint].x)) {
             const x = objCoords[objPoint].x
 
@@ -308,21 +296,16 @@ export class FabricGuide extends Disposable {
         return originPoint
       }
 
-      const sortedList = [...list].sort(
-        (a, b) => Math.abs(originPoint - a) - Math.abs(originPoint - b),
-      )
+      const sortedList = [...list].sort((a, b) => Math.abs(originPoint - a) - Math.abs(originPoint - b))
 
       return sortedList[0]
     }
 
     // auto snap nearest object, record all the snap points, and then find the nearest one
     activeObject.setXY(
-      new Point(
-        sortPoints(snapXPoints, draggingObjCoords.c.x),
-        sortPoints(snapYPoints, draggingObjCoords.c.y),
-      ),
+      new Point(sortPoints(snapXPoints, draggingObjCoords.c.x), sortPoints(snapYPoints, draggingObjCoords.c.y)),
       'center',
-      'center',
+      'center'
     )
   }
 
@@ -365,23 +348,13 @@ export class FabricGuide extends Disposable {
   }
 
   private drawVerticalLine(coords: VerticalLineCoords, movingCoords: ACoordsAppendCenter) {
-    if (!Object.values(movingCoords).some((coord) => Math.abs(coord.x - coords.x) < 0.0001)) return
-    this.drawLine(
-      coords.x,
-      Math.min(coords.y1, coords.y2),
-      coords.x,
-      Math.max(coords.y1, coords.y2),
-    )
+    if (!Object.values(movingCoords).some(coord => Math.abs(coord.x - coords.x) < 0.0001)) return
+    this.drawLine(coords.x, Math.min(coords.y1, coords.y2), coords.x, Math.max(coords.y1, coords.y2))
   }
 
   private drawHorizontalLine(coords: HorizontalLineCoords, movingCoords: ACoordsAppendCenter) {
-    if (!Object.values(movingCoords).some((coord) => Math.abs(coord.y - coords.y) < 0.0001)) return
-    this.drawLine(
-      Math.min(coords.x1, coords.x2),
-      coords.y,
-      Math.max(coords.x1, coords.x2),
-      coords.y,
-    )
+    if (!Object.values(movingCoords).some(coord => Math.abs(coord.y - coords.y) < 0.0001)) return
+    this.drawLine(Math.min(coords.x1, coords.x2), coords.y, Math.max(coords.x1, coords.x2), coords.y)
   }
 
   private drawGuideLines(e: any) {
@@ -391,10 +364,10 @@ export class FabricGuide extends Disposable {
 
     const movingCoords = this.getObjDraggingObjCoords(this.activeObj)
 
-    for (let i = this.verticalLines.length; i--;) {
+    for (let i = this.verticalLines.length; i--; ) {
       this.drawVerticalLine(this.verticalLines[i], movingCoords)
     }
-    for (let i = this.horizontalLines.length; i--;) {
+    for (let i = this.horizontalLines.length; i--; ) {
       this.drawHorizontalLine(this.horizontalLines[i], movingCoords)
     }
     // this.canvas.calcOffset()

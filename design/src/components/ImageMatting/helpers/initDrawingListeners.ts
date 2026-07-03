@@ -1,6 +1,20 @@
-import { EventType, GLOBAL_COMPOSITE_OPERATION_DESTINATION_OUT, GLOBAL_COMPOSITE_OPERATION_SOURCE_OVER } from '../constants'
+import {
+  EventType,
+  GLOBAL_COMPOSITE_OPERATION_DESTINATION_OUT,
+  GLOBAL_COMPOSITE_OPERATION_SOURCE_OVER,
+} from '../constants'
 import { MouseMovements, PixelPosition } from '../types/common'
-import { BoardDrawingConfig, BrushDrawingBaseConfig, CanDrawAndBindMouseListenerConfig, ComputePositionAndMovementConfig, ComputeRealPositionConfig, DrawingListenerConfig, InitDrawingConfig, InitDrawingListenerConfig, PositionAndMovements } from '../types/drawingListeners'
+import {
+  BoardDrawingConfig,
+  BrushDrawingBaseConfig,
+  CanDrawAndBindMouseListenerConfig,
+  ComputePositionAndMovementConfig,
+  ComputeRealPositionConfig,
+  DrawingListenerConfig,
+  InitDrawingConfig,
+  InitDrawingListenerConfig,
+  PositionAndMovements,
+} from '../types/drawingListeners'
 import { isInImageRange } from './drawingCompute'
 import { executeMattingDrawing } from './drawingHelper'
 import { transformHelpers, updateRangeByMovements } from './transformHelper'

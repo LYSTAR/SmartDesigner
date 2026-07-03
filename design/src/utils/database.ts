@@ -1,8 +1,7 @@
-import Dexie from "dexie"
-import { LocalStorageDiscardedKey } from "@/configs/canvas"
+import Dexie from 'dexie'
+import { LocalStorageDiscardedKey } from '@/configs/canvas'
 import { databaseId } from '@/store'
-import { Snapshot } from "@/types/history"
-
+import { Snapshot } from '@/types/history'
 
 export interface WritingBoardImg {
   id: string
@@ -28,11 +27,11 @@ export const deleteDiscardedDB = async () => {
   const databaseNames = await Dexie.getDatabaseNames()
   const discardedDBNames = databaseNames.filter(name => {
     if (name.indexOf(DatabaseNamePrefix) === -1) return false
-    
+
     const [prefix, id, time] = name.split('_')
     if (prefix !== DatabaseNamePrefix || !id || !time) return true
     if (localStorageDiscardedDBList.includes(id)) return true
-    if (now - (+time) >= 1000 * 60 * 60 * 12) return true
+    if (now - +time >= 1000 * 60 * 60 * 12) return true
 
     return false
   })

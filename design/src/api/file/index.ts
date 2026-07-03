@@ -27,7 +27,6 @@ export function uploadFile(file: File, type: string): AxiosPromise<UploadResult>
  * @param file
  */
 export function exportFile(data: ExportData): AxiosPromise<ExportResult> {
-
   return request({
     url: '/api/design/export/file',
     method: 'post',

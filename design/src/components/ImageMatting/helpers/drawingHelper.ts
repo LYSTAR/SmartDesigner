@@ -8,7 +8,12 @@
 import { GLOBAL_COMPOSITE_OPERATION_DESTINATION_IN, GLOBAL_COMPOSITE_OPERATION_SOURCE_OVER } from '../constants'
 import { MattingDrawingConfig, RenderInterpolationConfig } from '../types/drawing'
 import { createContext2D, drawBrushPoint, transformedDrawImage } from './domHelper'
-import { computeInterpolationStep, computeMovements, needDrawInterpolation, needDrawInterpolationPoint } from './drawingCompute'
+import {
+  computeInterpolationStep,
+  computeMovements,
+  needDrawInterpolation,
+  needDrawInterpolationPoint,
+} from './drawingCompute'
 import { fixed } from './util'
 
 /** 批量执行抠图(修补/擦除)绘制 */

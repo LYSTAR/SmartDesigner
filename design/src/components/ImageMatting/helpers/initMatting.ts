@@ -1,7 +1,12 @@
-
 import { DEFAULT_IMAGE_SMOOTH_CHOICE, INITIAL_GAP_SIZE } from '../constants'
 import { TransformConfig } from '../types/common'
-import { ComputeTransformConfigConfig, GenerateMaskSourceConfig, GetValidTransformParametersConfig, InitMattingConfig, InitMattingResult } from '../types/initMatting'
+import {
+  ComputeTransformConfigConfig,
+  GenerateMaskSourceConfig,
+  GetValidTransformParametersConfig,
+  InitMattingConfig,
+  InitMattingResult,
+} from '../types/initMatting'
 import { getLoadedImage, initHiddenBoard, initHiddenBoardWithSource, transformedDrawImage } from './domHelper'
 import { computeTransformParameters, computeValidImageSize } from './initCompute'
 import { initMaskRenderer } from './maskRenderer'

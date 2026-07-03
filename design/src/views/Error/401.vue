@@ -1,29 +1,30 @@
 <script setup lang="ts">
-import { reactive, toRefs } from "vue";
-import { useRouter } from "vue-router";
+import { reactive, toRefs } from 'vue'
+import { useRouter } from 'vue-router'
 
-import { defineComponent } from "vue";
+import { defineComponent } from 'vue'
 
 defineComponent({
-  name: "Page401",
-});
+  name: 'Page401',
+})
 
 const state = reactive({
   // errGif: new URL(`../../assets/images/401.gif`, import.meta.url).href,
 
-  ewizardClap:
-    "https://wpimg.wallstcn.com/007ef517-bafd-4066-aae4-6883632d9646",
+  ewizardClap: 'https://wpimg.wallstcn.com/007ef517-bafd-4066-aae4-6883632d9646',
   dialogVisible: false,
-});
+})
 
-const { 
+const {
   // errGif,
- ewizardClap, dialogVisible } = toRefs(state);
+  ewizardClap,
+  dialogVisible,
+} = toRefs(state)
 
-const router = useRouter();
+const router = useRouter()
 
 function back() {
-  router.back();
+  router.back()
 }
 </script>
 

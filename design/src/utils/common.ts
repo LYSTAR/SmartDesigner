@@ -2,7 +2,7 @@ import { CanvasElement } from '@/types/canvas'
 import { Point } from 'fabric/fabric-impl'
 import { customAlphabet } from 'nanoid'
 import NP from 'number-precision'
-NP.enableBoundaryChecking(false); // default param is true
+NP.enableBoundaryChecking(false) // default param is true
 
 export const getRandomNum = (min: number, max: number) => {
   return Math.random() * (max - min)
@@ -29,20 +29,18 @@ export const isExternal = (path: string) => {
 
 export const clamp = (value: number, minValue: number, maxValue: number) => {
   if (minValue > maxValue) {
-    [minValue, maxValue] = [maxValue, minValue];
+    ;[minValue, maxValue] = [maxValue, minValue]
   }
-  return Math.max(minValue, Math.min(value, maxValue));
+  return Math.max(minValue, Math.min(value, maxValue))
 }
 
 // 校验是否移动端
 export const isMobile = () => {
-  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|HarmonyOS/i.test(navigator.userAgent);
+  return /Android|webOS|iPhone|iPad|iPod|BlackBerry|IEMobile|Opera Mini|HarmonyOS/i.test(navigator.userAgent)
 }
 
 export const PiBy180 = Math.PI / 180
 export const halfPI = Math.PI / 2
-
-
 
 /**
  * Clamps the given 'angle' between '-180' and '180'
@@ -63,15 +61,14 @@ export const clampAngle = (angle: number): number => {
  */
 export const toFixed = (v: number, digits = 2): number => NP.round(v, digits)
 
-
 export const isBase64 = (str: string): boolean => {
-  return /^data:image/.test(str);
+  return /^data:image/.test(str)
 }
 
 /**
  * 从base64编码的图片中获取扩展名
- * @param {String} base64 
- * @returns 
+ * @param {String} base64
+ * @returns
  */
 export const getBase64Type = (base64: string) => {
   const re = new RegExp('data:image/(?<ext>.*?);base64,.*')
@@ -85,17 +82,17 @@ export const getBase64Type = (base64: string) => {
 export const getLinkType = (url: string) => {
   const link = new URL(url)
   const path = link.pathname
-  const extension = path.split('.')[-1];
-  const jpgExtensions = ['jpg', 'jpeg'];
-  const pngExtensions = ['png'];
- 
+  const extension = path.split('.')[-1]
+  const jpgExtensions = ['jpg', 'jpeg']
+  const pngExtensions = ['png']
+
   if (jpgExtensions.includes(extension)) {
-    return 'jpg';
-  }
- 
-  if (pngExtensions.includes(extension)) {
-    return 'png';
+    return 'jpg'
   }
 
-  return null;
+  if (pngExtensions.includes(extension)) {
+    return 'png'
+  }
+
+  return null
 }

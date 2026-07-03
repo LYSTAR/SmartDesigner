@@ -74,7 +74,11 @@ function computeClampedTargetScaleRatio(scaleRatio: number): number {
 }
 
 /** 计算新的绘制范围 */
-function computeNewPositionRange(positionRange: PositionRange, position: PixelPosition, deltaRatio: number): PositionRange {
+function computeNewPositionRange(
+  positionRange: PositionRange,
+  position: PixelPosition,
+  deltaRatio: number
+): PositionRange {
   const { x, y } = position
   let { minX, maxX, minY, maxY } = positionRange
   minX = transformHelpers.computeNewSingleRange(minX, x, deltaRatio)

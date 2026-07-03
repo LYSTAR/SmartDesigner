@@ -1,6 +1,6 @@
 /*
  * @Author: June
- * @Description: 
+ * @Description:
  * @Date: 2023-05-25 17:25:23
  * @LastEditors: June
  * @LastEditTime: 2023-05-25 19:11:04
@@ -16,5 +16,5 @@ export default {
     // // @ts-ignore
     // const requireAll = requireContext => requireContext.keys().map(requireContext)
     // requireAll(req);
-  }
+  },
 }

@@ -14,9 +14,7 @@ type ToolOption = {
 
 type ToolType = 'move' | 'handMove' | 'shape'
 
-
 export class FabricTool extends Disposable {
-
   private options: Record<ToolType, ToolOption> = {
     move: {
       defaultCursor: 'default',
@@ -173,7 +171,6 @@ export class FabricTool extends Disposable {
   //   this.toolStop = stop
   // }
 
-
   /**
    *鼠标中键拖动视窗
    */
@@ -199,7 +196,10 @@ export class FabricTool extends Disposable {
         canvas.setCursor('grab')
 
         requestAnimationFrame(() => {
-          const deltaPoint = new Point(lengthX.value, lengthY.value).scalarDivide(canvas.getZoom()).transform(vpt).scalarMultiply(-1)
+          const deltaPoint = new Point(lengthX.value, lengthY.value)
+            .scalarDivide(canvas.getZoom())
+            .transform(vpt)
+            .scalarMultiply(-1)
           canvas.absolutePan(deltaPoint, true)
         })
       },
@@ -216,16 +216,17 @@ export class FabricTool extends Disposable {
 
     // 空格键切换移动工具
     const activeElement = useActiveElement()
-    const activeElementHasInput = computed(() => activeElement.value?.tagName !== 'INPUT' && activeElement.value?.tagName !== 'TEXTAREA')
-    
-    
+    const activeElementHasInput = computed(
+      () => activeElement.value?.tagName !== 'INPUT' && activeElement.value?.tagName !== 'TEXTAREA'
+    )
+
     watch(
-      computed(() => [spaceKeyState.value, activeElementHasInput.value].every((i) => toValue(i))),
-      (space) => {
+      computed(() => [spaceKeyState.value, activeElementHasInput.value].every(i => toValue(i))),
+      space => {
         this.applyOption(space ? 'handMove' : 'move')
         if (isSwiping.value) return
         this.handMoveActivate = space
-      },
+      }
     )
   }
 }

@@ -42,7 +42,10 @@ export function computeValidImageSize(imageSource: ImageBitmap): RectSize {
 export function computeScaleRatio(transformParametersConfig: TransformParametersConfig): number {
   const { imageSize, gapSize, targetSize } = transformParametersConfig
   const drawingAreaSize = getDrawingAreaSize(targetSize, gapSize)
-  return Math.min(Math.min(drawingAreaSize.width / imageSize.width, drawingAreaSize.height / imageSize.height), INITIAL_SCALE_RATIO)
+  return Math.min(
+    Math.min(drawingAreaSize.width / imageSize.width, drawingAreaSize.height / imageSize.height),
+    INITIAL_SCALE_RATIO
+  )
 }
 
 /** 默认最大绘制区的尺寸(即画框尺寸减去间隙) */

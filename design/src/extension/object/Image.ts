@@ -2,29 +2,28 @@ import { ClipPathType } from '@/configs/images'
 import { strokeImage } from '@/extension/effects/image.stroke'
 import { setMaskCanvas } from '@/extension/effects/image.mask'
 import { addCropImageInteractions, isolateObjectForEdit } from '@/extension/mixins/cropping.mixin'
-import { 
-  croppingControlSet, 
-  flipXCropControls, 
-  flipXYCropControls, 
-  flipYCropControls 
+import {
+  croppingControlSet,
+  flipXCropControls,
+  flipXYCropControls,
+  flipYCropControls,
 } from '@/extension/controls/cropping/cropping.controls'
-import { 
-  Image as OriginImage, 
-  Point, 
-  Object as FabricObject, 
-  util, 
+import {
+  Image as OriginImage,
+  Point,
+  Object as FabricObject,
+  util,
   classRegistry,
-  TPointerEventInfo, 
-  TPointerEvent, 
-  ImageProps, 
-  TClassProperties, 
-  ImageSource, 
-  TOptions 
+  TPointerEventInfo,
+  TPointerEvent,
+  ImageProps,
+  TClassProperties,
+  ImageSource,
+  TOptions,
 } from 'fabric'
 import { EffectItem } from '@/types/common'
 import { Mask } from '@/types/elements'
 import type { Abortable } from 'fabric'
-
 
 export class Image extends OriginImage {
   public isCropping?: false
@@ -36,7 +35,7 @@ export class Image extends OriginImage {
   public effects?: EffectItem[]
   public groupMask?: Mask
   constructor(element: ImageSource, options?: any) {
-    super(element, { filters: [], ...options });
+    super(element, { filters: [], ...options })
     this.effects = options?.effects
     this.groupMask = options?.groupMask
     this.renderEffects()
@@ -45,7 +44,7 @@ export class Image extends OriginImage {
 
   public doubleClickHandler(e: TPointerEventInfo<TPointerEvent>) {
     if (!this.canvas || !e.target || e.target !== this || (e.target.lockMovementX && e.target.lockMovementY)) return
-    this.set({__isCropping: true, clipPath: undefined})
+    this.set({ __isCropping: true, clipPath: undefined })
     this.canvas.setActiveObject(this as any)
     this.canvas.requestRenderAll()
   }
@@ -64,32 +63,31 @@ export class Image extends OriginImage {
   public onMousedbclickEvent() {
     const fabricCanvas = this.canvas
     if (!fabricCanvas) return
-    fabricCanvas.defaultCursor = 'move';
+    fabricCanvas.defaultCursor = 'move'
     isolateObjectForEdit(this as any)
     this.lastEventTop = this.top
-    this.lastEventLeft = this.left;
-    this.setupDragMatrix();
-    this.bindCropModeHandlers();
-    this.controls = croppingControlSet;
+    this.lastEventLeft = this.left
+    this.setupDragMatrix()
+    this.bindCropModeHandlers()
+    this.controls = croppingControlSet
     if (this.flipX && !this.flipY) {
-      this.controls = flipXCropControls;
+      this.controls = flipXCropControls
     }
     if (this.flipY && !this.flipX) {
-      this.controls = flipYCropControls;
+      this.controls = flipYCropControls
     }
     if (this.flipX && this.flipY) {
-      this.controls = flipXYCropControls;
+      this.controls = flipXYCropControls
     }
     if (this.scaleX != this.scaleY) {
-      this.setControlsVisibility({tlS: false, trS: false, blS: false, brS: false});
-    } 
-    else {
-      this.setControlsVisibility({tlS: true, trS: true, blS: true, brS: true});
+      this.setControlsVisibility({ tlS: false, trS: false, blS: false, brS: false })
+    } else {
+      this.setControlsVisibility({ tlS: true, trS: true, blS: true, brS: true })
     }
-    this.setCoords();
-    fabricCanvas.centeredKey = null;
-    fabricCanvas.altActionKey = null;
-    fabricCanvas.selection = false;
+    this.setCoords()
+    fabricCanvas.centeredKey = null
+    fabricCanvas.altActionKey = null
+    fabricCanvas.selection = false
   }
 
   get _cropKey() {
@@ -106,7 +104,7 @@ export class Image extends OriginImage {
   }
 
   // 初始化
-  initEffects () {
+  initEffects() {
     // 缓存原字段 用于恢复以及从原图绘制新图
     if (!this.effects) return
     this.originWidth = this.width
@@ -127,22 +125,22 @@ export class Image extends OriginImage {
 
   getOriginalElementWidth() {
     // @ts-ignore
-    return this._originalElement ? this._originalElement.naturalWidth || this._originalElement.width : 0;
+    return this._originalElement ? this._originalElement.naturalWidth || this._originalElement.width : 0
   }
 
   getOriginalElementHeight() {
     // @ts-ignore
-    return this._originalElement ? this._originalElement.naturalHeight || this._originalElement.height : 0;
+    return this._originalElement ? this._originalElement.naturalHeight || this._originalElement.height : 0
   }
 
   getElementWidth() {
     // @ts-ignore
-    return this._element ? this._element.naturalWidth || this._element.width : 0;
+    return this._element ? this._element.naturalWidth || this._element.width : 0
   }
 
   getElementHeight() {
     // @ts-ignore
-    return this._element ? this._element.naturalHeight || this._element.height : 0;
+    return this._element ? this._element.naturalHeight || this._element.height : 0
   }
 
   _getOriginalTransformedDimensions(options: any = {}): Point {
@@ -155,27 +153,27 @@ export class Image extends OriginImage {
       height: this.getOriginalElementHeight(),
       strokeWidth: this.strokeWidth,
       ...options,
-    };
+    }
     // stroke is applied before/after transformations are applied according to `strokeUniform`
-    const strokeWidth = dimOptions.strokeWidth;
-    let preScalingStrokeValue = strokeWidth, postScalingStrokeValue = 0;
+    const strokeWidth = dimOptions.strokeWidth
+    let preScalingStrokeValue = strokeWidth,
+      postScalingStrokeValue = 0
 
     if (this.strokeUniform) {
-      preScalingStrokeValue = 0;
-      postScalingStrokeValue = strokeWidth;
+      preScalingStrokeValue = 0
+      postScalingStrokeValue = strokeWidth
     }
     const dimX = dimOptions.width + preScalingStrokeValue,
       dimY = dimOptions.height + preScalingStrokeValue,
-      noSkew = dimOptions.skewX === 0 && dimOptions.skewY === 0;
-    let finalDimensions;
+      noSkew = dimOptions.skewX === 0 && dimOptions.skewY === 0
+    let finalDimensions
     if (noSkew) {
-      finalDimensions = new Point(dimX * dimOptions.scaleX, dimY * dimOptions.scaleY);
-    } 
-    else {
-      finalDimensions = util.sizeAfterTransform(dimX, dimY, dimOptions);
+      finalDimensions = new Point(dimX * dimOptions.scaleX, dimY * dimOptions.scaleY)
+    } else {
+      finalDimensions = util.sizeAfterTransform(dimX, dimY, dimOptions)
     }
 
-    return finalDimensions.scalarAdd(postScalingStrokeValue);
+    return finalDimensions.scalarAdd(postScalingStrokeValue)
   }
 
   _render(ctx: CanvasRenderingContext2D) {
@@ -183,35 +181,29 @@ export class Image extends OriginImage {
     // we want to disable shadow on the main one since on the cache the shadow is never set.
     // this._setCStroke(ctx);
     // const originalstrokeWidth = this.strokeWidth;
-    const width = this.width || 0;
-    const height = this.height || 0;
-    const elementToDraw = this._element;
-    ctx.save();
+    const width = this.width || 0
+    const height = this.height || 0
+    const elementToDraw = this._element
+    ctx.save()
     if (this.__isCropping) {
-      this._removeShadow(ctx); // main context
-      ctx.globalAlpha = 0.5;
-      const elWidth = this.getElementWidth();
-      const elHeight = this.getElementHeight();
-      const imageCopyX = -(this.cropX || 0) - width / 2;
-      const imageCopyY = -(this.cropY || 0) - height / 2;
-      ctx.drawImage(
-        elementToDraw,
-        imageCopyX,
-        imageCopyY,
-        elWidth,
-        elHeight,
-      );
-      ctx.globalAlpha = 1;
+      this._removeShadow(ctx) // main context
+      ctx.globalAlpha = 0.5
+      const elWidth = this.getElementWidth()
+      const elHeight = this.getElementHeight()
+      const imageCopyX = -(this.cropX || 0) - width / 2
+      const imageCopyY = -(this.cropY || 0) - height / 2
+      ctx.drawImage(elementToDraw, imageCopyX, imageCopyY, elWidth, elHeight)
+      ctx.globalAlpha = 1
     }
-    super._render(ctx);
+    super._render(ctx)
     this._drawCroppingLines(ctx)
     this._drawCroppingPath(ctx)
-    ctx.restore();
+    ctx.restore()
   }
 
-  drawBorders(ctx: CanvasRenderingContext2D, options:any, styleOverride:any) {
-    this._renderCroppingBorders(ctx);
-    super.drawBorders(ctx, options, styleOverride);
+  drawBorders(ctx: CanvasRenderingContext2D, options: any, styleOverride: any) {
+    this._renderCroppingBorders(ctx)
+    super.drawBorders(ctx, options, styleOverride)
   }
 
   async renderEffects(type?: string) {
@@ -233,35 +225,40 @@ export class Image extends OriginImage {
 
   _renderCroppingBorders(ctx: CanvasRenderingContext2D) {
     if (this.__isCropping) {
-      ctx.save();
-      const multX = this.canvas?.viewportTransform[0] || 1;
-      const multY = this.canvas?.viewportTransform[3] || 1;
-      const scaling = this.getObjectScaling();
+      ctx.save()
+      const multX = this.canvas?.viewportTransform[0] || 1
+      const multY = this.canvas?.viewportTransform[3] || 1
+      const scaling = this.getObjectScaling()
       if (this.flipX) {
-        scaling.x *= -1;
+        scaling.x *= -1
       }
       if (this.flipY) {
-        scaling.y *= -1;
+        scaling.y *= -1
       }
-      const elWidth = (this.getElementWidth()) * multX * scaling.x;
-      const elHeight = (this.getElementHeight()) * multY * scaling.y;
-      const { width, height } = this;
-      const imageCopyX = (-this.cropX - width / 2) * multX * scaling.x;
-      const imageCopyY = (-this.cropY - height / 2) * multY * scaling.y;
-      ctx.strokeStyle = FabricObject.prototype.borderColor;
-      ctx.strokeRect(imageCopyX, imageCopyY, elWidth, elHeight);
-      ctx.restore();
+      const elWidth = this.getElementWidth() * multX * scaling.x
+      const elHeight = this.getElementHeight() * multY * scaling.y
+      const { width, height } = this
+      const imageCopyX = (-this.cropX - width / 2) * multX * scaling.x
+      const imageCopyY = (-this.cropY - height / 2) * multY * scaling.y
+      ctx.strokeStyle = FabricObject.prototype.borderColor
+      ctx.strokeRect(imageCopyX, imageCopyY, elWidth, elHeight)
+      ctx.restore()
     }
   }
-  
-  static async fromURL<T extends TOptions<ImageProps>>(url: string, { crossOrigin, signal }: any | undefined, imageOptions: T): Promise<Image> {
+
+  static async fromURL<T extends TOptions<ImageProps>>(
+    url: string,
+    { crossOrigin, signal }: any | undefined,
+    imageOptions: T
+  ): Promise<Image> {
     // return util.loadImage(url, options).then((img) => new this(img, options));
-    return util.loadImage(url, { crossOrigin, signal, ...imageOptions }).then(
-      (img) => new this(img, imageOptions)
-    );
+    return util.loadImage(url, { crossOrigin, signal, ...imageOptions }).then(img => new this(img, imageOptions))
   }
 
-  static async fromObject({ filters: f, resizeFilter: rf, src, crossOrigin, ...object }: any, options?: { signal: AbortSignal }): Promise<Image> {
+  static async fromObject(
+    { filters: f, resizeFilter: rf, src, crossOrigin, ...object }: any,
+    options?: { signal: AbortSignal }
+  ): Promise<Image> {
     if (object.originSrc && object.effects) src = object.originSrc
     if (object.originWidth && object.effects) object.width = object.originWidth
     if (object.originHeight && object.effects) object.height = object.originHeight
@@ -278,12 +275,11 @@ export class Image extends OriginImage {
         filters,
         resizeFilter,
         ...hydratedProps,
-      });
+      })
       image.renderMask()
       return image
-    });
+    })
   }
-
 }
 
 const imageDefaultValues: Partial<TClassProperties<Image>> = {
@@ -294,15 +290,13 @@ const imageDefaultValues: Partial<TClassProperties<Image>> = {
   cropX: 0,
   cropY: 0,
   imageSmoothing: true,
-};
+}
 
 Object.assign(Image.prototype, {
   cacheProperties: [...FabricObject.cacheProperties, 'cropX', 'cropY'],
   ...imageDefaultValues,
-  ...addCropImageInteractions()
+  ...addCropImageInteractions(),
 })
 
 classRegistry.setClass(Image)
 classRegistry.setSVGClass(Image)
-
-

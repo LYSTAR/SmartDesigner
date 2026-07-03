@@ -3,8 +3,8 @@
     <div class="menu-content" :class="{ 'menu-close': poolShow !== true }">
       <component :is="currentComponent" class="menu-pool"></component>
       <div class="layout-toggle" @click="leftToggle" v-show="currentComponent">
-        <IconLeft  class="toggle-icon" v-if="poolShow"/>
-        <IconRight class="toggle-icon" v-else/>
+        <IconLeft class="toggle-icon" v-if="poolShow" />
+        <IconRight class="toggle-icon" v-else />
       </div>
     </div>
   </div>
@@ -28,17 +28,17 @@ const mainStore = useMainStore()
 const { lastHelp, lastEdit, poolType, poolShow } = storeToRefs(mainStore)
 
 const leftMap = {
-  'editor': EditorPool,
-  'template': TemplatePool,
-  'material': MaterialPool,
-  'text': TextboxPool,
-  'image': ImagePool,
-  'illustration': ImagePool,
-  'code': CodePool,
-  'toolkit': ToolkitPool,
-  'layer': LayerPool,
-  'chatgpt': ChatgptPool,
-  'help': null,
+  editor: EditorPool,
+  template: TemplatePool,
+  material: MaterialPool,
+  text: TextboxPool,
+  image: ImagePool,
+  illustration: ImagePool,
+  code: CodePool,
+  toolkit: ToolkitPool,
+  layer: LayerPool,
+  chatgpt: ChatgptPool,
+  help: null,
 }
 const currentComponent = computed(() => {
   if (poolType.value === 'help') return leftMap[lastHelp.value]
@@ -46,13 +46,10 @@ const currentComponent = computed(() => {
   return leftMap[poolType.value] || null
 })
 
-
-
 const leftToggle = () => {
   // if (poolType.value === 'editor' && !poolShow.value) return
   poolShow.value = !poolShow.value
 }
-
 </script>
 
 <style lang="scss" scoped>
@@ -71,7 +68,7 @@ const leftToggle = () => {
 .menu-pool {
   width: 300px;
   height: 100vh;
-  transition: left .3s linear;
+  transition: left 0.3s linear;
   border-bottom: 1px solid $borderColor;
 }
 .menu-close {
@@ -79,7 +76,7 @@ const leftToggle = () => {
   left: -251px;
   top: calc(50% + 40px);
   transform: translateY(-50%);
-  position: absolute;;
+  position: absolute;
   // z-index: 1;
 }
 .layout-toggle {
@@ -90,7 +87,7 @@ const leftToggle = () => {
   right: -17px;
   top: 50%;
   transform: translateY(-50%);
-  transition: right .1s linear;
+  transition: right 0.1s linear;
   width: 16px;
   z-index: 1;
   border-top-right-radius: 20px;

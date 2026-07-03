@@ -1,52 +1,62 @@
-import { storeToRefs } from "pinia";
-import { useMainStore, useTemplatesStore, useKeyboardStore } from "@/store";
-import { KEYS } from "@/configs/hotkey";
-import useHandleCreate from "@/hooks/useHandleCreate";
-import useCanvasScale from "@/hooks/useCanvasScale";
-import useCanvas from "@/views/Canvas/useCanvas";
-import { Textbox, loadSVGFromString } from "fabric";
-import { getImageDataURL, getImageText } from "@/utils/image";
-import { uploadFile } from "@/api/file";
-import useHandleTemplate from "./useHandleTemplate";
-import useHandleElement from "./useHandleElement";
-import useHistorySnapshot from "./useHistorySnapshot";
-import { CanvasElement, GroupElement } from "@/types/canvas";
-import { ElementNames } from "@/types/elements";
+import { storeToRefs } from 'pinia'
+import { useMainStore, useTemplatesStore, useKeyboardStore } from '@/store'
+import { KEYS } from '@/configs/hotkey'
+import useHandleCreate from '@/hooks/useHandleCreate'
+import useCanvasScale from '@/hooks/useCanvasScale'
+import useCanvas from '@/views/Canvas/useCanvas'
+import { Textbox, loadSVGFromString } from 'fabric'
+import { getImageDataURL, getImageText } from '@/utils/image'
+import { uploadFile } from '@/api/file'
+import useHandleTemplate from './useHandleTemplate'
+import useHandleElement from './useHandleElement'
+import useHistorySnapshot from './useHistorySnapshot'
+import { CanvasElement, GroupElement } from '@/types/canvas'
+import { ElementNames } from '@/types/elements'
 
 export default () => {
-  const mainStore = useMainStore();
-  const keyboardStore = useKeyboardStore();
-  const templatesStore = useTemplatesStore();
-  const { disableHotkeys, handleElement, canvasObject, handleElementId, thumbnailsFocus, drawAreaFocus } = storeToRefs(mainStore);
-  const { currentTemplate, templateIndex } = storeToRefs(templatesStore);
-  const { ctrlKeyState, shiftKeyState, spaceKeyState } = storeToRefs(keyboardStore);
+  const mainStore = useMainStore()
+  const keyboardStore = useKeyboardStore()
+  const templatesStore = useTemplatesStore()
+  const { disableHotkeys, handleElement, canvasObject, handleElementId, thumbnailsFocus, drawAreaFocus } =
+    storeToRefs(mainStore)
+  const { currentTemplate, templateIndex } = storeToRefs(templatesStore)
+  const { ctrlKeyState, shiftKeyState, spaceKeyState } = storeToRefs(keyboardStore)
 
-  const { copyTemplate, cutTemplate, deleteTemplate, updateTemplateIndex } = useHandleTemplate();
+  const { copyTemplate, cutTemplate, deleteTemplate, updateTemplateIndex } = useHandleTemplate()
 
-  const { copyElement, cutElement, pasteElement, deleteElement, moveElement, lockElement, combineElements, uncombineElements } = useHandleElement();
-  const { createImageElement, createTextElement } = useHandleCreate();
+  const {
+    copyElement,
+    cutElement,
+    pasteElement,
+    deleteElement,
+    moveElement,
+    lockElement,
+    combineElements,
+    uncombineElements,
+  } = useHandleElement()
+  const { createImageElement, createTextElement } = useHandleCreate()
   // const { selectAllElement } = useSelectAllElement()
   // const { moveElement } = useMoveElement()
   // const { orderElement } = useOrderElement()
 
-  const { redo, undo } = useHistorySnapshot();
+  const { redo, undo } = useHistorySnapshot()
   // const { enterScreening, enterScreeningFromStart } = useScreening()
   // const { scaleCanvas, resetCanvas } = useScaleCanvas()
 
   const copy = () => {
-    if (canvasObject.value) copyElement();
-    else if (thumbnailsFocus.value) copyTemplate();
-  };
+    if (canvasObject.value) copyElement()
+    else if (thumbnailsFocus.value) copyTemplate()
+  }
 
   const cut = () => {
-    if (canvasObject.value) cutElement();
-    else if (thumbnailsFocus.value) cutTemplate();
-  };
+    if (canvasObject.value) cutElement()
+    else if (thumbnailsFocus.value) cutTemplate()
+  }
 
   const patse = () => {
-    if (canvasObject.value) pasteElement();
-    else if (thumbnailsFocus.value) copyTemplate();
-  };
+    if (canvasObject.value) pasteElement()
+    else if (thumbnailsFocus.value) copyTemplate()
+  }
 
   // const quickCopy = () => {
   //   if (activeElementIdList.value.length) quickCopyElement()
@@ -59,36 +69,36 @@ export default () => {
   // }
 
   const lock = () => {
-    if (!canvasObject.value) return;
-    lockElement((canvasObject.value as CanvasElement).id, true);
-  };
+    if (!canvasObject.value) return
+    lockElement((canvasObject.value as CanvasElement).id, true)
+  }
   const combine = () => {
-    if (!canvasObject.value) return;
-    combineElements();
-  };
+    if (!canvasObject.value) return
+    combineElements()
+  }
 
   const uncombine = () => {
-    if (!canvasObject.value) return;
-    uncombineElements();
-  };
+    if (!canvasObject.value) return
+    uncombineElements()
+  }
 
   const remove = () => {
     if (canvasObject.value) {
       if (canvasObject.value.type === ElementNames.ACTIVE) {
-        const activeElement = canvasObject.value as GroupElement;
-        activeElement.forEachObject((item) => {
-          deleteElement((item as CanvasElement).id);
-        });
+        const activeElement = canvasObject.value as GroupElement
+        activeElement.forEachObject(item => {
+          deleteElement((item as CanvasElement).id)
+        })
       } else {
-        deleteElement(canvasObject.value.id);
+        deleteElement(canvasObject.value.id)
       }
-    } else if (thumbnailsFocus.value) deleteTemplate();
-  };
+    } else if (thumbnailsFocus.value) deleteTemplate()
+  }
 
   const move = (key: string) => {
-    if (canvasObject.value) moveElement(key);
-    else if (key === KEYS.UP || key === KEYS.DOWN) updateTemplateIndex(key);
-  };
+    if (canvasObject.value) moveElement(key)
+    else if (key === KEYS.UP || key === KEYS.DOWN) updateTemplateIndex(key)
+  }
 
   // const moveSlide = (key: string) => {
   //   if (key === KEYS.PAGEUP) updateSlideIndex(KEYS.UP)
@@ -119,30 +129,30 @@ export default () => {
 
   // 判断当前焦点是否在可编辑的输入控件内（input / textarea / contenteditable）
   const isEditingInput = () => {
-    const el = document.activeElement;
-    if (!el) return false;
-    const tag = el.tagName.toLowerCase();
-    if (tag === 'input' || tag === 'textarea' || tag === 'select') return true;
-    if ((el as HTMLElement).isContentEditable) return true;
-    return false;
-  };
+    const el = document.activeElement
+    if (!el) return false
+    const tag = el.tagName.toLowerCase()
+    if (tag === 'input' || tag === 'textarea' || tag === 'select') return true
+    if ((el as HTMLElement).isContentEditable) return true
+    return false
+  }
 
   const golbelPreventDefault = (e: KeyboardEvent) => {
     if (document.activeElement === document.body) {
-      e.preventDefault();
+      e.preventDefault()
     }
   }
 
   const keydownListener = (e: KeyboardEvent) => {
-    const [canvas] = useCanvas();
-    const { ctrlKey, shiftKey, altKey, metaKey } = e;
-    const ctrlOrMetaKeyActive = ctrlKey || metaKey;
+    const [canvas] = useCanvas()
+    const { ctrlKey, shiftKey, altKey, metaKey } = e
+    const ctrlOrMetaKeyActive = ctrlKey || metaKey
 
-    const key = e.key.toUpperCase();
+    const key = e.key.toUpperCase()
 
-    if (ctrlOrMetaKeyActive && !ctrlKeyState.value) keyboardStore.setCtrlKeyState(true);
-    if (shiftKey && !shiftKeyState.value) keyboardStore.setShiftKeyState(true);
-    if (!disableHotkeys.value && key === KEYS.SPACE) keyboardStore.setSpaceKeyState(true);
+    if (ctrlOrMetaKeyActive && !ctrlKeyState.value) keyboardStore.setCtrlKeyState(true)
+    if (shiftKey && !shiftKeyState.value) keyboardStore.setShiftKeyState(true)
+    if (!disableHotkeys.value && key === KEYS.SPACE) keyboardStore.setSpaceKeyState(true)
 
     // if (ctrlOrMetaKeyActive && key === KEYS.P) {
     //   e.preventDefault()
@@ -150,15 +160,15 @@ export default () => {
     //   return
     // }
     if (shiftKey && key === KEYS.F5) {
-      golbelPreventDefault(e);
-      keyboardStore.setShiftKeyState(false);
-      return;
+      golbelPreventDefault(e)
+      keyboardStore.setShiftKeyState(false)
+      return
     }
 
     if (ctrlOrMetaKeyActive && key === KEYS.C) {
-      if (disableHotkeys.value) return;
-      golbelPreventDefault(e);
-      copy();
+      if (disableHotkeys.value) return
+      golbelPreventDefault(e)
+      copy()
     }
     // if (ctrlOrMetaKeyActive && key === KEYS.V) {
     //   if (disableHotkeys.value) return
@@ -166,94 +176,94 @@ export default () => {
     //   patse()
     // }
     if (ctrlOrMetaKeyActive && key === KEYS.X) {
-      if (disableHotkeys.value) return;
-      golbelPreventDefault(e);
-      cut();
+      if (disableHotkeys.value) return
+      golbelPreventDefault(e)
+      cut()
     }
     if (ctrlOrMetaKeyActive && key === KEYS.D) {
-      if (disableHotkeys.value) return;
-      golbelPreventDefault(e);
+      if (disableHotkeys.value) return
+      golbelPreventDefault(e)
       // quickCopy()
     }
     if (ctrlOrMetaKeyActive && key === KEYS.Z) {
-      if (disableHotkeys.value) return;
-      golbelPreventDefault(e);
-      undo();
+      if (disableHotkeys.value) return
+      golbelPreventDefault(e)
+      undo()
     }
     if (ctrlOrMetaKeyActive && key === KEYS.Y) {
-      if (disableHotkeys.value) return;
-      golbelPreventDefault(e);
-      redo();
+      if (disableHotkeys.value) return
+      golbelPreventDefault(e)
+      redo()
     }
     if (ctrlOrMetaKeyActive && key === KEYS.A) {
-      if (disableHotkeys.value) return;
-      golbelPreventDefault(e);
+      if (disableHotkeys.value) return
+      golbelPreventDefault(e)
       // selectAll()
     }
     if (ctrlOrMetaKeyActive && key === KEYS.L) {
-      if (disableHotkeys.value) return;
-      golbelPreventDefault(e);
-      lock();
+      if (disableHotkeys.value) return
+      golbelPreventDefault(e)
+      lock()
     }
     if (!shiftKey && ctrlOrMetaKeyActive && key === KEYS.G) {
-      if (disableHotkeys.value) return;
-      golbelPreventDefault(e);
-      combine();
+      if (disableHotkeys.value) return
+      golbelPreventDefault(e)
+      combine()
     }
     if (shiftKey && ctrlOrMetaKeyActive && key === KEYS.G) {
-      if (disableHotkeys.value) return;
-      golbelPreventDefault(e);
-      uncombine();
+      if (disableHotkeys.value) return
+      golbelPreventDefault(e)
+      uncombine()
     }
     if (altKey && key === KEYS.F) {
-      if (disableHotkeys.value) return;
-      golbelPreventDefault(e);
+      if (disableHotkeys.value) return
+      golbelPreventDefault(e)
       // order(ElementOrderCommands.TOP)
     }
     if (altKey && key === KEYS.B) {
-      if (disableHotkeys.value) return;
-      golbelPreventDefault(e);
+      if (disableHotkeys.value) return
+      golbelPreventDefault(e)
       // order(ElementOrderCommands.BOTTOM)
     }
     if (key === KEYS.DELETE || key === KEYS.BACKSPACE) {
-      if (disableHotkeys.value) return;
+      if (disableHotkeys.value) return
       // 如果焦点在输入框/文本域内，不拦截，让浏览器处理默认的删除字符行为
-      if (isEditingInput()) return;
-      golbelPreventDefault(e);
-      remove();
+      if (isEditingInput()) return
+      golbelPreventDefault(e)
+      remove()
     }
     if (key === KEYS.UP) {
-      if (disableHotkeys.value) return;
-      if (isEditingInput()) return;
-      golbelPreventDefault(e);
-      move(KEYS.UP);
+      if (disableHotkeys.value) return
+      if (isEditingInput()) return
+      golbelPreventDefault(e)
+      move(KEYS.UP)
     }
     if (key === KEYS.DOWN) {
-      if (disableHotkeys.value) return;
-      if (isEditingInput()) return;
-      golbelPreventDefault(e);
-      move(KEYS.DOWN);
+      if (disableHotkeys.value) return
+      if (isEditingInput()) return
+      golbelPreventDefault(e)
+      move(KEYS.DOWN)
     }
     if (key === KEYS.LEFT) {
-      if (disableHotkeys.value) return;
-      if (isEditingInput()) return;
-      golbelPreventDefault(e);
-      move(KEYS.LEFT);
+      if (disableHotkeys.value) return
+      if (isEditingInput()) return
+      golbelPreventDefault(e)
+      move(KEYS.LEFT)
     }
     if (key === KEYS.RIGHT) {
-      if (disableHotkeys.value) return;
-      if (isEditingInput()) return;
-      golbelPreventDefault(e);
-      move(KEYS.RIGHT);
+      if (disableHotkeys.value) return
+      if (isEditingInput()) return
+      golbelPreventDefault(e)
+      move(KEYS.RIGHT)
     }
     if (key === KEYS.PAGEUP) {
-      if (disableHotkeys.value) return;
-      golbelPreventDefault(e);
+      if (disableHotkeys.value) return
+      golbelPreventDefault(e)
       // moveSlide(KEYS.PAGEUP)
     }
     if (key === KEYS.PAGEDOWN) {
-      if (disableHotkeys.value) return;
-      golbelPreventDefault(e);
+      if (disableHotkeys.value) return
+      golbelPreventDefault(e)
       // moveSlide(KEYS.PAGEDOWN)
     }
     // if (key === KEYS.ENTER) {
@@ -262,113 +272,117 @@ export default () => {
     //   enterElement()
     // }
     if (key === KEYS.MINUS) {
-      if (disableHotkeys.value) return;
-      golbelPreventDefault(e);
+      if (disableHotkeys.value) return
+      golbelPreventDefault(e)
       // scaleCanvas('-')
     }
     if (key === KEYS.EQUAL) {
-      if (disableHotkeys.value) return;
-      golbelPreventDefault(e);
+      if (disableHotkeys.value) return
+      golbelPreventDefault(e)
       // scaleCanvas('+')
     }
     if (key === KEYS.TAB) {
-      if (disableHotkeys.value) return;
-      golbelPreventDefault(e);
+      if (disableHotkeys.value) return
+      golbelPreventDefault(e)
       // tabActiveElement()
     }
     if (shiftKey && key === KEYS.R) {
-      console.log("key:", key);
-      if (disableHotkeys.value) return;
-      golbelPreventDefault(e);
+      console.log('key:', key)
+      if (disableHotkeys.value) return
+      golbelPreventDefault(e)
       if (canvas.ruler) {
-        canvas.ruler.enabled = !canvas.ruler.enabled;
+        canvas.ruler.enabled = !canvas.ruler.enabled
       }
     }
-  };
+  }
 
   const keyupListener = () => {
-    if (ctrlKeyState.value) keyboardStore.setCtrlKeyState(false);
-    if (shiftKeyState.value) keyboardStore.setShiftKeyState(false);
-    if (spaceKeyState.value) keyboardStore.setSpaceKeyState(false);
-  };
+    if (ctrlKeyState.value) keyboardStore.setCtrlKeyState(false)
+    if (shiftKeyState.value) keyboardStore.setShiftKeyState(false)
+    if (spaceKeyState.value) keyboardStore.setSpaceKeyState(false)
+  }
 
-  const pasteListener = async (event: { preventDefault: () => void; clipboardData: any; originalEvent: { clipboardData: any } }) => {
-    console.log('document.activeElement', document.activeElement);
+  const pasteListener = async (event: {
+    preventDefault: () => void
+    clipboardData: any
+    originalEvent: { clipboardData: any }
+  }) => {
+    console.log('document.activeElement', document.activeElement)
     const { pasteElement } = useHandleElement()
-    const [canvas] = useCanvas();
+    const [canvas] = useCanvas()
     if (document.activeElement === document.body) {
-      event.preventDefault(); // 阻止默认粘贴行为
+      event.preventDefault() // 阻止默认粘贴行为
     } else {
       return
     }
 
-    const items = (event.clipboardData || event.originalEvent.clipboardData).items;
-    const fileAccept = ".pdf,.psd,.cdr,.ai,.svg,.jpg,.jpeg,.png,.webp,.json";
-    const { addTemplate } = useHandleTemplate();
-    const { setCanvasTransform } = useCanvasScale();
+    const items = (event.clipboardData || event.originalEvent.clipboardData).items
+    const fileAccept = '.pdf,.psd,.cdr,.ai,.svg,.jpg,.jpeg,.png,.webp,.json'
+    const { addTemplate } = useHandleTemplate()
+    const { setCanvasTransform } = useCanvasScale()
     for (let item of items) {
-      if (item.kind === "file") {
-        const file = item.getAsFile();
-        const curFileSuffix: string | undefined = file.name.split(".").pop();
-        if (!fileAccept.split(",").includes(`.${curFileSuffix}`)) return;
-        if (curFileSuffix === "svg") {
-          const dataText = await getImageText(file);
-          const content = await loadSVGFromString(dataText);
-          canvas.add(...content.objects);
-          canvas.renderAll();
+      if (item.kind === 'file') {
+        const file = item.getAsFile()
+        const curFileSuffix: string | undefined = file.name.split('.').pop()
+        if (!fileAccept.split(',').includes(`.${curFileSuffix}`)) return
+        if (curFileSuffix === 'svg') {
+          const dataText = await getImageText(file)
+          const content = await loadSVGFromString(dataText)
+          canvas.add(...content.objects)
+          canvas.renderAll()
         }
-        if (curFileSuffix === "json") {
-          const dataText = await getImageText(file);
-          const template = JSON.parse(dataText);
-          addTemplate(template);
+        if (curFileSuffix === 'json') {
+          const dataText = await getImageText(file)
+          const template = JSON.parse(dataText)
+          addTemplate(template)
         }
-        if (item.type.indexOf("image/") === 0) {
+        if (item.type.indexOf('image/') === 0) {
           // 这是一个图片文件
-          const imageUrl = URL.createObjectURL(file);
-          createImageElement(imageUrl);
+          const imageUrl = URL.createObjectURL(file)
+          createImageElement(imageUrl)
         }
-        const res1 = await uploadFile(file, curFileSuffix as string);
+        const res1 = await uploadFile(file, curFileSuffix as string)
         if (res1 && res1.data.code === 200) {
-          const template = res1.data.data;
-          if (!template) return;
-          await templatesStore.addTemplate(template);
-          setCanvasTransform();
+          const template = res1.data.data
+          if (!template) return
+          await templatesStore.addTemplate(template)
+          setCanvasTransform()
         }
-      } else if (item.kind === "string" && item.type.indexOf("text/plain") === 0) {
+      } else if (item.kind === 'string' && item.type.indexOf('text/plain') === 0) {
         // 文本数据
         item.getAsString((text: any) => {
           // 插入到文本框
-          const activeObject = canvas.getActiveObject() as Textbox;
+          const activeObject = canvas.getActiveObject() as Textbox
           // 如果是激活的文字把复制的内容插入到对应光标位置
-          if (activeObject && (activeObject.type === "textbox" || activeObject.type === "i-text")) {
-            const cursorPosition = activeObject.selectionStart;
-            const textBeforeCursorPosition = activeObject.text.substring(0, cursorPosition);
-            const textAfterCursorPosition = activeObject.text.substring(cursorPosition);
+          if (activeObject && (activeObject.type === 'textbox' || activeObject.type === 'i-text')) {
+            const cursorPosition = activeObject.selectionStart
+            const textBeforeCursorPosition = activeObject.text.substring(0, cursorPosition)
+            const textAfterCursorPosition = activeObject.text.substring(cursorPosition)
 
             // 更新文本对象的文本
-            activeObject.set("text", textBeforeCursorPosition + text + textAfterCursorPosition);
+            activeObject.set('text', textBeforeCursorPosition + text + textAfterCursorPosition)
 
             // 重新设置光标的位置
-            activeObject.selectionStart = cursorPosition + text.length;
-            activeObject.selectionEnd = cursorPosition + text.length;
+            activeObject.selectionStart = cursorPosition + text.length
+            activeObject.selectionEnd = cursorPosition + text.length
 
             // 重新渲染画布展示更新后的文本
-            activeObject.dirty = true;
-            canvas.renderAll();
+            activeObject.dirty = true
+            canvas.renderAll()
           } else {
-            createTextElement(50, undefined, false, text);
+            createTextElement(50, undefined, false, text)
           }
-        });
+        })
       }
     }
     if (!items.length) {
-      pasteElement();
+      pasteElement()
     }
-  };
+  }
 
   return {
     keydownListener,
     keyupListener,
     pasteListener,
-  };
-};
+  }
+}

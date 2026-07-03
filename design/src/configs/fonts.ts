@@ -1,4 +1,4 @@
-import { SystemFont } from "@/types/common"
+import { SystemFont } from '@/types/common'
 
 export const SYS_FONTS: SystemFont[] = [
   { label: 'Arial', value: 'Arial' },

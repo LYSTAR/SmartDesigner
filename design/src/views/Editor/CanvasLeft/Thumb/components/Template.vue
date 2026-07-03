@@ -1,5 +1,6 @@
 <template>
-  <div class="thumbnail-slide"
+  <div
+    class="thumbnail-slide"
     :style="{
       width: props.size + 'px',
       height: height + 'px',
@@ -41,46 +42,55 @@ const { templateCanvas } = storeToRefs(templatesStore)
 const viewportRatio = computed(() => props.template.height / props.template.width)
 const height = computed(() => props.size * viewportRatio.value)
 const thumbnailTemplate = ref()
-// let thumbnailCanvas: StaticCanvas 
+// let thumbnailCanvas: StaticCanvas
 let thumbCanvas: StaticCanvas | undefined
 
 onMounted(() => {
   thumbCanvas = new StaticCanvas(thumbnailTemplate.value, {
     width: props.size,
     height: props.size * viewportRatio.value,
-    backgroundColor: props.template.workSpace.fillType === 0 ? props.template.workSpace.fill as string : '#fff'
+    backgroundColor: props.template.workSpace.fillType === 0 ? (props.template.workSpace.fill as string) : '#fff',
   })
   templateCanvas.value.set(props.template.id, thumbCanvas as any)
   setThumbnailElement()
 })
 
-watch(props, () => {
-  if (!thumbCanvas) return
-  setThumbnailElement()
-}, { deep: true })
+watch(
+  props,
+  () => {
+    if (!thumbCanvas) return
+    setThumbnailElement()
+  },
+  { deep: true }
+)
 
 const setThumbnailElement = async () => {
   if (!thumbCanvas) return
   await thumbCanvas.loadFromJSON(props.template)
-  const thumbWorkSpaceDraw = thumbCanvas.getObjects().filter(item => (item as CanvasElement).id === WorkSpaceDrawType)[0]
-  thumbCanvas.getObjects().filter(item => WorkSpaceThumbType.includes(item.id)).map(item => (item as CanvasElement).visible = false)
+  const thumbWorkSpaceDraw = thumbCanvas
+    .getObjects()
+    .filter(item => (item as CanvasElement).id === WorkSpaceDrawType)[0]
+  thumbCanvas
+    .getObjects()
+    .filter(item => WorkSpaceThumbType.includes(item.id))
+    .map(item => ((item as CanvasElement).visible = false))
   const width = props.template.width / props.template.zoom
   const thumbZoom = props.size / width
   thumbCanvas.setDimensions({
     width: props.size,
-    height: props.size * viewportRatio.value
+    height: props.size * viewportRatio.value,
   })
   thumbCanvas.setZoom(thumbZoom)
   const thumbViewportTransform = thumbCanvas.viewportTransform
   const objects = thumbCanvas.getObjects().filter(ele => !WorkSpaceThumbType.includes(ele.id))
   // const boundingBox = Group.prototype.getObjectsBoundingBox(objects)
   const boundingBox = getObjectsBoundingBox(objects)
-  let left = 0, top = 0
+  let left = 0,
+    top = 0
   if (thumbWorkSpaceDraw) {
     left = thumbWorkSpaceDraw.left
     top = thumbWorkSpaceDraw.top
-  }
-  else if (boundingBox) {
+  } else if (boundingBox) {
     left = boundingBox.centerX - boundingBox.width / 2
     top = boundingBox.centerY - boundingBox.height / 2
   }

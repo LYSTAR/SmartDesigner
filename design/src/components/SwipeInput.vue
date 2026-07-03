@@ -1,9 +1,9 @@
 <template>
   <el-input-number
     class="swipe-input"
-    v-model="numberValue" 
-    :step="step" 
-    :max="max" 
+    v-model="numberValue"
+    :step="step"
+    :max="max"
     :min="min"
     :controls="false"
     :label="label"
@@ -34,7 +34,7 @@ const props = withDefaults(
   {
     modelEvent: 'change',
     step: 1,
-  },
+  }
 )
 
 const emit = defineEmits<{
@@ -47,10 +47,14 @@ const slots = useSlots()
 
 const numberValue = useVModel(props, 'modelValue', emit)
 
-watch(numberValue, (value) => {
-  if (!value) return
-  numberValue.value = toFixed(value)
-}, { immediate: true})
+watch(
+  numberValue,
+  value => {
+    if (!value) return
+    numberValue.value = toFixed(value)
+  },
+  { immediate: true }
+)
 
 const change = (value: number | undefined, ev: Event) => {
   if (!value) return
@@ -94,8 +98,6 @@ const change = (value: number | undefined, ev: Event) => {
 
 // const hasLabel = computed(() => !!props.label || !!slots.label)
 </script>
-
-
 
 <style scoped lang="scss">
 .swipe-input {

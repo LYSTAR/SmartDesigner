@@ -2,81 +2,33 @@
   <div class="element-position">
     <div class="mb-10">
       <el-row>
-        <el-tooltip
-          placement="top"
-          :hide-after="0"
-          :content="$t('style.leftAlign')"
-        >
-          <el-col
-            :span="4"
-            class="align-item"
-            @click="alignElement(AlignCommand.LEFT)"
-          >
+        <el-tooltip placement="top" :hide-after="0" :content="$t('style.leftAlign')">
+          <el-col :span="4" class="align-item" @click="alignElement(AlignCommand.LEFT)">
             <IconAlignLeft />
           </el-col>
         </el-tooltip>
-        <el-tooltip
-          placement="top"
-          :hide-after="0"
-          :content="$t('style.verticalCenter')"
-        >
-          <el-col
-            :span="4"
-            class="align-item"
-            @click="alignElement(AlignCommand.VERTICAL)"
-          >
+        <el-tooltip placement="top" :hide-after="0" :content="$t('style.verticalCenter')">
+          <el-col :span="4" class="align-item" @click="alignElement(AlignCommand.VERTICAL)">
             <IconAlignHorizontally />
           </el-col>
         </el-tooltip>
-        <el-tooltip
-          placement="top"
-          :hide-after="0"
-          :content="$t('style.rightAlign')"
-        >
-          <el-col
-            :span="4"
-            class="align-item"
-            @click="alignElement(AlignCommand.RIGHT)"
-          >
+        <el-tooltip placement="top" :hide-after="0" :content="$t('style.rightAlign')">
+          <el-col :span="4" class="align-item" @click="alignElement(AlignCommand.RIGHT)">
             <IconAlignRight />
           </el-col>
         </el-tooltip>
-        <el-tooltip
-          placement="top"
-          :hide-after="0"
-          :content="$t('style.topAlign')"
-        >
-          <el-col
-            :span="4"
-            class="align-item"
-            @click="alignElement(AlignCommand.TOP)"
-          >
+        <el-tooltip placement="top" :hide-after="0" :content="$t('style.topAlign')">
+          <el-col :span="4" class="align-item" @click="alignElement(AlignCommand.TOP)">
             <IconAlignTop />
           </el-col>
         </el-tooltip>
-        <el-tooltip
-          placement="top"
-          :hide-after="0"
-          :content="$t('style.centerHorizontal')"
-        >
-          <el-col
-            :span="4"
-            class="align-item"
-            @click="alignElement(AlignCommand.HORIZONTAL)"
-          >
+        <el-tooltip placement="top" :hide-after="0" :content="$t('style.centerHorizontal')">
+          <el-col :span="4" class="align-item" @click="alignElement(AlignCommand.HORIZONTAL)">
             <IconAlignVertically />
           </el-col>
         </el-tooltip>
-        <el-tooltip
-          placement="top"
-          :hide-after="0"
-          :content="$t('style.bottomAlign')"
-        >
-          <el-col
-            :span="4"
-            class="align-item"
-            @click="alignElement(AlignCommand.BOTTOM)"
-          >
+        <el-tooltip placement="top" :hide-after="0" :content="$t('style.bottomAlign')">
+          <el-col :span="4" class="align-item" @click="alignElement(AlignCommand.BOTTOM)">
             <IconAlignBottom />
           </el-col>
         </el-tooltip>
@@ -88,20 +40,10 @@
           <SwipeInput v-bind="left" content="X" />
         </el-col>
         <el-col :span="2" class="fixed-ratio">
-          <el-tooltip
-            effect="dark"
-            placement="top"
-            :content="$t('style.unlockAspectRatio')"
-            v-if="isFixed"
-          >
+          <el-tooltip effect="dark" placement="top" :content="$t('style.unlockAspectRatio')" v-if="isFixed">
             <IconLock class="icon-btn" @click="changeFixedRatio(false)" />
           </el-tooltip>
-          <el-tooltip
-            effect="dark"
-            placement="top"
-            :content="$t('style.lockAspectRatio')"
-            v-else
-          >
+          <el-tooltip effect="dark" placement="top" :content="$t('style.lockAspectRatio')" v-else>
             <IconUnlock class="icon-btn" @click="changeFixedRatio(true)" />
           </el-tooltip>
         </el-col>
@@ -116,20 +58,10 @@
           <SwipeInput v-bind="width" content="W" />
         </el-col>
         <el-col :span="2" class="fixed-ratio">
-          <el-tooltip
-            effect="dark"
-            placement="top"
-            :content="$t('style.unlockAspectRatio')"
-            v-if="isFixed"
-          >
+          <el-tooltip effect="dark" placement="top" :content="$t('style.unlockAspectRatio')" v-if="isFixed">
             <IconLock class="icon-btn" @click="changeFixedRatio(false)" />
           </el-tooltip>
-          <el-tooltip
-            effect="dark"
-            placement="top"
-            :content="$t('style.lockAspectRatio')"
-            v-else
-          >
+          <el-tooltip effect="dark" placement="top" :content="$t('style.lockAspectRatio')" v-else>
             <IconUnlock class="icon-btn" @click="changeFixedRatio(true)" />
           </el-tooltip>
         </el-col>
@@ -149,51 +81,29 @@
         </el-col>
         <el-col :span="1"></el-col>
         <el-col :span="5" class="angle-col">
-          <div @click="changeRotate45('+')">
-            <IconRotate :style="{ transform: 'rotateY(180deg)' }" /> +45°
-          </div>
+          <div @click="changeRotate45('+')"><IconRotate :style="{ transform: 'rotateY(180deg)' }" /> +45°</div>
         </el-col>
       </el-row>
     </div>
     <div>
       <el-row>
         <el-tooltip placement="top" :hide-after="0" :content="$t('style.top')">
-          <el-col
-            :span="6"
-            class="align-item"
-            @click="layerElement(LayerCommand.TOP)"
-          >
+          <el-col :span="6" class="align-item" @click="layerElement(LayerCommand.TOP)">
             <IconSendToBack />
           </el-col>
         </el-tooltip>
-        <el-tooltip
-          placement="top"
-          :hide-after="0"
-          :content="$t('style.bottom')"
-        >
-          <el-col
-            :span="6"
-            class="align-item"
-            @click="layerElement(LayerCommand.BOTTOM)"
-          >
+        <el-tooltip placement="top" :hide-after="0" :content="$t('style.bottom')">
+          <el-col :span="6" class="align-item" @click="layerElement(LayerCommand.BOTTOM)">
             <IconBringToFrontOne />
           </el-col>
         </el-tooltip>
         <el-tooltip placement="top" :hide-after="0" :content="$t('style.down')">
-          <el-col
-            :span="6"
-            class="align-item"
-            @click="layerElement(LayerCommand.DOWN)"
-          >
+          <el-col :span="6" class="align-item" @click="layerElement(LayerCommand.DOWN)">
             <IconSendBackward />
           </el-col>
         </el-tooltip>
         <el-tooltip placement="top" :hide-after="0" :content="$t('style.up')">
-          <el-col
-            :span="6"
-            class="align-item"
-            @click="layerElement(LayerCommand.UP)"
-          >
+          <el-col :span="6" class="align-item" @click="layerElement(LayerCommand.UP)">
             <IconBringForward />
           </el-col>
         </el-tooltip>
@@ -203,43 +113,43 @@
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
-import { storeToRefs } from "pinia";
-import { AlignCommand, LayerCommand } from "@/types/elements";
-import { useMainStore, useTemplatesStore } from "@/store";
-import useCanvas from "@/views/Canvas/useCanvas";
-import useHandleTool from "@/hooks/useHandleTool";
-import useHandleActive from "@/hooks/useHandleActive";
+import { ref } from 'vue'
+import { storeToRefs } from 'pinia'
+import { AlignCommand, LayerCommand } from '@/types/elements'
+import { useMainStore, useTemplatesStore } from '@/store'
+import useCanvas from '@/views/Canvas/useCanvas'
+import useHandleTool from '@/hooks/useHandleTool'
+import useHandleActive from '@/hooks/useHandleActive'
 
-const templatesStore = useTemplatesStore();
-const { alignElement, layerElement } = useHandleTool();
-const [canvas] = useCanvas();
-const { canvasObject } = storeToRefs(useMainStore());
-const { handleActive } = useHandleActive();
-const left = handleActive("left");
-const top = handleActive("top");
-const height = handleActive("height");
-const width = handleActive("width");
-const angle = handleActive("angle");
+const templatesStore = useTemplatesStore()
+const { alignElement, layerElement } = useHandleTool()
+const [canvas] = useCanvas()
+const { canvasObject } = storeToRefs(useMainStore())
+const { handleActive } = useHandleActive()
+const left = handleActive('left')
+const top = handleActive('top')
+const height = handleActive('height')
+const width = handleActive('width')
+const angle = handleActive('angle')
 // const handleElement = computed(() => canvasObject.value as CanvasElement)
 // const { x, y } = getWidthHeight(canvas.activeObject.value as FabricObject)
-const isFixed = ref(false);
+const isFixed = ref(false)
 
 const changeFixedRatio = (status: boolean) => {
-  isFixed.value = status;
-};
+  isFixed.value = status
+}
 
 // 修改旋转45度（顺时针或逆时针）
-const changeRotate45 = (command: "+" | "-") => {
-  const [canvas] = useCanvas();
-  if (!canvasObject.value || !canvas) return;
-  let _rotate = Math.floor(canvasObject.value.angle / 45) * 45;
-  if (command === "+") _rotate = _rotate + 45;
-  else if (command === "-") _rotate = _rotate - 45;
-  if (_rotate < -180) _rotate = -180;
-  if (_rotate > 180) _rotate = 180;
-  templatesStore.modifedElement(canvasObject.value, {angle: _rotate});
-};
+const changeRotate45 = (command: '+' | '-') => {
+  const [canvas] = useCanvas()
+  if (!canvasObject.value || !canvas) return
+  let _rotate = Math.floor(canvasObject.value.angle / 45) * 45
+  if (command === '+') _rotate = _rotate + 45
+  else if (command === '-') _rotate = _rotate - 45
+  if (_rotate < -180) _rotate = -180
+  if (_rotate > 180) _rotate = 180
+  templatesStore.modifedElement(canvasObject.value, { angle: _rotate })
+}
 </script>
 
 <style lang="scss" scoped>

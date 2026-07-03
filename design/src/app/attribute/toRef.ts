@@ -1,7 +1,6 @@
 import { reactive } from 'vue'
 import { Object as FabricObject, ObjectRef } from 'fabric'
 
-
 /**
  * 元素添加相应式属性
  */
@@ -98,7 +97,7 @@ const toRef = (object: FabricObject) => {
       'overline',
       'linethrough',
       'textAlign',
-      'direction',
+      'direction'
     )
   }
 

@@ -30,9 +30,7 @@
               </div>
             </div>
             <div v-if="loading" class="chat-bubble assistant loading">
-              <div class="loading-dots">
-                <span></span><span></span><span></span>
-              </div>
+              <div class="loading-dots"><span></span><span></span><span></span></div>
             </div>
           </div>
 
@@ -72,12 +70,7 @@ A beautiful abstract fluid acrylic painting, vaporwave aesthetic, pink and purpl
             <div class="image-generate-options">
               <el-checkbox v-model="setAutoBackground">直接设为画布背景</el-checkbox>
             </div>
-            <el-button
-              type="primary"
-              :loading="imageLoading"
-              @click="generateImage"
-              class="ai-action-btn w-full mt-4"
-            >
+            <el-button type="primary" :loading="imageLoading" @click="generateImage" class="ai-action-btn w-full mt-4">
               一键生成图像
             </el-button>
           </div>
@@ -98,71 +91,83 @@ A beautiful abstract fluid acrylic painting, vaporwave aesthetic, pink and purpl
 </template>
 
 <script lang="ts" setup>
-import { ref, reactive, nextTick } from "vue";
-import { ElMessage } from "element-plus";
-import { localStorage } from "@/utils/storage";
-import useCanvas from "@/views/Canvas/useCanvas";
-import { Textbox, Rect, Point } from "fabric";
-import { useTemplatesStore, useMainStore } from "@/store";
-import { WorkSpaceDrawType } from "@/configs/canvas";
-import useHandleCreate from "@/hooks/useHandleCreate";
-import useHistorySnapshot from "@/hooks/useHistorySnapshot";
+import { ref, reactive, nextTick } from 'vue'
+import { ElMessage } from 'element-plus'
+import { localStorage } from '@/utils/storage'
+import useCanvas from '@/views/Canvas/useCanvas'
+import { Textbox, Rect, Point } from 'fabric'
+import { useTemplatesStore, useMainStore } from '@/store'
+import { WorkSpaceDrawType } from '@/configs/canvas'
+import useHandleCreate from '@/hooks/useHandleCreate'
+import useHistorySnapshot from '@/hooks/useHistorySnapshot'
 
-const templatesStore = useTemplatesStore();
-const mainStore = useMainStore();
-const activeTab = ref("edit");
-const loading = ref(false);
-const imageLoading = ref(false);
-const userInstruction = ref("");
-const imagePrompt = ref("");
-const setAutoBackground = ref(true);
-const generatedImage = ref("");
-const chatHistoryRef = ref<HTMLElement | null>(null);
+const templatesStore = useTemplatesStore()
+const mainStore = useMainStore()
+const activeTab = ref('edit')
+const loading = ref(false)
+const imageLoading = ref(false)
+const userInstruction = ref('')
+const imagePrompt = ref('')
+const setAutoBackground = ref(true)
+const generatedImage = ref('')
+const chatHistoryRef = ref<HTMLElement | null>(null)
 
-const chatMessages = ref<Array<{ role: 'user' | 'assistant', content: string, commands?: any[] }>>([
-  { role: 'assistant', content: '您好！我是您的 AI 排版设计助理。请输入指令，我会读取画布图层并为您自动修改。' }
-]);
+const chatMessages = ref<Array<{ role: 'user' | 'assistant'; content: string; commands?: any[] }>>([
+  { role: 'assistant', content: '您好！我是您的 AI 排版设计助理。请输入指令，我会读取画布图层并为您自动修改。' },
+])
 
 const scrollToBottom = () => {
   nextTick(() => {
     if (chatHistoryRef.value) {
-      chatHistoryRef.value.scrollTop = chatHistoryRef.value.scrollHeight;
+      chatHistoryRef.value.scrollTop = chatHistoryRef.value.scrollHeight
     }
-  });
-};
+  })
+}
 
 // 1. 发送改图指令逻辑
 const sendInstruction = async () => {
-  const instruction = userInstruction.value.trim();
-  if (!instruction) return;
+  const instruction = userInstruction.value.trim()
+  if (!instruction) return
 
-  const settings = localStorage.get('yft_ai_settings');
-  const llmConfig = settings?.llm;
+  const settings = localStorage.get('yft_ai_settings')
+  const llmConfig = settings?.llm
 
   if (!llmConfig || !llmConfig.apiKey) {
     ElMessage({
       type: 'warning',
-      message: '请先点击顶栏右上角 AI 接口配置，填写您的 LLM API Key。'
-    });
-    return;
+      message: '请先点击顶栏右上角 AI 接口配置，填写您的 LLM API Key。',
+    })
+    return
   }
 
   // 放入用户消息
-  chatMessages.value.push({ role: 'user', content: instruction });
-  userInstruction.value = "";
-  loading.value = true;
-  scrollToBottom();
+  chatMessages.value.push({ role: 'user', content: instruction })
+  userInstruction.value = ''
+  loading.value = true
+  scrollToBottom()
 
-  const [ canvas ] = useCanvas();
+  const [canvas] = useCanvas()
   if (!canvas) {
-    ElMessage.error('画布尚未初始化');
-    loading.value = false;
-    return;
+    ElMessage.error('画布尚未初始化')
+    loading.value = false
+    return
   }
 
   // 获取当前画布图层数据，并进行精简，避免上下文超出
   const rawLayers = canvas.getObjects().map(o => {
-    const raw = o.toObject(['id', 'type', 'left', 'top', 'width', 'height', 'fill', 'text', 'fontSize', 'fontFamily', 'fontWeight']);
+    const raw = o.toObject([
+      'id',
+      'type',
+      'left',
+      'top',
+      'width',
+      'height',
+      'fill',
+      'text',
+      'fontSize',
+      'fontFamily',
+      'fontWeight',
+    ])
     return {
       id: o.id || raw.id,
       type: o.type || raw.type,
@@ -174,13 +179,13 @@ const sendInstruction = async () => {
       text: (o as any).text || raw.text,
       fontSize: (o as any).fontSize || raw.fontSize,
       fontFamily: (o as any).fontFamily || raw.fontFamily,
-      fontWeight: (o as any).fontWeight || raw.fontWeight
-    };
-  });
+      fontWeight: (o as any).fontWeight || raw.fontWeight,
+    }
+  })
 
-  const workspace = canvas.getObjects().find(o => o.id === WorkSpaceDrawType);
-  const wWidth = workspace ? workspace.width : 1200;
-  const wHeight = workspace ? workspace.height : 800;
+  const workspace = canvas.getObjects().find(o => o.id === WorkSpaceDrawType)
+  const wWidth = workspace ? workspace.width : 1200
+  const wHeight = workspace ? workspace.height : 800
 
   const SYSTEM_PROMPT = `你是一个优秀的平面设计排版专家和 Fabric.js 画布数据翻译器。
 当前画布宽为 ${wWidth}，高为 ${wHeight}。
@@ -206,85 +211,87 @@ const sendInstruction = async () => {
 [
   { "id": "textbox-1", "action": "update", "text": "暑期清仓大促", "fill": "#ff0000" },
   { "id": "new_layer_1", "action": "add", "type": "Textbox", "text": "全场满100减20", "left": 100, "top": 450, "fontSize": 32, "fill": "#00ff00" }
-]`;
+]`
 
   try {
-    const url = `${llmConfig.baseUrl}/chat/completions`;
+    const url = `${llmConfig.baseUrl}/chat/completions`
     const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Authorization': `Bearer ${llmConfig.apiKey}`
+        Authorization: `Bearer ${llmConfig.apiKey}`,
       },
       body: JSON.stringify({
         model: llmConfig.model,
         messages: [
           { role: 'system', content: SYSTEM_PROMPT },
-          { role: 'user', content: `current_layers: ${JSON.stringify(rawLayers)}\ninstruction: ${instruction}` }
+          { role: 'user', content: `current_layers: ${JSON.stringify(rawLayers)}\ninstruction: ${instruction}` },
         ],
-        temperature: 0.2
-      })
-    });
+        temperature: 0.2,
+      }),
+    })
 
     if (!response.ok) {
-      const errText = await response.text();
-      throw new Error(`LLM 服务请求失败: ${response.status} ${errText}`);
+      const errText = await response.text()
+      throw new Error(`LLM 服务请求失败: ${response.status} ${errText}`)
     }
 
-    const resJson = await response.json();
-    let reply = resJson.choices[0].message.content.trim();
-    
+    const resJson = await response.json()
+    let reply = resJson.choices[0].message.content.trim()
+
     // 正则过滤掉可能携带的 markdown 标记
     if (reply.startsWith('```')) {
-      reply = reply.replace(/^```json\s*/, '').replace(/```$/, '').trim();
+      reply = reply
+        .replace(/^```json\s*/, '')
+        .replace(/```$/, '')
+        .trim()
     }
 
-    const commands = JSON.parse(reply);
+    const commands = JSON.parse(reply)
     if (!Array.isArray(commands)) {
-      throw new Error("返回的数据格式不为 JSON 数组");
+      throw new Error('返回的数据格式不为 JSON 数组')
     }
 
     // 执行画布更新动作
-    await executeCommands(canvas, commands);
+    await executeCommands(canvas, commands)
 
     chatMessages.value.push({
       role: 'assistant',
       content: `我已经为您更新了画布。`,
-      commands: commands
-    });
+      commands: commands,
+    })
   } catch (error: any) {
     chatMessages.value.push({
       role: 'assistant',
-      content: `AI 协调修改失败：${error.message || error}`
-    });
+      content: `AI 协调修改失败：${error.message || error}`,
+    })
   } finally {
-    loading.value = false;
-    scrollToBottom();
+    loading.value = false
+    scrollToBottom()
   }
-};
+}
 
 // 执行来自大模型翻译的图层操作
 const executeCommands = async (canvas: any, commands: any[]) => {
-  const { addHistorySnapshot } = useHistorySnapshot();
-  const { createTextElement } = useHandleCreate();
-  
+  const { addHistorySnapshot } = useHistorySnapshot()
+  const { createTextElement } = useHandleCreate()
+
   for (const cmd of commands) {
     if (cmd.action === 'update') {
-      const obj = canvas.getObjects().find((o: any) => o.id === cmd.id);
+      const obj = canvas.getObjects().find((o: any) => o.id === cmd.id)
       if (obj) {
         // 设置属性
-        obj.set(cmd);
+        obj.set(cmd)
         // 特殊处理 Textbox 文本
         if (cmd.text && typeof obj.setSelectionStart === 'function') {
-          obj.set({ text: cmd.text });
+          obj.set({ text: cmd.text })
         }
         templatesStore.updateElement({
           id: cmd.id,
-          props: cmd
-        });
+          props: cmd,
+        })
       }
-    } 
-    else if (cmd.action === 'add') {
+    } else if (cmd.action === 'add') {
       if (cmd.type === 'Textbox') {
         const textObj = new Textbox(cmd.text || '输入文字', {
           id: cmd.id || `ai_text_${Date.now()}`,
@@ -293,51 +300,50 @@ const executeCommands = async (canvas: any, commands: any[]) => {
           fontSize: cmd.fontSize || 32,
           fill: cmd.fill || '#000000',
           width: cmd.width || 300,
-          ...cmd
-        });
-        canvas.add(textObj);
-        templatesStore.addElement(textObj);
+          ...cmd,
+        })
+        canvas.add(textObj)
+        templatesStore.addElement(textObj)
       }
-    } 
-    else if (cmd.action === 'delete') {
-      const obj = canvas.getObjects().find((o: any) => o.id === cmd.id);
+    } else if (cmd.action === 'delete') {
+      const obj = canvas.getObjects().find((o: any) => o.id === cmd.id)
       if (obj) {
-        canvas.remove(obj);
-        templatesStore.deleteElement(obj);
+        canvas.remove(obj)
+        templatesStore.deleteElement(obj)
       }
     }
   }
-  canvas.renderAll();
-};
+  canvas.renderAll()
+}
 
 // 2. AI 背景/贴纸图像生成
 const generateImage = async () => {
-  const prompt = imagePrompt.value.trim();
+  const prompt = imagePrompt.value.trim()
   if (!prompt) {
-    ElMessage.warning('请输入生图 prompt 描述');
-    return;
+    ElMessage.warning('请输入生图 prompt 描述')
+    return
   }
 
-  const settings = localStorage.get('yft_ai_settings');
-  const imgConfig = settings?.imageGen;
+  const settings = localStorage.get('yft_ai_settings')
+  const imgConfig = settings?.imageGen
 
   if (!imgConfig || !imgConfig.apiKey) {
     ElMessage({
       type: 'warning',
-      message: '请先点击顶栏右上角 AI 接口配置，填写您的 Stability AI API Key。'
-    });
-    return;
+      message: '请先点击顶栏右上角 AI 接口配置，填写您的 Stability AI API Key。',
+    })
+    return
   }
 
-  imageLoading.value = true;
+  imageLoading.value = true
   try {
-    const url = `${imgConfig.baseUrl}/v1/generation/${imgConfig.model}/text-to-image`;
+    const url = `${imgConfig.baseUrl}/v1/generation/${imgConfig.model}/text-to-image`
     const response = await fetch(url, {
       method: 'POST',
       headers: {
         'Content-Type': 'application/json',
-        'Accept': 'application/json',
-        'Authorization': `Bearer ${imgConfig.apiKey}`
+        Accept: 'application/json',
+        Authorization: `Bearer ${imgConfig.apiKey}`,
       },
       body: JSON.stringify({
         text_prompts: [{ text: prompt, weight: 1.0 }],
@@ -345,74 +351,74 @@ const generateImage = async () => {
         height: 1024,
         width: 1024,
         samples: 1,
-        steps: 30
-      })
-    });
+        steps: 30,
+      }),
+    })
 
     if (!response.ok) {
-      const errText = await response.text();
-      throw new Error(`生图失败: ${response.status} ${errText}`);
+      const errText = await response.text()
+      throw new Error(`生图失败: ${response.status} ${errText}`)
     }
 
-    const resJson = await response.json();
-    const base64Str = resJson.artifacts[0].base64;
-    generatedImage.value = `data:image/png;base64,${base64Str}`;
+    const resJson = await response.json()
+    const base64Str = resJson.artifacts[0].base64
+    generatedImage.value = `data:image/png;base64,${base64Str}`
 
     if (setAutoBackground.value) {
-      await insertImageAsBackground(generatedImage.value);
-      ElMessage.success('生图成功，并已设为画布背景！');
+      await insertImageAsBackground(generatedImage.value)
+      ElMessage.success('生图成功，并已设为画布背景！')
     } else {
-      ElMessage.success('生图成功！您可以点击下方按钮将其插入图层。');
+      ElMessage.success('生图成功！您可以点击下方按钮将其插入图层。')
     }
   } catch (error: any) {
     ElMessage({
       type: 'error',
-      message: `图像生成失败: ${error.message || error}`
-    });
+      message: `图像生成失败: ${error.message || error}`,
+    })
   } finally {
-    imageLoading.value = false;
+    imageLoading.value = false
   }
-};
+}
 
 // 插入所生成的图像至普通图层
 const insertGeneratedImage = async () => {
-  if (!generatedImage.value) return;
-  const [ canvas ] = useCanvas();
-  if (!canvas) return;
+  if (!generatedImage.value) return
+  const [canvas] = useCanvas()
+  if (!canvas) return
 
-  const { createImageElement } = useHandleCreate();
-  const img = new Image();
-  img.src = generatedImage.value;
+  const { createImageElement } = useHandleCreate()
+  const img = new Image()
+  img.src = generatedImage.value
   img.onload = () => {
-    createImageElement(img);
-    ElMessage.success('已成功将生成的图片插入图层！');
-  };
-};
+    createImageElement(img)
+    ElMessage.success('已成功将生成的图片插入图层！')
+  }
+}
 
 // 设为画布背景
 const insertImageAsBackground = async (dataUrl: string) => {
-  const [ canvas ] = useCanvas();
-  if (!canvas) return;
+  const [canvas] = useCanvas()
+  if (!canvas) return
 
-  const workspace = canvas.getObjects().find(o => o.id === WorkSpaceDrawType);
+  const workspace = canvas.getObjects().find(o => o.id === WorkSpaceDrawType)
   if (workspace) {
     // 设为 Rect 填充
     workspace.set({
       fill: {
         type: 'pattern',
         source: dataUrl,
-        repeat: 'no-repeat'
-      } as any
-    });
+        repeat: 'no-repeat',
+      } as any,
+    })
     templatesStore.updateElement({
       id: WorkSpaceDrawType,
       props: {
-        fill: workspace.fill
-      }
-    });
-    canvas.renderAll();
+        fill: workspace.fill,
+      },
+    })
+    canvas.renderAll()
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>
@@ -590,12 +596,22 @@ const insertImageAsBackground = async (dataUrl: string) => {
     border-radius: 50%;
     display: inline-block;
     animation: bounce 1.4s infinite ease-in-out both;
-    &:nth-child(1) { animation-delay: -0.32s; }
-    &:nth-child(2) { animation-delay: -0.16s; }
+    &:nth-child(1) {
+      animation-delay: -0.32s;
+    }
+    &:nth-child(2) {
+      animation-delay: -0.16s;
+    }
   }
 }
 @keyframes bounce {
-  0%, 80%, 100% { transform: scale(0); }
-  40% { transform: scale(1.0); }
+  0%,
+  80%,
+  100% {
+    transform: scale(0);
+  }
+  40% {
+    transform: scale(1);
+  }
 }
 </style>

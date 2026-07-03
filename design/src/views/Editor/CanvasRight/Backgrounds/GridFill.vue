@@ -1,4 +1,3 @@
-
 <template>
   <el-dialog v-model="dialogVisible" :before-close="closeColor" width="35%" class="self-background">
     <div class="self-main">
@@ -10,16 +9,24 @@
       <label class="self-lable">点击方块修改颜色</label>
       <div class="self-color">
         <div class="color-content">
-          <div v-for="item in gridColorSelf" :key="item.index" :style="{backgroundColor: item.color}" class="color-item">
+          <div
+            v-for="item in gridColorSelf"
+            :key="item.index"
+            :style="{ backgroundColor: item.color }"
+            class="color-item"
+          >
             <el-popover trigger="click" width="265">
               <template #reference>
                 <div class="color-select"></div>
               </template>
-              <ColorPicker :modelValue="item.color" @update:modelValue="(value: string) => updateColor(value, item.index)"/>
+              <ColorPicker
+                :modelValue="item.color"
+                @update:modelValue="(value: string) => updateColor(value, item.index)"
+              />
             </el-popover>
           </div>
-          <el-button class="ml-5" circle @click="addColor" v-if="gridColorSelf.length < 11"><IconPlus/></el-button>
-          <el-button class="ml-5" circle @click="subColor" v-if="gridColorSelf.length > 2"><IconMinus/></el-button>
+          <el-button class="ml-5" circle @click="addColor" v-if="gridColorSelf.length < 11"><IconPlus /></el-button>
+          <el-button class="ml-5" circle @click="subColor" v-if="gridColorSelf.length > 2"><IconMinus /></el-button>
         </div>
       </div>
       <el-button class="btn close" round @click="saveColor()">保存色彩</el-button>
@@ -49,14 +56,17 @@ const emit = defineEmits<{
   (event: 'close'): void
 }>()
 
-watch(() => props.visible, (val) => {
-  dialogVisible.value = val
-  if (val) {
-    nextTick(() => {
-      generateBackground()
-    })
+watch(
+  () => props.visible,
+  val => {
+    dialogVisible.value = val
+    if (val) {
+      nextTick(() => {
+        generateBackground()
+      })
+    }
   }
-})
+)
 
 // const openedDialog = () => {
 //   generateBackground()
@@ -65,7 +75,7 @@ watch(() => props.visible, (val) => {
 // 添加自定义色彩
 const addColor = () => {
   const gridColor = gridColorSelf.value[gridColorSelf.value.length - 1]
-  gridColorSelf.value.push({index: gridColor.index + 1, color: gridColor.color})
+  gridColorSelf.value.push({ index: gridColor.index + 1, color: gridColor.color })
   generateBackground()
 }
 
@@ -97,7 +107,7 @@ const generateBackground = () => {
     colorSpace: 'lab',
     colorFunction: trianglify.colorFunctions.interpolateLinear(0.5),
     strokeWidth: 0,
-    points: null
+    points: null,
   }
   const trianglifier = trianglify(defaultOptions)
   trianglifier.toCanvas(gridBackground.value)
@@ -115,7 +125,6 @@ const saveColor = () => {
 const closeColor = () => {
   emit('close')
 }
-
 </script>
 
 <style lang="scss" scoped>
@@ -135,7 +144,7 @@ const closeColor = () => {
   max-height: 100%;
   height: 200px;
   object-fit: contain;
-  filter: drop-shadow(2px 2px 8px rgba(0, 0, 0, .2));
+  filter: drop-shadow(2px 2px 8px rgba(0, 0, 0, 0.2));
 }
 
 .self-footer {
@@ -161,7 +170,7 @@ const closeColor = () => {
   display: inline-block;
   cursor: pointer;
   margin: 0 2px;
-  transition: transform .2s ease, box-shadow .2s ease;
+  transition: transform 0.2s ease, box-shadow 0.2s ease;
 }
 .ml-5 {
   margin-left: 5px;
@@ -171,11 +180,9 @@ const closeColor = () => {
   width: 32px;
   height: 32px;
 }
-
 </style>
 
 <style>
-
 .self-background .el-dialog__body {
   padding: 0;
 }
@@ -183,5 +190,4 @@ const closeColor = () => {
 .self-background .el-dialog__header {
   padding: 0;
 }
-
 </style>

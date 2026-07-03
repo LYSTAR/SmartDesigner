@@ -1,14 +1,16 @@
 <template>
   <div class="element-shadow">
     <div class="row">
-      <div class="stroke-name"><b>{{$t('style.enableStroke')}}：</b></div>
+      <div class="stroke-name">
+        <b>{{ $t('style.enableStroke') }}：</b>
+      </div>
       <div class="stroke-option switch-wrapper">
         <el-switch v-model="openStroke" @change="toggleStroke()"></el-switch>
       </div>
     </div>
     <template v-if="openStroke">
       <div class="row">
-        <div class="stroke-name">{{$t('style.strokeWidth')}}：</div>
+        <div class="stroke-name">{{ $t('style.strokeWidth') }}：</div>
         <el-slider class="slider" v-model="handleElement.strokeWidth" @change="updateStrokeWidth"></el-slider>
       </div>
       <!-- <div class="row">
@@ -20,7 +22,7 @@
         </el-select>
       </div> -->
       <div class="row">
-        <div class="stroke-name">{{$t('style.cornerStyle')}}：</div>
+        <div class="stroke-name">{{ $t('style.cornerStyle') }}：</div>
         <el-select class="stroke-option" v-model="handleElement.strokeLineJoin" @change="updateStrokeLineJoin">
           <el-option value="bevel" :label="$t('style.bevel')"></el-option>
           <el-option value="round" :label="$t('style.round')"></el-option>
@@ -28,12 +30,15 @@
         </el-select>
       </div>
       <div class="row">
-        <div class="stroke-name">{{$t('style.strokeColor')}}：</div>
+        <div class="stroke-name">{{ $t('style.strokeColor') }}：</div>
         <el-popover trigger="click" width="265">
           <template #reference>
             <ColorButton :color="handleElement.stroke" class="stroke-option" />
           </template>
-          <ColorPicker :modelValue="handleElement.stroke" @update:modelValue="(color: string) => updateStrokeColor(color)"/>
+          <ColorPicker
+            :modelValue="handleElement.stroke"
+            @update:modelValue="(color: string) => updateStrokeColor(color)"
+          />
         </el-popover>
       </div>
     </template>
@@ -54,35 +59,34 @@ const props = defineProps({
   },
 })
 
-const [ canvas ] = useCanvas()
+const [canvas] = useCanvas()
 const { canvasObject } = storeToRefs(useMainStore())
-
 
 const handleElement = computed(() => canvasObject.value as TextboxElement)
 const openStroke = ref(props.hasStroke)
 
 const updateStrokeColor = (stroke: string) => {
   if (!handleElement.value) return
-  handleElement.value.set({stroke})
+  handleElement.value.set({ stroke })
   canvas.renderAll()
 }
 
 const updateStrokeWidth = (strokeWidth: number) => {
   if (!handleElement.value) return
-  handleElement.value.set({strokeWidth})
+  handleElement.value.set({ strokeWidth })
   canvas.renderAll()
 }
 
 const updateStrokeLineCap = (strokeLineCap: string) => {
   if (!handleElement.value) return
-  handleElement.value.set({strokeLineCap})
+  handleElement.value.set({ strokeLineCap })
   updateStrokeWidth(handleElement.value.strokeWidth - 1)
   updateStrokeWidth(handleElement.value.strokeWidth + 1)
 }
 
 const updateStrokeLineJoin = (strokeLineJoin: string) => {
   if (!handleElement.value) return
-  handleElement.value.set({strokeLineJoin})
+  handleElement.value.set({ strokeLineJoin })
   updateStrokeWidth(handleElement.value.strokeWidth - 1)
   updateStrokeWidth(handleElement.value.strokeWidth + 1)
 }
@@ -92,7 +96,7 @@ const toggleStroke = () => {
   const stroke = openStroke.value ? (!handleElement.value.stroke ? '#000' : '') : ''
   const strokeWidth = openStroke.value ? (!handleElement.value.stroke ? 1 : 0) : 0
   const paintFirst = openStroke.value ? 'stroke' : 'fill'
-  handleElement.value.set({stroke, strokeWidth, paintFirst})
+  handleElement.value.set({ stroke, strokeWidth, paintFirst })
   canvas.renderAll()
 }
 </script>

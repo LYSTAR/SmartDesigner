@@ -23,12 +23,7 @@
               </el-radio-group>
             </el-form-item>
             <el-form-item label="API Key" required>
-              <el-input
-                v-model="settings.llm.apiKey"
-                type="password"
-                show-password
-                placeholder="请输入您的 API 密钥"
-              />
+              <el-input v-model="settings.llm.apiKey" type="password" show-password placeholder="请输入您的 API 密钥" />
             </el-form-item>
             <el-form-item label="接口地址 (Base URL)">
               <el-input v-model="settings.llm.baseUrl" placeholder="https://..." />
@@ -95,9 +90,7 @@
     <template #footer>
       <div class="dialog-footer">
         <el-button @click="handleClose">取消</el-button>
-        <el-button type="primary" class="save-btn" @click="handleSave">
-          保存配置
-        </el-button>
+        <el-button type="primary" class="save-btn" @click="handleSave"> 保存配置 </el-button>
       </div>
     </template>
   </el-dialog>
@@ -111,8 +104,8 @@ import { localStorage } from '@/utils/storage'
 const props = defineProps({
   visible: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 })
 
 const emit = defineEmits(['update:visible'])
@@ -124,31 +117,31 @@ const activeTab = ref('llm')
 const DEFAULT_LLM_CONFIGS = {
   deepseek: {
     baseUrl: 'https://api.deepseek.com/v1',
-    model: 'deepseek-chat'
+    model: 'deepseek-chat',
   },
   gemini: {
     baseUrl: 'https://generativelanguage.googleapis.com',
-    model: 'gemini-1.5-flash'
+    model: 'gemini-1.5-flash',
   },
   openai: {
     baseUrl: 'https://api.openai.com/v1',
-    model: 'gpt-4o'
+    model: 'gpt-4o',
   },
   custom: {
     baseUrl: '',
-    model: ''
-  }
+    model: '',
+  },
 }
 
 const DEFAULT_IMAGE_CONFIGS = {
   stability: {
     baseUrl: 'https://api.stability.ai',
-    model: 'stable-diffusion-xl-1024-v1-0'
+    model: 'stable-diffusion-xl-1024-v1-0',
   },
   custom: {
     baseUrl: '',
-    model: ''
-  }
+    model: '',
+  },
 }
 
 // 响应式表单配置
@@ -157,28 +150,31 @@ const settings = reactive({
     provider: 'deepseek',
     apiKey: '',
     baseUrl: DEFAULT_LLM_CONFIGS.deepseek.baseUrl,
-    model: DEFAULT_LLM_CONFIGS.deepseek.model
+    model: DEFAULT_LLM_CONFIGS.deepseek.model,
   },
   imageGen: {
     provider: 'stability',
     apiKey: '',
     baseUrl: DEFAULT_IMAGE_CONFIGS.stability.baseUrl,
-    model: DEFAULT_IMAGE_CONFIGS.stability.model
+    model: DEFAULT_IMAGE_CONFIGS.stability.model,
   },
   matting: {
     provider: 'removebg',
-    apiKey: ''
-  }
+    apiKey: '',
+  },
 })
 
 // 监听 visible 属性改变
-watch(() => props.visible, (val) => {
-  dialogVisible.value = val
-  if (val) {
-    // 弹窗打开时，加载 localstorage 中已存配置
-    loadSettings()
+watch(
+  () => props.visible,
+  val => {
+    dialogVisible.value = val
+    if (val) {
+      // 弹窗打开时，加载 localstorage 中已存配置
+      loadSettings()
+    }
   }
-})
+)
 
 const loadSettings = () => {
   const saved = localStorage.get('yft_ai_settings')
@@ -213,7 +209,7 @@ const handleSave = () => {
   localStorage.set('yft_ai_settings', JSON.parse(JSON.stringify(settings)))
   ElMessage({
     type: 'success',
-    message: 'AI 接口配置保存成功！数据已保存在本地。'
+    message: 'AI 接口配置保存成功！数据已保存在本地。',
   })
   handleClose()
 }

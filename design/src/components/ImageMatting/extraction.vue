@@ -9,17 +9,23 @@
             <el-radio :value="true" size="large"> <b>擦除画笔</b> <i class="icon sd-cachu" /></el-radio>
           </el-radio-group>
           <number-slider
-            v-model="state.radius" class="slider-wrap"
-            label="画笔尺寸" :showInput="false"
-            labelWidth="90px" 
-            :maxValue="state.constants?.RADIUS_SLIDER_MAX" :minValue="state.constants?.RADIUS_SLIDER_MIN" 
+            v-model="state.radius"
+            class="slider-wrap"
+            label="画笔尺寸"
+            :showInput="false"
+            labelWidth="90px"
+            :maxValue="state.constants?.RADIUS_SLIDER_MAX"
+            :minValue="state.constants?.RADIUS_SLIDER_MIN"
             :step="state.constants?.RADIUS_SLIDER_STEP"
           />
           <number-slider
-            v-model="state.hardness" class="slider-wrap"
-            label="画笔硬度" :showInput="false"
-            labelWidth="90px" 
-            :maxValue="state.constants?.HARDNESS_SLIDER_MAX" :minValue="state.constants?.HARDNESS_SLIDER_MIN"
+            v-model="state.hardness"
+            class="slider-wrap"
+            label="画笔硬度"
+            :showInput="false"
+            labelWidth="90px"
+            :maxValue="state.constants?.HARDNESS_SLIDER_MAX"
+            :minValue="state.constants?.HARDNESS_SLIDER_MIN"
             :step="state.constants?.HARDNESS_SLIDER_STEP"
           />
         </div>
@@ -43,7 +49,7 @@ interface TImageExtractionState {
   brushSize: string
   hardness: number | string
   hardnessText: string
-  constants: null;
+  constants: null
 }
 
 type TParams = {
@@ -55,7 +61,7 @@ type TCallback = ((base64: string) => void) | null
 
 const props: TParams = {
   raw: '',
-  result: ''
+  result: '',
 }
 
 let callback: TCallback = null // 传回自动抠图的回调
@@ -94,16 +100,14 @@ const open = async (raw: string, result: string, cb: TCallback) => {
 }
 
 defineExpose({
-  open
+  open,
 })
 
 const done = () => {
   state.show = false
   callback
 }
-
 </script>
-
 
 <style lang="less" scoped>
 :deep(.el-dialog__body) {
@@ -126,4 +130,3 @@ const done = () => {
   width: 240px;
 }
 </style>
-

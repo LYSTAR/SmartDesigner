@@ -3,45 +3,67 @@ import { TControlSet } from '@/types/fabric'
 import { PolygonElement } from '@/types/canvas'
 import { PiBy180, toFixed } from '@/utils/common'
 import { px2mm } from '@/utils/image'
-import { Control, Object as FabricObject, controlsUtils, Point, Polygon, TPointerEvent, Transform, TDegree, util,TransformActionHandler } from 'fabric'
+import {
+  Control,
+  Object as FabricObject,
+  controlsUtils,
+  Point,
+  Polygon,
+  TPointerEvent,
+  Transform,
+  TDegree,
+  util,
+  TransformActionHandler,
+} from 'fabric'
 import { storeToRefs } from 'pinia'
 import { useMainStore } from '@/store'
 import { ArcText } from '@/extension/object/ArcText'
 
+export const changeObjectHeight: TransformActionHandler = (
+  eventData: TPointerEvent,
+  transform: Transform,
+  x: number,
+  y: number
+) => {
+  const localPoint = controlsUtils.getLocalPoint(transform, transform.originX, transform.originY, x, y)
 
-export const changeObjectHeight: TransformActionHandler = (eventData: TPointerEvent, transform: Transform, x: number, y: number) => {
-  const localPoint = controlsUtils.getLocalPoint(transform, transform.originX, transform.originY, x, y);
-  
   //  make sure the control changes width ONLY from it's side of target
   const { target } = transform
   if ((transform.originY === 'top' && localPoint.y > 0) || (transform.originY === 'bottom' && localPoint.y < 0)) {
-    
     const strokeWidth = target.strokeWidth ? target.strokeWidth : 0
     if (!target.scaleY) return false
     const strokePadding = strokeWidth / (target.strokeUniform ? target.scaleY : 1)
     const oldHeight = target.height
     const newHeight = Math.ceil(Math.abs((localPoint.y * 1) / target.scaleY) - strokePadding)
     target.set('height', Math.max(newHeight, 0))
-    return oldHeight !== target.height;
+    return oldHeight !== target.height
   }
-  return false;
-};
+  return false
+}
 
-export const changeObjectCurvature: TransformActionHandler = (eventData: TPointerEvent, transform: Transform, x: number, y: number) => {
+export const changeObjectCurvature: TransformActionHandler = (
+  eventData: TPointerEvent,
+  transform: Transform,
+  x: number,
+  y: number
+) => {
   const target = transform.target as ArcText
   let localPoint = controlsUtils.getLocalPoint(transform, transform.originX, transform.originY, x, y),
     strokePadding = target.strokeWidth / (target.strokeUniform ? target.scaleX : 1),
     multiplier = transform.originY === 'center' ? 2 : 1,
-    cy = (localPoint.y + target.controls[transform.corner].offsetY - target.height / 2 + target._contentOffsetY ) * multiplier / target.scaleY - strokePadding;
+    cy =
+      ((localPoint.y + target.controls[transform.corner].offsetY - target.height / 2 + target._contentOffsetY) *
+        multiplier) /
+        target.scaleY -
+      strokePadding
 
-  let textHeight = target.calcTextHeight();
+  let textHeight = target.calcTextHeight()
 
-  let radius;
+  let radius
   if (Math.abs(cy) <= textHeight / 2) {
-    radius = 0;
-  }
-  else{
-    radius = cy > 0 ? cy - textHeight / 2 : cy + textHeight / 2;
+    radius = 0
+  } else {
+    radius = cy > 0 ? cy - textHeight / 2 : cy + textHeight / 2
   }
 
   target.set(radius)
@@ -53,11 +75,13 @@ export const changeObjectCurvature: TransformActionHandler = (eventData: TPointe
 export function polygonPositionHandler(dim: Point, finalMatrix: number[], fabricObject: any) {
   // @ts-ignore
   const pointIndex = this.pointIndex
-  
-  const x = (fabricObject.points[pointIndex].x - fabricObject.pathOffset.x)
-  const y = (fabricObject.points[pointIndex].y - fabricObject.pathOffset.y)
+
+  const x = fabricObject.points[pointIndex].x - fabricObject.pathOffset.x
+  const y = fabricObject.points[pointIndex].y - fabricObject.pathOffset.y
   // console.log('fabricObject:', fabricObject.canvas?.viewportTransform)
-  const canvasTransform = fabricObject.canvas?.viewportTransform ? fabricObject.canvas?.viewportTransform : [1, 0, 0, 1, 0, 0]
+  const canvasTransform = fabricObject.canvas?.viewportTransform
+    ? fabricObject.canvas?.viewportTransform
+    : [1, 0, 0, 1, 0, 0]
   const point = util.transformPoint(
     { x, y } as Point,
     util.multiplyTransformMatrices(
@@ -72,30 +96,31 @@ export function polygonPositionHandler(dim: Point, finalMatrix: number[], fabric
 }
 
 const getObjectSizeWithStroke = (object: FabricObject) => {
-  const scaleX = object.scaleX, scaleY = object.scaleY, strokeWidth = object.strokeWidth
-  const width = object.width, height = object.height
-  const stroke = new Point(
-    object.strokeUniform ? 1 / scaleX : 1, 
-    object.strokeUniform ? 1 / scaleY : 1
-  ).scalarMultiply(strokeWidth);
-  return new Point(width + stroke.x, height + stroke.y);
+  const scaleX = object.scaleX,
+    scaleY = object.scaleY,
+    strokeWidth = object.strokeWidth
+  const width = object.width,
+    height = object.height
+  const stroke = new Point(object.strokeUniform ? 1 / scaleX : 1, object.strokeUniform ? 1 / scaleY : 1).scalarMultiply(
+    strokeWidth
+  )
+  return new Point(width + stroke.x, height + stroke.y)
 }
 
 // define a function that can keep the polygon in the same position when we change its
 // width/height/top/left.
 export const anchorWrapper = (anchorIndex: number, fn: Function) => {
-
-  return function(eventData: MouseEvent, transform: any, x: number, y: number) {
-
+  return function (eventData: MouseEvent, transform: any, x: number, y: number) {
     const fabricObject = transform.target as Polygon
-    const pointX = fabricObject.points[anchorIndex].x, pointY = fabricObject.points[anchorIndex].y
-    const handlePoint = new Point({x: (pointX - fabricObject.pathOffset.x), y: (pointY - fabricObject.pathOffset.y)})
+    const pointX = fabricObject.points[anchorIndex].x,
+      pointY = fabricObject.points[anchorIndex].y
+    const handlePoint = new Point({ x: pointX - fabricObject.pathOffset.x, y: pointY - fabricObject.pathOffset.y })
     const absolutePoint = util.transformPoint(handlePoint, fabricObject.calcTransformMatrix()),
-        actionPerformed = fn(eventData, transform, x, y),
-        newDim = fabricObject.setDimensions(),
-        polygonBaseSize = getObjectSizeWithStroke(fabricObject),
-        newX = (pointX - fabricObject.pathOffset.x) / polygonBaseSize.x,
-        newY = (pointY - fabricObject.pathOffset.y) / polygonBaseSize.y
+      actionPerformed = fn(eventData, transform, x, y),
+      newDim = fabricObject.setDimensions(),
+      polygonBaseSize = getObjectSizeWithStroke(fabricObject),
+      newX = (pointX - fabricObject.pathOffset.x) / polygonBaseSize.x,
+      newY = (pointY - fabricObject.pathOffset.y) / polygonBaseSize.y
     fabricObject.setPositionByOrigin(absolutePoint, newX + 0.5, newY + 0.5)
     return actionPerformed
   }
@@ -111,8 +136,8 @@ export const actionHandler = (eventData: TPointerEvent, transform: any, x: numbe
 
   const size = polygon._getTransformedDimensions(0)
   const finalPointPosition = {
-    x: mouseLocalPosition.x * polygonBaseSize.x / size.x + polygon.pathOffset.x,
-    y: mouseLocalPosition.y * polygonBaseSize.y / size.y + polygon.pathOffset.y
+    x: (mouseLocalPosition.x * polygonBaseSize.x) / size.x + polygon.pathOffset.x,
+    y: (mouseLocalPosition.y * polygonBaseSize.y) / size.y + polygon.pathOffset.y,
   } as Point
   polygon.points[currentControl.pointIndex as number] = finalPointPosition
   return true
@@ -124,7 +149,7 @@ export const actionHandler = (eventData: TPointerEvent, transform: any, x: numbe
 const positionHandler: Control['positionHandler'] = (dim, finalMatrix, fabricObject, currentControl) => {
   return new Point(
     currentControl.x * dim.x + currentControl.offsetX,
-    currentControl.y * dim.y + currentControl.offsetY,
+    currentControl.y * dim.y + currentControl.offsetY
   ).transform(finalMatrix)
 }
 
@@ -150,14 +175,14 @@ const setCornersSize = (object: FabricObject) => {
   const size = getWidthHeight(object).scalarMultiply(zoom)
   const controls = object.controls
   const cornersH = ['ml', 'mr']
-  cornersH.forEach((corner) => {
+  cornersH.forEach(corner => {
     controls[corner].sizeX = object.cornerSize
     controls[corner].sizeY = size.y
     controls[corner].touchSizeX = object.touchCornerSize
     controls[corner].touchSizeY = size.y
   })
   const cornersV = ['mt', 'mb']
-  cornersV.forEach((corner) => {
+  cornersV.forEach(corner => {
     controls[corner].sizeX = size.x
     controls[corner].sizeY = object.cornerSize
     controls[corner].touchSizeX = size.x
@@ -217,19 +242,15 @@ const getHornControl = {
 
 const changeWidth = controlsUtils.wrapWithFireEvent(
   'scaling',
-  controlsUtils.wrapWithFixedAnchor(controlsUtils.changeWidth),
+  controlsUtils.wrapWithFixedAnchor(controlsUtils.changeWidth)
 )
 
-const changeHeight = controlsUtils.wrapWithFireEvent(
-  'scaling',
-  controlsUtils.wrapWithFixedAnchor(changeObjectHeight)
-)
+const changeHeight = controlsUtils.wrapWithFireEvent('scaling', controlsUtils.wrapWithFixedAnchor(changeObjectHeight))
 
 const changeCurvature = controlsUtils.wrapWithFireEvent(
   'scaling',
   controlsUtils.wrapWithFixedAnchor(changeObjectCurvature)
 )
-
 
 export const defaultControls = (): TControlSet => ({
   size: new Control({
@@ -279,8 +300,9 @@ export const defaultControls = (): TControlSet => ({
       ctx.restore()
     },
     positionHandler: (dim, finalMatrix, fabricObject: FabricObject, currentControl) => {
-      const activeObject = fabricObject.canvas?.getActiveObject instanceof Function ? fabricObject.canvas?.getActiveObject() : null
-      
+      const activeObject =
+        fabricObject.canvas?.getActiveObject instanceof Function ? fabricObject.canvas?.getActiveObject() : null
+
       if (activeObject && activeObject === fabricObject) {
         const angle = fabricObject.getTotalAngle()
 

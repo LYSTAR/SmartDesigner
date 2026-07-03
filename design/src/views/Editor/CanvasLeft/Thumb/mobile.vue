@@ -4,7 +4,7 @@
     :class="{ 'thumb-close': thumbShow !== true }"
     @mousedown="() => setThumbnailsFocus(true)"
     v-click-outside="() => setThumbnailsFocus(false)"
-    v-contextmenu="contextMenusThumbnails"  
+    v-contextmenu="contextMenusThumbnails"
   >
     <div class="thumb-handle">
       <div class="btn" @click="createTemplate()"><IconPlus class="icon" /></div>
@@ -23,8 +23,8 @@
         <div
           :class="{
             'thumbnail-item': true,
-            'active': templateIndex === index,
-            'selected': selectedTemplatesIndex.includes(index),
+            active: templateIndex === index,
+            selected: selectedTemplatesIndex.includes(index),
           }"
           @mousedown="($event: MouseEvent) => handleClickTemplateThumbnail($event, index)"
           v-contextmenu="contextMenusThumbnails"
@@ -38,10 +38,9 @@
     <div class="thumb-number">{{ t('message.pages') }}{{ templateIndex + 1 }} / {{ templates.length }}</div>
 
     <div class="layout-toggle" @click="thumbToggle">
-      <IconLeft v-if="thumbShow"/>
-      <IconRight v-else/>
+      <IconLeft v-if="thumbShow" />
+      <IconRight v-else />
     </div>
-
   </div>
 </template>
 
@@ -84,7 +83,6 @@ const handleDragEnd = (eventData: { newIndex: number; oldIndex: number }) => {
   sortTemplates(newIndex, oldIndex)
 }
 
-
 // 点击缩略图
 const handleClickTemplateThumbnail = (e: MouseEvent, index: number) => {
   const isMultiSelected = selectedTemplatesIndex.value.length > 1
@@ -99,13 +97,11 @@ const handleClickTemplateThumbnail = (e: MouseEvent, index: number) => {
       // const newSelectedSlidesIndex = selectedSlidesIndex.value.filter(item => item !== index)
       // mainStore.updateSelectedSlidesIndex(newSelectedSlidesIndex)
       // changeSlideIndex(selectedSlidesIndex.value[0])
-    }
-    else {
+    } else {
       if (selectedTemplatesIndex.value.includes(index)) {
         const newSelectedSlidesIndex = selectedTemplatesIndex.value.filter(item => item !== index)
         // mainStore.updateSelectedSlidesIndex(newSelectedSlidesIndex)
-      }
-      else {
+      } else {
         const newSelectedSlidesIndex = [...selectedTemplatesIndex.value, index]
         // mainStore.updateSelectedSlidesIndex(newSelectedSlidesIndex)
         // changeSlideIndex(index)
@@ -196,7 +192,7 @@ const thumbToggle = () => {
   padding: 5px 0;
 
   .thumbnail {
-    outline: 1px solid rgba($color: $themeColor, $alpha: .15);
+    outline: 1px solid rgba($color: $themeColor, $alpha: 0.15);
   }
 
   &.active {
@@ -244,7 +240,7 @@ const thumbToggle = () => {
   right: -17px;
   top: 50%;
   transform: translateY(-50%);
-  transition: right .1s linear;
+  transition: right 0.1s linear;
   width: 16px;
   z-index: 1;
   border-top-right-radius: 20px;

@@ -1,7 +1,7 @@
-import { useFabricStore, useTemplatesStore } from "@/store"
+import { useFabricStore, useTemplatesStore } from '@/store'
 import { DefaultDPI, DefaultRatio } from '@/configs/size'
-import { Padding } from "@/configs/background"
-import { storeToRefs } from "pinia"
+import { Padding } from '@/configs/background'
+import { storeToRefs } from 'pinia'
 import {
   WorkSpaceClipType,
   WorkSpaceDrawType,
@@ -16,8 +16,8 @@ import {
 import { Line, Group, Rect, Path } from 'fabric'
 import { LineOption } from '@/types/canvas'
 import { TransparentFill } from '@/configs/background'
-import useCanvas from "./useCanvas"
-import { ReferenceLine } from "@/extension/object/ReferenceLine"
+import useCanvas from './useCanvas'
+import { ReferenceLine } from '@/extension/object/ReferenceLine'
 
 export default () => {
   const initCommon = () => {
@@ -32,12 +32,14 @@ export default () => {
     canvas.remove(...canvas.getObjects().filter(ele => WorkSpaceThumbType.includes(ele.id)))
     // const workWidth = currentTemplate.value.width / currentTemplate.value.zoom
     // const workHeight = currentTemplate.value.height / currentTemplate.value.zoom
-    const workWidth = workSpaceDraw.width, workHeight = workSpaceDraw.height
+    const workWidth = workSpaceDraw.width,
+      workHeight = workSpaceDraw.height
     const PaddingHalf = Padding / 2
-    const clipPX = clip.value * DefaultDPI / DefaultRatio
-    const diagonalPX = diagonal.value * DefaultDPI / DefaultRatio
-    const safePX = 2 * safe.value * DefaultDPI / DefaultRatio
-    const left = workSpaceDraw.left, top = workSpaceDraw.top
+    const clipPX = (clip.value * DefaultDPI) / DefaultRatio
+    const diagonalPX = (diagonal.value * DefaultDPI) / DefaultRatio
+    const safePX = (2 * safe.value * DefaultDPI) / DefaultRatio
+    const left = workSpaceDraw.left,
+      top = workSpaceDraw.top
 
     const workSpaceClip = new Rect({
       left: left + clipPX,
@@ -49,7 +51,7 @@ export default () => {
       strokeWidth: 1, // 边框大小
       visible: showClip.value,
       id: WorkSpaceClipType,
-      ...WorkSpaceCommonOption
+      ...WorkSpaceCommonOption,
     })
 
     const workSpaceSafe = new Rect({
@@ -62,7 +64,7 @@ export default () => {
       strokeWidth: 1, // 边框大小
       visible: showSafe.value,
       id: WorkSpaceSafeType,
-      ...WorkSpaceCommonOption
+      ...WorkSpaceCommonOption,
     })
 
     const maskPath = `M0 0 L${Padding} 0 L${Padding} ${Padding} L0 ${Padding} L0 0 Z 
@@ -80,30 +82,65 @@ export default () => {
       id: WorkSpaceMaskType,
       originX: 'left',
       originY: 'top',
-      ...WorkSpaceCommonOption
+      ...WorkSpaceCommonOption,
     })
     // [lineEnd, lineHeight, leftStart, top] 终止位置，线长，起始位置，top
     const diagonalHalfPX = diagonalPX / 2
     const diagonals: LineOption[] = [
       // 左上水平
-      [PaddingHalf - diagonalHalfPX - clipPX, PaddingHalf + clipPX, PaddingHalf - diagonalHalfPX / 2 - clipPX, PaddingHalf + clipPX],
+      [
+        PaddingHalf - diagonalHalfPX - clipPX,
+        PaddingHalf + clipPX,
+        PaddingHalf - diagonalHalfPX / 2 - clipPX,
+        PaddingHalf + clipPX,
+      ],
       // 左上垂直
       [PaddingHalf, PaddingHalf - diagonalHalfPX, PaddingHalf, PaddingHalf - diagonalHalfPX / 2],
 
       // 左下水平
-      [PaddingHalf - diagonalHalfPX - clipPX, PaddingHalf + workHeight - clipPX, PaddingHalf - diagonalHalfPX / 2 - clipPX, PaddingHalf + workHeight - clipPX],
+      [
+        PaddingHalf - diagonalHalfPX - clipPX,
+        PaddingHalf + workHeight - clipPX,
+        PaddingHalf - diagonalHalfPX / 2 - clipPX,
+        PaddingHalf + workHeight - clipPX,
+      ],
       // 左下垂直
-      [PaddingHalf, PaddingHalf + diagonalHalfPX + workHeight, PaddingHalf, PaddingHalf + workHeight + diagonalHalfPX / 2],
+      [
+        PaddingHalf,
+        PaddingHalf + diagonalHalfPX + workHeight,
+        PaddingHalf,
+        PaddingHalf + workHeight + diagonalHalfPX / 2,
+      ],
 
       // 右上水平
-      [PaddingHalf + workWidth + clipPX, PaddingHalf + clipPX, PaddingHalf + workWidth + diagonalHalfPX / 2 + clipPX, PaddingHalf + clipPX],
+      [
+        PaddingHalf + workWidth + clipPX,
+        PaddingHalf + clipPX,
+        PaddingHalf + workWidth + diagonalHalfPX / 2 + clipPX,
+        PaddingHalf + clipPX,
+      ],
       // 右上垂直
-      [PaddingHalf + workWidth - clipPX * 2, PaddingHalf - diagonalHalfPX, PaddingHalf + workWidth - clipPX * 2, PaddingHalf - diagonalHalfPX / 2],
+      [
+        PaddingHalf + workWidth - clipPX * 2,
+        PaddingHalf - diagonalHalfPX,
+        PaddingHalf + workWidth - clipPX * 2,
+        PaddingHalf - diagonalHalfPX / 2,
+      ],
 
       // 右下水平
-      [PaddingHalf + workWidth + clipPX, PaddingHalf + workHeight - clipPX, PaddingHalf + workWidth + diagonalHalfPX / 2 + clipPX, PaddingHalf + workHeight - clipPX],
+      [
+        PaddingHalf + workWidth + clipPX,
+        PaddingHalf + workHeight - clipPX,
+        PaddingHalf + workWidth + diagonalHalfPX / 2 + clipPX,
+        PaddingHalf + workHeight - clipPX,
+      ],
       // 右下垂直
-      [PaddingHalf + workWidth - clipPX * 2, PaddingHalf + diagonalHalfPX + workHeight, PaddingHalf + workWidth - clipPX * 2, PaddingHalf + workHeight + diagonalHalfPX / 2]
+      [
+        PaddingHalf + workWidth - clipPX * 2,
+        PaddingHalf + diagonalHalfPX + workHeight,
+        PaddingHalf + workWidth - clipPX * 2,
+        PaddingHalf + workHeight + diagonalHalfPX / 2,
+      ],
     ]
     const diagonalLines: Line[] = []
     diagonals.forEach(line => {
@@ -126,7 +163,7 @@ export default () => {
       left: left - diagonalHalfPX,
       top: top - diagonalHalfPX,
       visible: showClip.value,
-      ...WorkSpaceCommonOption
+      ...WorkSpaceCommonOption,
     })
 
     canvas.add(workSpaceClip)
@@ -137,13 +174,13 @@ export default () => {
 
     canvas.getObjects('ReferenceLine').forEach(item => {
       const referenceLine = item as ReferenceLine
-      referenceLine.set({selectable: true, hasControls: false, hasBorders: false, padding: 5})
+      referenceLine.set({ selectable: true, hasControls: false, hasBorders: false, padding: 5 })
       canvas.bringObjectToFront(referenceLine)
       canvas.renderAll()
     })
   }
 
   return {
-    initCommon
+    initCommon,
   }
 }

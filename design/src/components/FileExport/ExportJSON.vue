@@ -13,10 +13,9 @@
 <script lang="ts" setup>
 import useCanvasExport from '@/hooks/useCanvasExport'
 
-const emit = defineEmits<{(event: 'close'): void}>()
+const emit = defineEmits<{ (event: 'close'): void }>()
 
 const { exportJSON, getJSONData } = useCanvasExport()
-
 </script>
 
 <style lang="scss" scoped>

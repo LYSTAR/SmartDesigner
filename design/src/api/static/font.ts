@@ -7,5 +7,5 @@ export const getFontInfo = (params?: QueryFont): AxiosPromise<FontInfoResult> =>
     url: 'api/design/font/info',
     method: 'get',
     params,
-  });
+  })
 }

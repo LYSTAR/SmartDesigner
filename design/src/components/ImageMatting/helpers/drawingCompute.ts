@@ -47,7 +47,12 @@ function isMaxMovement(pivotMovement: number, maxMovement: number) {
 }
 
 /** 计算x/y轴方向的累加步长 */
-function computePivotStep(isMaxMovement: boolean, rawStepOfPivot: number, unsignedPivotMovement: number, unsignedCrossedMovement: number) {
+function computePivotStep(
+  isMaxMovement: boolean,
+  rawStepOfPivot: number,
+  unsignedPivotMovement: number,
+  unsignedCrossedMovement: number
+) {
   return isMaxMovement ? rawStepOfPivot : (unsignedPivotMovement / unsignedCrossedMovement) * rawStepOfPivot
 }
 

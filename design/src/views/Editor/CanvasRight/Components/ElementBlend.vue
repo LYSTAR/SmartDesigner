@@ -14,25 +14,23 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from "vue";
-import { storeToRefs } from "pinia";
-import { useMainStore } from "@/store";
-import { Image } from "fabric";
-import { BlendModes } from '@/configs/images';
-import useCanvas from "@/views/Canvas/useCanvas";
+import { computed, ref } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useMainStore } from '@/store'
+import { Image } from 'fabric'
+import { BlendModes } from '@/configs/images'
+import useCanvas from '@/views/Canvas/useCanvas'
 
-
-const { canvasObject } = storeToRefs(useMainStore());
-const handleElement = computed(() => canvasObject.value as Image);
+const { canvasObject } = storeToRefs(useMainStore())
+const handleElement = computed(() => canvasObject.value as Image)
 const imageBlend = computed(() => handleElement.value.globalCompositeOperation)
-const elementBlend = ref(imageBlend.value);
+const elementBlend = ref(imageBlend.value)
 
 const changeBlendMode = (globalCompositeOperation: string) => {
-  const [ canvas ] = useCanvas();
-  handleElement.value.set({globalCompositeOperation})
+  const [canvas] = useCanvas()
+  handleElement.value.set({ globalCompositeOperation })
   canvas.renderAll()
 }
-
 </script>
 
 <style lang="scss" scoped>

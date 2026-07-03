@@ -2,14 +2,14 @@
   <el-dialog v-model="dialogVisible" title="" :width="dialogWidth" class="login-dialog" :before-close="closeLogin">
     <el-row>
       <el-row class="text-[20px] text-[#222529] font-semibold leading-snug justify-center">
-        {{loginInfo}}登录
+        {{ loginInfo }}登录
       </el-row>
-      <el-row class="text-[12px] mt-[10px] justify-center">
-        仅用于身份识别，智绘快设不会获取您的任何隐私信息~
-      </el-row>
+      <el-row class="text-[12px] mt-[10px] justify-center"> 仅用于身份识别，智绘快设不会获取您的任何隐私信息~ </el-row>
       <el-row v-if="loginType === 1">
-        <div class="overflow-hidden relative mt-[20px] mx-auto p-[10px] border border-solid border-[rgba(0, 0, 0, .08)] rounded-[8px] justify-center">
-          <div class="w-[150px] h-[150px] ">
+        <div
+          class="overflow-hidden relative mt-[20px] mx-auto p-[10px] border border-solid border-[rgba(0, 0, 0, .08)] rounded-[8px] justify-center"
+        >
+          <div class="w-[150px] h-[150px]">
             <el-image :src="qrcode" v-loading="!qrcode" class="w-full h-full"></el-image>
           </div>
         </div>
@@ -21,26 +21,42 @@
               <el-input type="email" autocomplete="off" :prefix-icon="Message" v-model="ruleForm.email" />
             </el-form-item>
             <el-form-item prop="password">
-              <el-input type="password" autocomplete="off" :prefix-icon="Lock" v-model="ruleForm.password" show-password />
+              <el-input
+                type="password"
+                autocomplete="off"
+                :prefix-icon="Lock"
+                v-model="ruleForm.password"
+                show-password
+              />
             </el-form-item>
             <el-form-item v-if="checkType === 1" class="captcha">
-              <el-input style="width: 120px;" v-model="ruleForm.captcha"/>
+              <el-input style="width: 120px" v-model="ruleForm.captcha" />
               <div class="w-[90px] h-full captcha-image" @click="getOauthCaptcha">
-                <img :src="loginCaptchaImage" alt="" v-loading="loginCaptchaLoading">
+                <img :src="loginCaptchaImage" alt="" v-loading="loginCaptchaLoading" />
               </div>
             </el-form-item>
             <el-form-item v-if="checkType === 2" class="captcha">
-              <el-input style="width: 120px;" v-model="ruleForm.captcha"/>
+              <el-input style="width: 120px" v-model="ruleForm.captcha" />
               <el-button @click="getEmailCaptcha">获取验证码</el-button>
             </el-form-item>
           </el-form>
         </el-row>
         <el-row class="content-center">
-          <el-button class="w-[230px]" type="primary" @click="handleVerify">{{ checkType === 1 ? '登录' : '注册' }}</el-button>
+          <el-button class="w-[230px]" type="primary" @click="handleVerify">{{
+            checkType === 1 ? '登录' : '注册'
+          }}</el-button>
         </el-row>
         <el-row class="content-center mt-[5px] text-[12px]">
-          <span v-if="checkType === 1">没有账号？点击<a href="javascript:;" class="text-[#1e2ad7] font-[800]" @click="changeCheckType(2)">注册账号</a></span>
-          <span v-if="checkType === 2">已有账号！<a href="javascript:;" class="text-[#1e2ad7] font-[800]" @click="changeCheckType(1)">立即登陆</a></span>
+          <span v-if="checkType === 1"
+            >没有账号？点击<a href="javascript:;" class="text-[#1e2ad7] font-[800]" @click="changeCheckType(2)"
+              >注册账号</a
+            ></span
+          >
+          <span v-if="checkType === 2"
+            >已有账号！<a href="javascript:;" class="text-[#1e2ad7] font-[800]" @click="changeCheckType(1)"
+              >立即登陆</a
+            ></span
+          >
         </el-row>
       </el-row>
       <el-row class="mt-[28px] justify-center">
@@ -61,7 +77,8 @@
     </el-row>
     <template #footer>
       <el-row class="justify-center text-[12px] text-[#9da3ac]">
-        登录即代表您同意《<strong><a href="" class="hover:text-blue-700">用户服务协议</a></strong>》
+        登录即代表您同意《<strong><a href="" class="hover:text-blue-700">用户服务协议</a></strong
+        >》
       </el-row>
     </template>
   </el-dialog>
@@ -72,16 +89,16 @@ import { computed, ref, watch } from 'vue'
 import { oauthWechat, oauthTokenGithub } from '@/api/oauth'
 import { UserResult } from '@/api/oauth/types'
 import { isMobile } from '@/utils/common'
-import { storeToRefs } from 'pinia';
-import { useUserStore } from '@/store';
-import { localStorage } from '@/utils/storage';
+import { storeToRefs } from 'pinia'
+import { useUserStore } from '@/store'
+import { localStorage } from '@/utils/storage'
 import { Lock, User, Message } from '@element-plus/icons-vue'
-import { OauthVerifyData } from '@/api/oauth/types';
-import { imageCaptcha, emailCaptcha, oauthRegister, oauthLogin } from '@/api/oauth';
+import { OauthVerifyData } from '@/api/oauth/types'
+import { imageCaptcha, emailCaptcha, oauthRegister, oauthLogin } from '@/api/oauth'
 import { ElMessage, type FormRules } from 'element-plus'
 
 const dialogVisible = ref(false)
-const dialogWidth = computed(() => isMobile() ? '75%' : '35%')
+const dialogWidth = computed(() => (isMobile() ? '75%' : '35%'))
 const qrcode = ref('')
 const checkType = ref(1)
 const loginType = ref(2)
@@ -130,12 +147,15 @@ const emit = defineEmits<{
   (event: 'close', payload: boolean): void
 }>()
 
-watch(() => props.visible, (val) => {
-  dialogVisible.value = val
-  if (val) {
-    getOauthCaptcha()
+watch(
+  () => props.visible,
+  val => {
+    dialogVisible.value = val
+    if (val) {
+      getOauthCaptcha()
+    }
   }
-})
+)
 
 const closeLogin = () => {
   emit('close', false)
@@ -164,7 +184,7 @@ const getOauthCaptcha = async () => {
 
 const getEmailCaptcha = async () => {
   if (!ruleForm.email) return
-  const result = await emailCaptcha({email: ruleForm.email})
+  const result = await emailCaptcha({ email: ruleForm.email })
   if (result && result.data) {
     ElMessage.success(result.data.data.msg)
   }
@@ -173,8 +193,7 @@ const getEmailCaptcha = async () => {
 const handleVerify = () => {
   if (checkType.value === 1) {
     handleLogin()
-  } 
-  else {
+  } else {
     handleRegister()
   }
 }
@@ -214,7 +233,7 @@ const loginGithub = async () => {
         oauthWindow?.close()
         emit('close', false)
       }
-    });
+    })
   }
 }
 
@@ -232,7 +251,6 @@ const loginEmail = () => {
 // onMounted(() => {
 //   getOauthCaptcha()
 // })
-
 </script>
 
 <style lang="scss" scoped>
@@ -240,16 +258,16 @@ const loginEmail = () => {
   height: 100%;
 }
 .content-center {
-  justify-content: center
+  justify-content: center;
 }
 .captcha-image {
   cursor: pointer;
-  outline: 1px solid $borderColor
+  outline: 1px solid $borderColor;
 }
 </style>
 <style>
 .login-dialog .el-dialog__header {
-  text-align: left
+  text-align: left;
 }
 .login-dialog .el-upload__tip {
   text-align: left;

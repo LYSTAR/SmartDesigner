@@ -1,14 +1,14 @@
-import type { ConfigEnv, UserConfigExport } from "vite";
-import path from "path";
-import autoprefixer from 'autoprefixer';
-import AutoImport from 'unplugin-auto-import/vite';
-import tailwindcss from  'tailwindcss';
-import { include, exclude } from './build/optimize';
-import { createVitePlugins } from './build/plugins';
+import type { ConfigEnv, UserConfigExport } from 'vite'
+import path from 'path'
+import autoprefixer from 'autoprefixer'
+import AutoImport from 'unplugin-auto-import/vite'
+import tailwindcss from 'tailwindcss'
+import { include, exclude } from './build/optimize'
+import { createVitePlugins } from './build/plugins'
 
 export default ({ command, mode }: ConfigEnv): UserConfigExport => {
   return {
-    base: "./", // publicPath
+    base: './', // publicPath
     server: {
       host: '0.0.0.0',
       port: 5174,
@@ -17,19 +17,19 @@ export default ({ command, mode }: ConfigEnv): UserConfigExport => {
           // target: 'https://yft.design',
           target: 'http://127.0.0.1:8789',
           changeOrigin: true,
-          rewrite: (path) => path.replace(new RegExp('^'), ''),
+          rewrite: path => path.replace(new RegExp('^'), ''),
         },
         '/static': {
           // target: 'https://yft.design',
           target: 'http://127.0.0.1:8789',
           changeOrigin: true,
-          rewrite: (path) => path.replace(new RegExp('^'), ''),
+          rewrite: path => path.replace(new RegExp('^'), ''),
         },
         '/yft-static': {
           // target: 'https://yft.design',
           target: 'http://127.0.0.1:8789',
           changeOrigin: true,
-          rewrite: (path) => path.replace(new RegExp('^'), ''),
+          rewrite: path => path.replace(new RegExp('^'), ''),
         },
       },
     },
@@ -42,20 +42,20 @@ export default ({ command, mode }: ConfigEnv): UserConfigExport => {
           autoprefixer({
             // 自动添加前缀
             overrideBrowserslist: [
-                'Android 4.1',
-                'iOS 7.1',
-                'Chrome > 31',
-                'ff > 31',
-                'ie >= 8',
-                '> 1%',
-                'last 2 versions',
-                'not dead',
-                'not ie 11',
-                //'last 2 versions', // 所有主流浏览器最近2个版本
+              'Android 4.1',
+              'iOS 7.1',
+              'Chrome > 31',
+              'ff > 31',
+              'ie >= 8',
+              '> 1%',
+              'last 2 versions',
+              'not dead',
+              'not ie 11',
+              //'last 2 versions', // 所有主流浏览器最近2个版本
             ],
             grid: true,
           }),
-        ]
+        ],
       },
       preprocessorOptions: {
         scss: {
@@ -63,10 +63,10 @@ export default ({ command, mode }: ConfigEnv): UserConfigExport => {
         },
         less: {
           modifyVars: {
-            "primary-color": "#d14424",
-            "text-color": "#41464b",
-            "font-size-base": "13px",
-            "border-radius-base": "2px",
+            'primary-color': '#d14424',
+            'text-color': '#41464b',
+            'font-size-base': '13px',
+            'border-radius-base': '2px',
           },
           javascriptEnabled: true,
         },
@@ -74,14 +74,14 @@ export default ({ command, mode }: ConfigEnv): UserConfigExport => {
     },
     resolve: {
       alias: {
-        "@": path.resolve(__dirname, "src"),
+        '@': path.resolve(__dirname, 'src'),
       },
-      extensions: [".js", ".ts", ".jsx", ".tsx", ".vue", ".json"],
+      extensions: ['.js', '.ts', '.jsx', '.tsx', '.vue', '.json'],
     },
     build: {
-      target: "es2015",
-      outDir: path.resolve(__dirname, "dist"),
-      minify: "terser",
+      target: 'es2015',
+      outDir: path.resolve(__dirname, 'dist'),
+      minify: 'terser',
       terserOptions: {
         compress: {
           //生产环境时移除console
@@ -109,8 +109,8 @@ export default ({ command, mode }: ConfigEnv): UserConfigExport => {
           // manualChunks(id, any): string {
           //   return id
           // }
-        }
-      }
+        },
+      },
     },
-  };
-};
+  }
+}

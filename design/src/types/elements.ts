@@ -1,6 +1,6 @@
-import { ImageHit } from "@/api/static/types"
-import { XY } from "fabric"
-import { ImageElement } from "./canvas"
+import { ImageHit } from '@/api/static/types'
+import { XY } from 'fabric'
+import { ImageElement } from './canvas'
 
 export const enum ElementNames {
   TEXTBOX = 'textbox',
@@ -28,14 +28,7 @@ export const enum ElementNames {
   DOT = 'dot',
 }
 
-export const SupportEffects = [
-  'group',
-  'activeselection',
-  'itext',
-  'text',
-  'textbox',
-  'image',
-]
+export const SupportEffects = ['group', 'activeselection', 'itext', 'text', 'textbox', 'image']
 
 export interface ColorStop {
   color: string
@@ -45,22 +38,21 @@ export interface ColorStop {
 
 /**
  * 形状渐变
- * 
+ *
  * type: 渐变类型（径向、线性）
- * 
+ *
  * color: 渐变颜色
- * 
+ *
  * rotate: 渐变角度（线性渐变）
  */
- export interface PathGradient {
+export interface PathGradient {
   type: 'linear' | 'radial'
   name: string
   color: string[]
   rotate: number
 }
 
-
-export type LinePoint = '' | 'arrow' | 'dot' 
+export type LinePoint = '' | 'arrow' | 'dot'
 
 export interface Mask extends ImageElement {
   src: string
@@ -124,9 +116,9 @@ export interface horizontalLine {
 
 // 边框矩形
 export interface StrokeRect {
-  x: number,
-  y: number,
-  w: number,
+  x: number
+  y: number
+  w: number
   h: number
 }
 
@@ -147,13 +139,13 @@ export interface GradientCoords {
   x1: number
   y1: number
   x2: number
-  y2: number,
-  r1?: number,
+  y2: number
+  r1?: number
   r2?: number
 }
 
 export interface PointElement {
-  x: number,
+  x: number
   y: number
 }
 
@@ -216,20 +208,20 @@ export interface BarCodeOption {
   format: string
   width?: number
   height?: number
-  displayValue?: boolean   // 是否在条形码显示文字
-  fontOptions?: string     // 设置条形码文本的粗体和斜体样式 bold / italic / bold italic
-  font?: string            // 设置条形码显示文本的字体
-  fontSize?: number        // 设置条形码文本的字体大小
-  textAlign?: string       // 条形码文本的水平对齐方式，和css中的类似： left / center / right
-  textPosition?: string    // 条形码文本的位置 bottom / top
-  textMargin?: string      // 条形码文本 和 条形码之间的间隙大小
-  background?: string      // 整个条形码容器的背景颜色
-  lineColor?: string       // 条形码和文本的颜色
-  margin?: number          // 整个条形码的外面距
-  marginTop?: number       
-  marginBottom?: number    
-  marginLeft?: number      
-  marginRight?: number    
+  displayValue?: boolean // 是否在条形码显示文字
+  fontOptions?: string // 设置条形码文本的粗体和斜体样式 bold / italic / bold italic
+  font?: string // 设置条形码显示文本的字体
+  fontSize?: number // 设置条形码文本的字体大小
+  textAlign?: string // 条形码文本的水平对齐方式，和css中的类似： left / center / right
+  textPosition?: string // 条形码文本的位置 bottom / top
+  textMargin?: string // 条形码文本 和 条形码之间的间隙大小
+  background?: string // 整个条形码容器的背景颜色
+  lineColor?: string // 条形码和文本的颜色
+  margin?: number // 整个条形码的外面距
+  marginTop?: number
+  marginBottom?: number
+  marginLeft?: number
+  marginRight?: number
 }
 
 export const enum AlignCommand {

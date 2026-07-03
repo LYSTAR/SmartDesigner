@@ -17,7 +17,7 @@ const ClickOutsideDirective: Directive = {
       document.addEventListener('click', handleDirective)
     }, 0)
   },
-  
+
   unmounted(el: HTMLElement, binding) {
     const handleDirective = (event: MouseEvent) => clickListener(el, event, binding)
     document.removeEventListener('click', handleDirective)

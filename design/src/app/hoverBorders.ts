@@ -1,4 +1,3 @@
-
 import { Object as FabricObject, CanvasEvents, Canvas, Rect, Textbox, IText } from 'fabric'
 import { clone } from 'lodash-es'
 import { check } from '@/utils/check'
@@ -35,7 +34,7 @@ export class HoverBorders extends Disposable {
           this.clearContextTop(this.hoveredTarget.group || this.hoveredTarget)
           this.hoveredTarget = undefined
         }
-      }),
+      })
     )
     this.initWatch()
   }
@@ -66,7 +65,6 @@ export class HoverBorders extends Disposable {
   }
 
   private clearBorderByObject(target: FabricObject) {
-
     if (this.canvas.contextTopDirty) {
       this.clearContextTop(target)
     }
@@ -81,7 +79,6 @@ export class HoverBorders extends Disposable {
   }
 
   private drawBorderByObject(target: FabricObject) {
-
     this.hoveredTarget = target
 
     const ctx = this.clearContextTop(target, true)
@@ -112,11 +109,7 @@ export class HoverBorders extends Disposable {
 
     const totalObjectScaling = object.getTotalObjectScaling()
 
-    const lineWidth = Math.min(
-      this.lineWidth,
-      width * totalObjectScaling.x,
-      height * totalObjectScaling.y,
-    )
+    const lineWidth = Math.min(this.lineWidth, width * totalObjectScaling.x, height * totalObjectScaling.y)
 
     width -= lineWidth / totalObjectScaling.x
     height -= lineWidth / totalObjectScaling.y

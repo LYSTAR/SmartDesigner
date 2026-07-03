@@ -2,13 +2,15 @@
   <el-dialog v-model="dialogVisible" width="35%" class="export-dialog" :before-close="closeExport">
     <div class="export-dialog">
       <div class="tabs">
-        <div 
-          class="tab" 
-          :class="{ 'active': tab.key === exportType }"
-          v-for="tab in tabs" 
+        <div
+          class="tab"
+          :class="{ active: tab.key === exportType }"
+          v-for="tab in tabs"
           :key="tab.key"
           @click="setExportType(tab.key)"
-        >{{tab.label}}</div>
+        >
+          {{ tab.label }}
+        </div>
       </div>
       <div class="content">
         <component :is="currentDialogComponent" @close="closeExport"></component>
@@ -34,7 +36,6 @@ const { exportType } = storeToRefs(mainStore)
 const dialogVisible = ref(false)
 const setExportType = mainStore.setExportType
 
-
 const props = defineProps({
   visible: {
     type: Boolean,
@@ -46,9 +47,12 @@ const emit = defineEmits<{
   (event: 'close'): void
 }>()
 
-watch(() => props.visible, (val) => {
-  dialogVisible.value = val
-})
+watch(
+  () => props.visible,
+  val => {
+    dialogVisible.value = val
+  }
+)
 
 interface TabItem {
   key: ExportTypes
@@ -65,11 +69,11 @@ const tabs: TabItem[] = [
 
 const currentDialogComponent = computed(() => {
   const dialogMap = {
-    'image': ExportImage,
-    'svg': ExportSVG,
-    'pdf': ExportPDF,
-    'psd': ExportPSD,
-    'json': ExportJSON,
+    image: ExportImage,
+    svg: ExportSVG,
+    pdf: ExportPDF,
+    psd: ExportPSD,
+    json: ExportJSON,
     '': '',
   }
   return dialogMap[exportType.value] || null
@@ -78,11 +82,9 @@ const currentDialogComponent = computed(() => {
 const closeExport = () => {
   emit('close')
 }
-
 </script>
 
 <style lang="scss" scoped>
-
 .tabs {
   height: 50px;
   font-size: 12px;

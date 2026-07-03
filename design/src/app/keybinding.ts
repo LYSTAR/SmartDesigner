@@ -37,7 +37,7 @@ export class Keybinding extends mousetrap {
   override bind(
     keys: string | string[] | { [key: string]: Callback },
     callbackOrAction?: string | Callback,
-    action?: string,
+    action?: string
   ) {
     if ((isString(keys) || isArray(keys)) && isFunction(callbackOrAction)) {
       return super.bind(keys, callbackOrAction, action)

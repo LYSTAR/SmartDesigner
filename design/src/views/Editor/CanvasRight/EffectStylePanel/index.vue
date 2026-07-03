@@ -2,26 +2,28 @@
   <div class="canvas-design-panel">
     <div>
       <el-button @click="handleReturn">
-        <b><IconLeft/>返回</b>
+        <b><IconLeft />返回</b>
       </el-button>
     </div>
-    <el-row>
-
-    </el-row>
+    <el-row> </el-row>
     <el-row class="row-info">
       <el-col :span="12"><b>填充·描边</b></el-col>
       <el-col :span="12">
         <el-row class="info-handler">
           <el-col :span="6" class="handler-item" @click="addStroke">
-            <IconPlus/>
+            <IconPlus />
           </el-col>
         </el-row>
       </el-col>
     </el-row>
-    <el-row class="row-effect" v-for="(item, index) in handleElement.effects?.filter(ele => ele.type === 0)" :key="index">
+    <el-row
+      class="row-effect"
+      v-for="(item, index) in handleElement.effects?.filter(ele => ele.type === 0)"
+      :key="index"
+    >
       <el-row>
         <el-col :span="12" class="effect-layer">
-          <IconHamburgerButton class="layer-icon"/>
+          <IconHamburgerButton class="layer-icon" />
           层{{ index }}
         </el-col>
         <el-col :span="12">
@@ -30,8 +32,8 @@
               <IconCopy />
             </el-col>
             <el-col :span="6" class="handler-item">
-              <IconPreviewOpen v-if="item.visible"/>
-              <IconPreviewClose v-else/>
+              <IconPreviewOpen v-if="item.visible" />
+              <IconPreviewClose v-else />
             </el-col>
             <el-col :span="6" class="handler-item" @click.stop="subEffect(item.id)">
               <IconMinus />
@@ -73,7 +75,10 @@
                 <template #reference>
                   <ColorButton :color="item.stroke || '#fff'" />
                 </template>
-                <ColorPicker :modelValue="item.stroke" @update:modelValue="(color: string) => updateStroke(color, item.id)" />
+                <ColorPicker
+                  :modelValue="item.stroke"
+                  @update:modelValue="(color: string) => updateStroke(color, item.id)"
+                />
               </el-popover>
             </el-col>
           </el-row>
@@ -100,12 +105,16 @@
       <el-col :span="12">
         <el-row class="info-handler">
           <el-col :span="6" class="handler-item" @click="addShadow">
-            <IconPlus/>
+            <IconPlus />
           </el-col>
         </el-row>
       </el-col>
     </el-row>
-    <el-row class="row-effect" :key="index" v-for="(item, index) in handleElement.effects?.filter(ele => ele.type === 1)">
+    <el-row
+      class="row-effect"
+      :key="index"
+      v-for="(item, index) in handleElement.effects?.filter(ele => ele.type === 1)"
+    >
       <el-row>
         <el-col :span="12" class="effect-layer">
           <el-row>
@@ -124,8 +133,8 @@
               <IconCopy />
             </el-col>
             <el-col :span="6" class="handler-item">
-              <IconPreviewOpen v-if="item.visible"/>
-              <IconPreviewClose v-else/>
+              <IconPreviewOpen v-if="item.visible" />
+              <IconPreviewClose v-else />
             </el-col>
             <el-col :span="6" class="handler-item" @click.stop="subEffect(item.id)">
               <IconMinus />
@@ -138,33 +147,33 @@
 </template>
 
 <script lang="ts" setup>
-import { Image, Rect, Textbox, IText, Object as FabricObject, Group } from "fabric";
-import { storeToRefs } from "pinia";
-import { ElMessage } from "element-plus";
-import { ref, watch, onMounted, computed } from "vue";
-import { mm2px, px2mm } from "@/utils/image";
+import { Image, Rect, Textbox, IText, Object as FabricObject, Group } from 'fabric'
+import { storeToRefs } from 'pinia'
+import { ElMessage } from 'element-plus'
+import { ref, watch, onMounted, computed } from 'vue'
+import { mm2px, px2mm } from '@/utils/image'
 import { ElementNames, RightStates, SupportEffects } from '@/types/elements'
 
-import { useFabricStore, useMainStore, useTemplatesStore } from "@/store";
-import useI18n from "@/hooks/useI18n";
-import useCanvas from "@/views/Canvas/useCanvas";
-import Backgrounds from "../Backgrounds/index.vue";
-import useHistorySnapshot from "@/hooks/useHistorySnapshot";
+import { useFabricStore, useMainStore, useTemplatesStore } from '@/store'
+import useI18n from '@/hooks/useI18n'
+import useCanvas from '@/views/Canvas/useCanvas'
+import Backgrounds from '../Backgrounds/index.vue'
+import useHistorySnapshot from '@/hooks/useHistorySnapshot'
 import useCanvasScale from '@/hooks/useCanvasScale'
-import { EffectItem } from "@/types/common";
-import { nanoid } from "nanoid";
+import { EffectItem } from '@/types/common'
+import { nanoid } from 'nanoid'
 
-const { t } = useI18n();
+const { t } = useI18n()
 
-const mainStore = useMainStore();
-const templatesStore = useTemplatesStore();
-const fabricStore = useFabricStore();
-const { addHistorySnapshot } = useHistorySnapshot();
-const { canvasObject, rightState } = storeToRefs(mainStore);
-const { currentTemplate } = storeToRefs(templatesStore);
-const { clip, safe, zoom, opacity } = storeToRefs(fabricStore);
-const { setCanvasSize, resetCanvas } = useCanvasScale();
-const handleElement = computed(() => canvasObject.value as Image | IText | Group);
+const mainStore = useMainStore()
+const templatesStore = useTemplatesStore()
+const fabricStore = useFabricStore()
+const { addHistorySnapshot } = useHistorySnapshot()
+const { canvasObject, rightState } = storeToRefs(mainStore)
+const { currentTemplate } = storeToRefs(templatesStore)
+const { clip, safe, zoom, opacity } = storeToRefs(fabricStore)
+const { setCanvasSize, resetCanvas } = useCanvasScale()
+const handleElement = computed(() => canvasObject.value as Image | IText | Group)
 
 const handleReturn = () => {
   rightState.value = RightStates.ELEMENT_STYLE
@@ -179,12 +188,11 @@ const addStroke = () => {
     isSkew: false,
     stroke: '#fff',
     strokeWidth: 1,
-    strokeLineJoin: 'round' as CanvasLineJoin
+    strokeLineJoin: 'round' as CanvasLineJoin,
   }
   if (!handleElement.value.effects) {
     handleElement.value.effects = [strokeItem]
-  }
-  else {
+  } else {
     handleElement.value.effects?.push(strokeItem)
   }
 }
@@ -203,12 +211,11 @@ const addShadow = () => {
     isSkew: false,
     stroke: '#fff',
     strokeWidth: 1,
-    strokeLineJoin: 'round' as CanvasLineJoin
+    strokeLineJoin: 'round' as CanvasLineJoin,
   }
   if (!handleElement.value.effects) {
     handleElement.value.effects = [strokeItem]
-  }
-  else {
+  } else {
     handleElement.value.effects?.push(strokeItem)
   }
 }
@@ -218,7 +225,7 @@ const updateFill = (color: string) => {
 }
 
 const updateStroke = (color: string, key: string) => {
-  handleElement.value.effects?.filter(item => item.id === key).map(ele => ele.stroke = color)
+  handleElement.value.effects?.filter(item => item.id === key).map(ele => (ele.stroke = color))
   updateElement()
 }
 
@@ -236,16 +243,14 @@ const updateElement = () => {
     groupObject._objects.forEach(item => {
       if (SupportEffects.includes(item.type.toLowerCase())) {
         const element = item as IText
-        element.set({effects: handleElement.value.effects})
+        element.set({ effects: handleElement.value.effects })
         element.renderEffects()
       }
     })
-  } 
-  else {
-    (handleElement.value as IText | Image).renderEffects()
+  } else {
+    ;(handleElement.value as IText | Image).renderEffects()
   }
 }
-
 </script>
 
 <style lang="scss" scoped>

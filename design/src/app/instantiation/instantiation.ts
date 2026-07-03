@@ -55,10 +55,7 @@ export interface IInstantiationService {
   /**
    * Calls a function with a service accessor.
    */
-  invokeFunction<R, TS extends any[] = []>(
-    fn: (accessor: ServicesAccessor, ...args: TS) => R,
-    ...args: TS
-  ): R
+  invokeFunction<R, TS extends any[] = []>(fn: (accessor: ServicesAccessor, ...args: TS) => R, ...args: TS): R
 
   /**
    * Creates a child of this service which inherits all current services

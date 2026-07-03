@@ -1,8 +1,10 @@
 <template>
   <div class="element-clip">
     <div class="row">
-      <div style="flex: 2;"><b>{{$t('style.cut')}}：</b></div>
-      <div class="switch-wrapper" style="flex: 3;">
+      <div style="flex: 2">
+        <b>{{ $t('style.cut') }}：</b>
+      </div>
+      <div class="switch-wrapper" style="flex: 3">
         <el-switch v-model="hasClippath" @change="toggleStroke()"></el-switch>
       </div>
     </div>
@@ -13,16 +15,20 @@
             <div class="shape-item" v-for="(shape, index) in item.children" :key="index">
               <div class="shape-content" @click="selectShape(shape)">
                 <svg overflow="visible" width="20" height="20">
-                  <g :transform="`scale(${20 / shape.viewBox[0]}, ${20 / shape.viewBox[1]}) translate(0,0) matrix(1,0,0,1,0,0)`">
-                    <path 
+                  <g
+                    :transform="`scale(${20 / shape.viewBox[0]}, ${
+                      20 / shape.viewBox[1]
+                    }) translate(0,0) matrix(1,0,0,1,0,0)`"
+                  >
+                    <path
                       class="shape-path"
-                      :class="{ 'outlined': shape.outlined }"
-                      vector-effect="non-scaling-stroke" 
-                      stroke-linecap="butt" 
+                      :class="{ outlined: shape.outlined }"
+                      vector-effect="non-scaling-stroke"
+                      stroke-linecap="butt"
                       stroke-miterlimit="8"
                       :fill="shape.outlined ? '#999' : 'transparent'"
                       :stroke="shape.outlined ? 'transparent' : '#999'"
-                      stroke-width="2" 
+                      stroke-width="2"
                       :d="shape.path"
                     ></path>
                   </g>
@@ -52,17 +58,15 @@ const handleElement = computed(() => canvasObject.value as PathElement)
 const fontColor = ref('#000')
 const hasClippath = ref(true)
 
-const toggleStroke = () => {
-  
-}
+const toggleStroke = () => {}
 
 const selectShape = (shape: PathPoolItem) => {
-  const [ canvas ] = useCanvas()
+  const [canvas] = useCanvas()
   const clipPath = new Path(shape.path, {
     left: -handleElement.value.width / 2,
     top: -handleElement.value.height / 2,
   })
-  handleElement.value.set({clipPath})
+  handleElement.value.set({ clipPath })
   canvas.renderAll()
 }
 </script>
@@ -89,7 +93,7 @@ const selectShape = (shape: PathPoolItem) => {
   border: 1px solid $borderColor;
   border-radius: $borderRadius;
   max-height: 200px;
-  overflow: auto
+  overflow: auto;
 }
 .shape-list {
   @include flex-grid-layout();

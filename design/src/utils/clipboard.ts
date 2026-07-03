@@ -35,8 +35,7 @@ export const readClipboard = (): Promise<string> => {
         if (!text) reject('剪贴板为空或者不包含文本')
         return resolve(text)
       })
-    }
-    else reject('浏览器不支持或禁止访问剪贴板，请使用快捷键 Ctrl + V')
+    } else reject('浏览器不支持或禁止访问剪贴板，请使用快捷键 Ctrl + V')
   })
 }
 
@@ -45,8 +44,7 @@ export const pasteCustomClipboardString = (text: string) => {
   let clipboardData
   try {
     clipboardData = JSON.parse(decrypt(text))
-  }
-  catch {
+  } catch {
     clipboardData = text
   }
 

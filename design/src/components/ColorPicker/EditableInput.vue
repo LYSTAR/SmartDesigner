@@ -1,10 +1,6 @@
 <template>
   <div class="editable-input">
-    <input
-      class="input-content"
-      :value="val"
-      @input="$event => handleInput($event)"
-    >
+    <input class="input-content" :value="val" @input="$event => handleInput($event)" />
   </div>
 </template>
 

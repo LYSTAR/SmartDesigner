@@ -16,10 +16,7 @@
           :key="tab.key"
           @click="setPoolType(tab.key)"
         >
-          <div
-            class="flex justify-center items-center flex-col tab-item"
-            :id="`left-tabs-${tab.key}`"
-          >
+          <div class="flex justify-center items-center flex-col tab-item" :id="`left-tabs-${tab.key}`">
             <SvgIcon :icon-class="tab.icon" className="svg-size" />
             <div class="left-name">{{ $t(tab.label) }}</div>
           </div>
@@ -40,7 +37,7 @@
         >
           <div :id="`left-tabs-help`">
             <div><SvgIcon icon-class="help" className="svg-size" /></div>
-            <div class="left-name">{{ $t("message.help") }}</div>
+            <div class="left-name">{{ $t('message.help') }}</div>
           </div>
         </div>
         <HelpPopover :help-ref="helpRef" :help-popover-ref="helpPopoverRef" />
@@ -51,49 +48,49 @@
 </template>
 
 <script lang="ts" setup>
-import { useMainStore } from "@/store";
-import { PoolType } from "@/types/common";
-import { storeToRefs } from "pinia";
-import { useRouter } from "vue-router";
-import HotkeyDrawer from "./components/HotkeyDrawer.vue";
-import HelpPopover from "./components/HelpPopover.vue";
-const router = useRouter();
-const mainStore = useMainStore();
-const { poolType, poolShow } = storeToRefs(mainStore);
+import { useMainStore } from '@/store'
+import { PoolType } from '@/types/common'
+import { storeToRefs } from 'pinia'
+import { useRouter } from 'vue-router'
+import HotkeyDrawer from './components/HotkeyDrawer.vue'
+import HelpPopover from './components/HelpPopover.vue'
+const router = useRouter()
+const mainStore = useMainStore()
+const { poolType, poolShow } = storeToRefs(mainStore)
 
-const helpRef = ref();
-const helpPopoverRef = ref();
-const hasHotkey = ref(false);
+const helpRef = ref()
+const helpPopoverRef = ref()
+const hasHotkey = ref(false)
 
 interface TabItem {
-  key: PoolType;
-  label: string;
-  icon: string;
-  index: number;
+  key: PoolType
+  label: string
+  icon: string
+  index: number
 }
 
 const topTabs: TabItem[] = [
-  { key: "editor", label: "message.edit", icon: `add`, index: 0 },
-  { key: "template", label: "message.template", icon: `template`, index: 1 },
-  { key: "material", label: "message.material", icon: `material`, index: 2 },
-  { key: "text", label: "message.text", icon: "text", index: 3 },
-  { key: "image", label: "message.image", icon: "picture", index: 4 },
-  { key: "toolkit", label: "message.tool", icon: "toolkit", index: 5 },
-  { key: "chatgpt", label: "message.chatgpt", icon: "chatgpt", index: 6 },
-];
+  { key: 'editor', label: 'message.edit', icon: `add`, index: 0 },
+  { key: 'template', label: 'message.template', icon: `template`, index: 1 },
+  { key: 'material', label: 'message.material', icon: `material`, index: 2 },
+  { key: 'text', label: 'message.text', icon: 'text', index: 3 },
+  { key: 'image', label: 'message.image', icon: 'picture', index: 4 },
+  { key: 'toolkit', label: 'message.tool', icon: 'toolkit', index: 5 },
+  { key: 'chatgpt', label: 'message.chatgpt', icon: 'chatgpt', index: 6 },
+]
 
 const setPoolType = (tab: PoolType) => {
   if (poolShow.value && tab === poolType.value) {
-    poolShow.value = false;
+    poolShow.value = false
   } else {
-    poolShow.value = tab !== "help" ? true : false;
+    poolShow.value = tab !== 'help' ? true : false
   }
-  mainStore.setPoolType(tab);
-};
+  mainStore.setPoolType(tab)
+}
 
 const goHome = () => {
-  window.open(router.resolve({ path: `/home` }).href, "_blank");
-};
+  window.open(router.resolve({ path: `/home` }).href, '_blank')
+}
 </script>
 
 <style lang="scss" scoped>

@@ -2,7 +2,7 @@
   <div class="element-filter">
     <div class="row">
       <div style="flex: 2">
-        <b>{{ $t("style.enableFilters") }}：</b>
+        <b>{{ $t('style.enableFilters') }}：</b>
       </div>
       <div class="switch-wrapper" style="flex: 3">
         <el-switch v-model="openFilter" @change="toggleFilters"></el-switch>
@@ -10,94 +10,56 @@
     </div>
     <div class="filter" v-if="openFilter">
       <el-row class="mt-10">
-        <el-col :span="5">{{ $t("style.grayscale") }}：</el-col>
+        <el-col :span="5">{{ $t('style.grayscale') }}：</el-col>
       </el-row>
       <el-row class="mt-10">
         <el-col :span="2"></el-col>
         <el-col :span="22">
           <el-radio-group class="full-ratio" v-model="elementGrayscale">
-            <el-radio-button
-              value="average"
-              @click.prevent="changeGrayscaleMode('average')"
-              >{{ $t("style.average") }}</el-radio-button
-            >
-            <el-radio-button
-              value="luminosity"
-              @click.prevent="changeGrayscaleMode('luminosity')"
-              >{{ $t("style.luminosity") }}</el-radio-button
-            >
-            <el-radio-button
-              value="lightness"
-              @click.prevent="changeGrayscaleMode('lightness')"
-              >{{ $t("style.bright") }}</el-radio-button
-            >
+            <el-radio-button value="average" @click.prevent="changeGrayscaleMode('average')">{{
+              $t('style.average')
+            }}</el-radio-button>
+            <el-radio-button value="luminosity" @click.prevent="changeGrayscaleMode('luminosity')">{{
+              $t('style.luminosity')
+            }}</el-radio-button>
+            <el-radio-button value="lightness" @click.prevent="changeGrayscaleMode('lightness')">{{
+              $t('style.bright')
+            }}</el-radio-button>
           </el-radio-group>
         </el-col>
       </el-row>
 
-      <el-row class="mt-10">{{ $t("style.mode") }}：</el-row>
+      <el-row class="mt-10">{{ $t('style.mode') }}：</el-row>
       <el-row class="mt-10">
         <el-col :span="2"></el-col>
         <el-col :span="22">
-          <el-checkbox-group
-            class="full-group"
-            v-model="elementFilters"
-            @change="changeFilters"
-          >
-            <el-checkbox-button value="Invert">{{
-              $t("style.inversion")
-            }}</el-checkbox-button>
-            <el-checkbox-button value="Sharpen">{{
-              $t("style.sharpening")
-            }}</el-checkbox-button>
-            <el-checkbox-button value="Emboss">{{
-              $t("style.concaveConvex")
-            }}</el-checkbox-button>
+          <el-checkbox-group class="full-group" v-model="elementFilters" @change="changeFilters">
+            <el-checkbox-button value="Invert">{{ $t('style.inversion') }}</el-checkbox-button>
+            <el-checkbox-button value="Sharpen">{{ $t('style.sharpening') }}</el-checkbox-button>
+            <el-checkbox-button value="Emboss">{{ $t('style.concaveConvex') }}</el-checkbox-button>
           </el-checkbox-group>
         </el-col>
       </el-row>
 
-      <el-row class="mt-10">{{ $t("style.matrix") }}：</el-row>
+      <el-row class="mt-10">{{ $t('style.matrix') }}：</el-row>
       <el-row class="mt-10">
         <el-col :span="2"></el-col>
         <el-col :span="22">
-          <el-checkbox-group
-            class="full-group"
-            v-model="elementFilters"
-            @change="changeFilters"
-          >
-            <el-checkbox-button value="Sepia">{{
-              $t("style.sepia")
-            }}</el-checkbox-button>
-            <el-checkbox-button value="BlackWhite">{{
-              $t("style.blackAndWhite")
-            }}</el-checkbox-button>
-            <el-checkbox-button value="Brownie">{{
-              $t("style.brownie")
-            }}</el-checkbox-button>
+          <el-checkbox-group class="full-group" v-model="elementFilters" @change="changeFilters">
+            <el-checkbox-button value="Sepia">{{ $t('style.sepia') }}</el-checkbox-button>
+            <el-checkbox-button value="BlackWhite">{{ $t('style.blackAndWhite') }}</el-checkbox-button>
+            <el-checkbox-button value="Brownie">{{ $t('style.brownie') }}</el-checkbox-button>
           </el-checkbox-group>
         </el-col>
       </el-row>
       <el-row class="mt-10">
         <el-col :span="2"></el-col>
         <el-col :span="22">
-          <el-checkbox-group
-            class="full-checkbox"
-            v-model="elementFilters"
-            @change="changeFilters"
-          >
-            <el-checkbox-button value="Vintage">{{
-              $t("style.vintageColor")
-            }}</el-checkbox-button>
-            <el-checkbox-button value="Technicolor">{{
-              $t("style.technicolor")
-            }}</el-checkbox-button>
-            <el-checkbox-button value="Kodachrome">{{
-              $t("style.kodachrome")
-            }}</el-checkbox-button>
-            <el-checkbox-button value="Polaroid">{{
-              $t("style.polaroid")
-            }}</el-checkbox-button>
+          <el-checkbox-group class="full-checkbox" v-model="elementFilters" @change="changeFilters">
+            <el-checkbox-button value="Vintage">{{ $t('style.vintageColor') }}</el-checkbox-button>
+            <el-checkbox-button value="Technicolor">{{ $t('style.technicolor') }}</el-checkbox-button>
+            <el-checkbox-button value="Kodachrome">{{ $t('style.kodachrome') }}</el-checkbox-button>
+            <el-checkbox-button value="Polaroid">{{ $t('style.polaroid') }}</el-checkbox-button>
           </el-checkbox-group>
         </el-col>
       </el-row>
@@ -125,12 +87,10 @@
         </el-col>
       </el-row> -->
 
-      <el-row class="mt-10">{{ $t("style.color") }}：</el-row>
+      <el-row class="mt-10">{{ $t('style.color') }}：</el-row>
       <el-row>
         <el-col :span="2"></el-col>
-        <el-col :span="5" class="flex-align"
-          >{{ $t("style.brightness") }}：</el-col
-        >
+        <el-col :span="5" class="flex-align">{{ $t('style.brightness') }}：</el-col>
         <el-col :span="2"></el-col>
         <el-col :span="11">
           <el-slider
@@ -146,9 +106,7 @@
       </el-row>
       <el-row>
         <el-col :span="2"></el-col>
-        <el-col :span="5" class="flex-align"
-          >{{ $t("style.contrast") }}：</el-col
-        >
+        <el-col :span="5" class="flex-align">{{ $t('style.contrast') }}：</el-col>
         <el-col :span="2"></el-col>
         <el-col :span="11">
           <el-slider
@@ -164,9 +122,7 @@
       </el-row>
       <el-row>
         <el-col :span="2"></el-col>
-        <el-col :span="5" class="flex-align"
-          >{{ $t("style.saturation") }}：</el-col
-        >
+        <el-col :span="5" class="flex-align">{{ $t('style.saturation') }}：</el-col>
         <el-col :span="2"></el-col>
         <el-col :span="11">
           <el-slider
@@ -182,9 +138,7 @@
       </el-row>
       <el-row>
         <el-col :span="2"></el-col>
-        <el-col :span="5" class="flex-align"
-          >{{ $t("style.colorful") }}：</el-col
-        >
+        <el-col :span="5" class="flex-align">{{ $t('style.colorful') }}：</el-col>
         <el-col :span="2"></el-col>
         <el-col :span="11">
           <el-slider
@@ -200,7 +154,7 @@
       </el-row>
       <el-row>
         <el-col :span="2"></el-col>
-        <el-col :span="5" class="flex-align">{{ $t("style.hue") }}：</el-col>
+        <el-col :span="5" class="flex-align">{{ $t('style.hue') }}：</el-col>
         <el-col :span="2"></el-col>
         <el-col :span="11">
           <el-slider
@@ -216,7 +170,7 @@
       </el-row>
       <el-row>
         <el-col :span="2"></el-col>
-        <el-col :span="5" class="flex-align">{{ $t("style.noise") }}：</el-col>
+        <el-col :span="5" class="flex-align">{{ $t('style.noise') }}：</el-col>
         <el-col :span="2"></el-col>
         <el-col :span="11">
           <el-slider
@@ -232,7 +186,7 @@
       </el-row>
       <el-row>
         <el-col :span="2"></el-col>
-        <el-col :span="5" class="flex-align">{{ $t("style.pixel") }}：</el-col>
+        <el-col :span="5" class="flex-align">{{ $t('style.pixel') }}：</el-col>
         <el-col :span="2"></el-col>
         <el-col :span="11">
           <el-slider
@@ -248,7 +202,7 @@
       </el-row>
       <el-row>
         <el-col :span="2"></el-col>
-        <el-col :span="5" class="flex-align">{{ $t("style.vague") }}：</el-col>
+        <el-col :span="5" class="flex-align">{{ $t('style.vague') }}：</el-col>
         <el-col :span="2"></el-col>
         <el-col :span="11">
           <el-slider
@@ -319,409 +273,355 @@
 </template>
 
 <script lang="ts" setup>
-import { computed, ref } from "vue";
-import { storeToRefs } from "pinia";
-import { useMainStore } from "@/store";
-import { filters, Image } from "fabric";
-import { ImageElement } from "@/types/canvas";
-import { ElementNames } from "@/types/elements";
-import { SharpenMatrix, EmbossMatrix, GrayscaleType } from "@/configs/images";
-import useCanvas from "@/views/Canvas/useCanvas";
-import useI18n from "@/hooks/useI18n";
+import { computed, ref } from 'vue'
+import { storeToRefs } from 'pinia'
+import { useMainStore } from '@/store'
+import { filters, Image } from 'fabric'
+import { ImageElement } from '@/types/canvas'
+import { ElementNames } from '@/types/elements'
+import { SharpenMatrix, EmbossMatrix, GrayscaleType } from '@/configs/images'
+import useCanvas from '@/views/Canvas/useCanvas'
+import useI18n from '@/hooks/useI18n'
 
-const [canvas] = useCanvas();
-const { canvasObject } = storeToRefs(useMainStore());
-const handleElement = computed(() => canvasObject.value as Image);
-const { t } = useI18n();
+const [canvas] = useCanvas()
+const { canvasObject } = storeToRefs(useMainStore())
+const handleElement = computed(() => canvasObject.value as Image)
+const { t } = useI18n()
 
 interface FilterOption {
-  label: string;
-  key: string;
-  default: number;
-  value: number;
-  unit: string;
-  max: number;
-  step: number;
+  label: string
+  key: string
+  default: number
+  value: number
+  unit: string
+  max: number
+  step: number
 }
 
 const defaultFilters: FilterOption[] = [
   {
-    label: t("style.vague"),
-    key: "blur",
+    label: t('style.vague'),
+    key: 'blur',
     default: 0,
     value: 0,
-    unit: "px",
+    unit: 'px',
     max: 10,
     step: 1,
   },
   {
-    label: t("style.brightness"),
-    key: "brightness",
+    label: t('style.brightness'),
+    key: 'brightness',
     default: 100,
     value: 100,
-    unit: "%",
+    unit: '%',
     max: 200,
     step: 5,
   },
   {
-    label: t("style.contrast"),
-    key: "contrast",
+    label: t('style.contrast'),
+    key: 'contrast',
     default: 100,
     value: 100,
-    unit: "%",
+    unit: '%',
     max: 200,
     step: 5,
   },
   {
-    label: t("style.grayscale"),
-    key: "grayscale",
+    label: t('style.grayscale'),
+    key: 'grayscale',
     default: 0,
     value: 0,
-    unit: "%",
+    unit: '%',
     max: 100,
     step: 5,
   },
   {
-    label: t("style.saturation"),
-    key: "saturate",
+    label: t('style.saturation'),
+    key: 'saturate',
     default: 100,
     value: 100,
-    unit: "%",
+    unit: '%',
     max: 200,
     step: 5,
   },
   {
-    label: t("style.hue"),
-    key: "hue-rotate",
+    label: t('style.hue'),
+    key: 'hue-rotate',
     default: 0,
     value: 0,
-    unit: "deg",
+    unit: 'deg',
     max: 360,
     step: 10,
   },
   {
-    label: t("style.opacity"),
-    key: "opacity",
+    label: t('style.opacity'),
+    key: 'opacity',
     default: 100,
     value: 100,
-    unit: "%",
+    unit: '%',
     max: 100,
     step: 5,
   },
-];
+]
 
 interface RemoveColorOption {
-  distance: number;
-  color: string;
+  distance: number
+  color: string
 }
 
 interface GammaColorOption {
-  red: number;
-  green: number;
-  blue: number;
+  red: number
+  green: number
+  blue: number
 }
 
 const imageFilters = computed(() => {
-  const filters: string[] = [];
-  handleElement.value.filters.forEach((item) => {
-    if (item.type === "Convolute") {
-      const itemMatrix = (item as filters.Convolute).matrix;
-      if (
-        itemMatrix.length === SharpenMatrix.length &&
-        itemMatrix.every((v, i) => v === SharpenMatrix[i])
-      ) {
-        filters.push("Sharpen");
+  const filters: string[] = []
+  handleElement.value.filters.forEach(item => {
+    if (item.type === 'Convolute') {
+      const itemMatrix = (item as filters.Convolute).matrix
+      if (itemMatrix.length === SharpenMatrix.length && itemMatrix.every((v, i) => v === SharpenMatrix[i])) {
+        filters.push('Sharpen')
       }
-      if (
-        itemMatrix.length === EmbossMatrix.length &&
-        itemMatrix.every((v, i) => v === EmbossMatrix[i])
-      ) {
-        filters.push("Emboss");
+      if (itemMatrix.length === EmbossMatrix.length && itemMatrix.every((v, i) => v === EmbossMatrix[i])) {
+        filters.push('Emboss')
       }
     } else {
-      if (!filters.includes(item.type)) filters.push(item.type);
+      if (!filters.includes(item.type)) filters.push(item.type)
     }
-  });
-  return filters;
-});
+  })
+  return filters
+})
 
 const imageGrayscale = computed(() => {
-  let grayscale = "";
-  handleElement.value.filters.forEach((item) => {
+  let grayscale = ''
+  handleElement.value.filters.forEach(item => {
     if (item.type === GrayscaleType) {
-      grayscale = (item as filters.Grayscale).mode;
+      grayscale = (item as filters.Grayscale).mode
     }
-  });
-  return grayscale;
-});
+  })
+  return grayscale
+})
 
-const elementGrayscale = ref<string>(imageGrayscale.value);
-const elementFilters = ref<string[]>(imageFilters.value);
+const elementGrayscale = ref<string>(imageGrayscale.value)
+const elementFilters = ref<string[]>(imageFilters.value)
 
 // 灰度
 // const grayScaleMode = ref<string>('')  // 'average' | 'luminosity' | 'lightness' | ''
 // 移除色
-const removeColor = ref<RemoveColorOption>({ distance: 0.5, color: "#fff" });
+const removeColor = ref<RemoveColorOption>({ distance: 0.5, color: '#fff' })
 // 伽马色
-const isGamma = ref(false);
-const gammaColor = ref<GammaColorOption>({ red: 0.2, green: 0.2, blue: 0.2 });
-const brightness = ref(0); // 亮度
-const contrast = ref(0); // 对比
-const saturation = ref(0); // 饱和
-const vibrance = ref(0); // 鲜艳
-const hue = ref(0); // 色调
-const noise = ref(0); // 噪音
-const pixelate = ref(0); // 像素
-const blur = ref(0); // 模糊
+const isGamma = ref(false)
+const gammaColor = ref<GammaColorOption>({ red: 0.2, green: 0.2, blue: 0.2 })
+const brightness = ref(0) // 亮度
+const contrast = ref(0) // 对比
+const saturation = ref(0) // 饱和
+const vibrance = ref(0) // 鲜艳
+const hue = ref(0) // 色调
+const noise = ref(0) // 噪音
+const pixelate = ref(0) // 像素
+const blur = ref(0) // 模糊
 // 矩阵
 // const colorMatrix = ref<string[]>(JSON.parse(JSON.stringify(defaultFilters)))
 // const hasFilters = ref(false)
 
 const hasFilter = computed(() => {
-  if (!handleElement.value) return false;
-  const elementType = handleElement.value.name
-    ? handleElement.value.name
-    : handleElement.value.type;
-  if (elementType !== ElementNames.IMAGE) return false;
-  const filters = handleElement.value.filters.filter(
-    (obj) => obj.type !== "BlendColor"
-  );
-  if (filters && filters.length > 0) return true;
-  return false;
-});
+  if (!handleElement.value) return false
+  const elementType = handleElement.value.name ? handleElement.value.name : handleElement.value.type
+  if (elementType !== ElementNames.IMAGE) return false
+  const filters = handleElement.value.filters.filter(obj => obj.type !== 'BlendColor')
+  if (filters && filters.length > 0) return true
+  return false
+})
 
-const openFilter = ref<boolean>(hasFilter.value);
+const openFilter = ref<boolean>(hasFilter.value)
 
 // 图片灰度
 const changeGrayscaleMode = (mode: string) => {
-  if (!handleElement.value) return;
-  if (!handleElement.value.filters) handleElement.value.filters = [];
-  mode === elementGrayscale.value
-    ? (elementGrayscale.value = "")
-    : (elementGrayscale.value = mode);
+  if (!handleElement.value) return
+  if (!handleElement.value.filters) handleElement.value.filters = []
+  mode === elementGrayscale.value ? (elementGrayscale.value = '') : (elementGrayscale.value = mode)
   if (elementGrayscale.value) {
     handleElement.value.filters.push(
       new filters.Grayscale({
         mode: elementGrayscale.value,
       }) as filters.BaseFilter
-    );
-    elementFilters.value.push(GrayscaleType);
+    )
+    elementFilters.value.push(GrayscaleType)
   } else {
-    handleElement.value.filters = handleElement.value.filters.filter(
-      (obj) => obj.type !== GrayscaleType
-    );
-    elementFilters.value = elementFilters.value.filter(
-      (obj) => obj !== GrayscaleType
-    );
+    handleElement.value.filters = handleElement.value.filters.filter(obj => obj.type !== GrayscaleType)
+    elementFilters.value = elementFilters.value.filter(obj => obj !== GrayscaleType)
   }
-  handleElement.value.applyFilters();
-  canvas.renderAll();
-};
+  handleElement.value.applyFilters()
+  canvas.renderAll()
+}
 
 const changeFilters = () => {
-  if (!handleElement.value) return;
-  elementFilters.value.forEach((item) => {
-    const itemFilter = handleElement.value.filters.filter(
-      (obj) => obj.type === item
-    )[0];
+  if (!handleElement.value) return
+  elementFilters.value.forEach(item => {
+    const itemFilter = handleElement.value.filters.filter(obj => obj.type === item)[0]
     if (!itemFilter) {
-      if (item === "Invert") {
-        handleElement.value.filters.push(
-          new filters.Invert() as filters.BaseFilter
-        );
-      } else if (item === "Sepia") {
+      if (item === 'Invert') {
+        handleElement.value.filters.push(new filters.Invert() as filters.BaseFilter)
+      } else if (item === 'Sepia') {
         // @ts-ignore
-        handleElement.value.filters.push(new filters.Sepia());
-      } else if (item === "BlackWhite") {
+        handleElement.value.filters.push(new filters.Sepia())
+      } else if (item === 'BlackWhite') {
         // @ts-ignore
-        handleElement.value.filters.push(new filters.BlackWhite());
-      } else if (item === "Brownie") {
+        handleElement.value.filters.push(new filters.BlackWhite())
+      } else if (item === 'Brownie') {
         // @ts-ignore
-        handleElement.value.filters.push(new filters.Brownie());
-      } else if (item === "Vintage") {
+        handleElement.value.filters.push(new filters.Brownie())
+      } else if (item === 'Vintage') {
         // @ts-ignore
-        handleElement.value.filters.push(new filters.Vintage());
-      } else if (item === "Technicolor") {
+        handleElement.value.filters.push(new filters.Vintage())
+      } else if (item === 'Technicolor') {
         // @ts-ignore
-        handleElement.value.filters.push(new filters.Technicolor());
-      } else if (item === "Kodachrome") {
+        handleElement.value.filters.push(new filters.Technicolor())
+      } else if (item === 'Kodachrome') {
         // @ts-ignore
-        handleElement.value.filters.push(new filters.Kodachrome());
-      } else if (item === "Polaroid") {
+        handleElement.value.filters.push(new filters.Kodachrome())
+      } else if (item === 'Polaroid') {
         // @ts-ignore
-        handleElement.value.filters.push(new filters.Polaroid());
+        handleElement.value.filters.push(new filters.Polaroid())
       }
     }
-  });
-  handleElement.value.filters = handleElement.value.filters.filter((obj) =>
-    elementFilters.value.includes(obj.type)
-  );
+  })
+  handleElement.value.filters = handleElement.value.filters.filter(obj => elementFilters.value.includes(obj.type))
 
-  if (elementFilters.value.includes("Sharpen")) {
-    handleElement.value.filters.push(
-      new filters.Convolute({ matrix: SharpenMatrix }) as filters.BaseFilter
-    );
+  if (elementFilters.value.includes('Sharpen')) {
+    handleElement.value.filters.push(new filters.Convolute({ matrix: SharpenMatrix }) as filters.BaseFilter)
   }
-  if (elementFilters.value.includes("Emboss")) {
-    handleElement.value.filters.push(
-      new filters.Convolute({ matrix: EmbossMatrix }) as filters.BaseFilter
-    );
+  if (elementFilters.value.includes('Emboss')) {
+    handleElement.value.filters.push(new filters.Convolute({ matrix: EmbossMatrix }) as filters.BaseFilter)
   }
-  handleElement.value.applyFilters();
-  canvas.renderAll();
-};
+  handleElement.value.applyFilters()
+  canvas.renderAll()
+}
 
 // 更新去除色
 const updateRemoveColor = (color: string) => {
-  if (!handleElement.value) return;
-  if (!handleElement.value.filters) handleElement.value.filters = [];
+  if (!handleElement.value) return
+  if (!handleElement.value.filters) handleElement.value.filters = []
   const removeColorFilter = new filters.RemoveColor({
     distance: removeColor.value.distance,
     color: removeColor.value.color,
-  });
-  removeColor.value.color = color;
-  handleElement.value.filters = handleElement.value.filters.filter(
-    (obj) => obj.type !== "RemoveColor"
-  );
-  handleElement.value.filters.push(removeColorFilter as filters.BaseFilter);
-  handleElement.value.applyFilters();
-};
+  })
+  removeColor.value.color = color
+  handleElement.value.filters = handleElement.value.filters.filter(obj => obj.type !== 'RemoveColor')
+  handleElement.value.filters.push(removeColorFilter as filters.BaseFilter)
+  handleElement.value.applyFilters()
+}
 
 // 更新去除距离
 const updateRemoveDistance = () => {
-  if (!handleElement.value) return;
-  if (!handleElement.value.filters) handleElement.value.filters = [];
+  if (!handleElement.value) return
+  if (!handleElement.value.filters) handleElement.value.filters = []
   const removeColorFilter = new filters.RemoveColor({
     distance: removeColor.value.distance,
     color: removeColor.value.color,
-  });
-  handleElement.value.filters = handleElement.value.filters.filter(
-    (obj) => obj.type !== "RemoveColor"
-  );
-  handleElement.value.filters.push(removeColorFilter as filters.BaseFilter);
-  handleElement.value.applyFilters();
-};
+  })
+  handleElement.value.filters = handleElement.value.filters.filter(obj => obj.type !== 'RemoveColor')
+  handleElement.value.filters.push(removeColorFilter as filters.BaseFilter)
+  handleElement.value.applyFilters()
+}
 
 // 更新伽马色
 const updateGammaColor = (type: string, value: number) => {
-  if (!handleElement.value) return;
-  if (!handleElement.value.filters) handleElement.value.filters = [];
-  if (type === "red") {
-    gammaColor.value.red = value;
-  } else if (type === "green") {
-    gammaColor.value.green = value;
+  if (!handleElement.value) return
+  if (!handleElement.value.filters) handleElement.value.filters = []
+  if (type === 'red') {
+    gammaColor.value.red = value
+  } else if (type === 'green') {
+    gammaColor.value.green = value
   } else {
-    gammaColor.value.blue = value;
+    gammaColor.value.blue = value
   }
   const gammaColorFilter = new filters.Gamma({
-    gamma: [
-      gammaColor.value.red,
-      gammaColor.value.green,
-      gammaColor.value.blue,
-    ],
-  });
-  handleElement.value.filters = handleElement.value.filters.filter(
-    (obj) => obj.type !== "Gamma"
-  );
+    gamma: [gammaColor.value.red, gammaColor.value.green, gammaColor.value.blue],
+  })
+  handleElement.value.filters = handleElement.value.filters.filter(obj => obj.type !== 'Gamma')
   // @ts-ignore
-  handleElement.value.filters.push(gammaColorFilter);
-  handleElement.value.applyFilters();
-};
+  handleElement.value.filters.push(gammaColorFilter)
+  handleElement.value.applyFilters()
+}
 
 // 开关伽马颜色
 const openGamaColor = () => {
-  if (!handleElement.value) return;
-  if (!handleElement.value.filters) handleElement.value.filters = [];
+  if (!handleElement.value) return
+  if (!handleElement.value.filters) handleElement.value.filters = []
   if (!isGamma.value) {
-    handleElement.value.filters = handleElement.value.filters.filter(
-      (obj) => obj.type !== "Gamma"
-    );
-    handleElement.value.applyFilters();
+    handleElement.value.filters = handleElement.value.filters.filter(obj => obj.type !== 'Gamma')
+    handleElement.value.applyFilters()
   } else {
-    updateGammaColor("red", 0.2);
+    updateGammaColor('red', 0.2)
   }
-};
+}
 
 // 修改色彩模式
 const changeColorMode = (type: string, value: number) => {
-  if (!handleElement.value) return;
-  if (type === "Brightness") {
-    brightness.value = value;
+  if (!handleElement.value) return
+  if (type === 'Brightness') {
+    brightness.value = value
     const brightnessFilter = new filters.Brightness({
       brightness: brightness.value,
-    });
-    handleElement.value.filters = handleElement.value.filters.filter(
-      (obj) => obj.type !== type
-    );
-    handleElement.value.filters.push(brightnessFilter as filters.BaseFilter);
-  } else if (type === "Contrast") {
-    contrast.value = value;
-    const contrastFilter = new filters.Contrast({ contrast: contrast.value });
-    handleElement.value.filters = handleElement.value.filters.filter(
-      (obj) => obj.type !== type
-    );
-    handleElement.value.filters.push(contrastFilter as filters.BaseFilter);
-  } else if (type === "Saturation") {
-    saturation.value = value;
+    })
+    handleElement.value.filters = handleElement.value.filters.filter(obj => obj.type !== type)
+    handleElement.value.filters.push(brightnessFilter as filters.BaseFilter)
+  } else if (type === 'Contrast') {
+    contrast.value = value
+    const contrastFilter = new filters.Contrast({ contrast: contrast.value })
+    handleElement.value.filters = handleElement.value.filters.filter(obj => obj.type !== type)
+    handleElement.value.filters.push(contrastFilter as filters.BaseFilter)
+  } else if (type === 'Saturation') {
+    saturation.value = value
     const saturationFilter = new filters.Saturation({
       saturation: saturation.value,
-    });
-    handleElement.value.filters = handleElement.value.filters.filter(
-      (obj) => obj.type !== type
-    );
-    handleElement.value.filters.push(saturationFilter as filters.BaseFilter);
-  } else if (type === "Vibrance") {
-    vibrance.value = value;
-    const vibranceFilter = new filters.Vibrance({ vibrance: vibrance.value });
-    handleElement.value.filters = handleElement.value.filters.filter(
-      (obj) => obj.type !== type
-    );
-    handleElement.value.filters.push(vibranceFilter as filters.BaseFilter);
-  } else if (type === "Hue") {
-    hue.value = value;
-    const hueFilter = new filters.HueRotation({ rotation: hue.value });
-    handleElement.value.filters = handleElement.value.filters.filter(
-      (obj) => obj.type !== type
-    );
-    handleElement.value.filters.push(hueFilter as filters.BaseFilter);
-  } else if (type === "Noise") {
-    noise.value = value;
-    const noiseFilter = new filters.Noise({ noise: noise.value });
-    handleElement.value.filters = handleElement.value.filters.filter(
-      (obj) => obj.type !== type
-    );
-    handleElement.value.filters.push(noiseFilter as filters.BaseFilter);
-  } else if (type === "Pixelate") {
-    pixelate.value = value;
-    const pixelateFilter = new filters.Pixelate({ blocksize: pixelate.value });
-    handleElement.value.filters = handleElement.value.filters.filter(
-      (obj) => obj.type !== type
-    );
-    handleElement.value.filters.push(pixelateFilter as filters.BaseFilter);
-  } else if (type === "Blur") {
-    blur.value = value;
-    const blurFilter = new filters.Blur({ blur: blur.value });
-    handleElement.value.filters = handleElement.value.filters.filter(
-      (obj) => obj.type !== type
-    );
-    handleElement.value.filters.push(blurFilter as filters.BaseFilter);
+    })
+    handleElement.value.filters = handleElement.value.filters.filter(obj => obj.type !== type)
+    handleElement.value.filters.push(saturationFilter as filters.BaseFilter)
+  } else if (type === 'Vibrance') {
+    vibrance.value = value
+    const vibranceFilter = new filters.Vibrance({ vibrance: vibrance.value })
+    handleElement.value.filters = handleElement.value.filters.filter(obj => obj.type !== type)
+    handleElement.value.filters.push(vibranceFilter as filters.BaseFilter)
+  } else if (type === 'Hue') {
+    hue.value = value
+    const hueFilter = new filters.HueRotation({ rotation: hue.value })
+    handleElement.value.filters = handleElement.value.filters.filter(obj => obj.type !== type)
+    handleElement.value.filters.push(hueFilter as filters.BaseFilter)
+  } else if (type === 'Noise') {
+    noise.value = value
+    const noiseFilter = new filters.Noise({ noise: noise.value })
+    handleElement.value.filters = handleElement.value.filters.filter(obj => obj.type !== type)
+    handleElement.value.filters.push(noiseFilter as filters.BaseFilter)
+  } else if (type === 'Pixelate') {
+    pixelate.value = value
+    const pixelateFilter = new filters.Pixelate({ blocksize: pixelate.value })
+    handleElement.value.filters = handleElement.value.filters.filter(obj => obj.type !== type)
+    handleElement.value.filters.push(pixelateFilter as filters.BaseFilter)
+  } else if (type === 'Blur') {
+    blur.value = value
+    const blurFilter = new filters.Blur({ blur: blur.value })
+    handleElement.value.filters = handleElement.value.filters.filter(obj => obj.type !== type)
+    handleElement.value.filters.push(blurFilter as filters.BaseFilter)
   }
-  handleElement.value.applyFilters();
-  canvas.renderAll();
-};
+  handleElement.value.applyFilters()
+  canvas.renderAll()
+}
 
 const toggleFilters = (checked: boolean) => {
-  if (!handleElement.value) return;
+  if (!handleElement.value) return
   if (checked) {
-    defaultFilters.forEach((item) => {
-      changeColorMode(item.key, item.value);
-    });
+    defaultFilters.forEach(item => {
+      changeColorMode(item.key, item.value)
+    })
   } else {
-    handleElement.value.filters.length = 0;
-    handleElement.value.applyFilters();
-    canvas.renderAll();
+    handleElement.value.filters.length = 0
+    handleElement.value.applyFilters()
+    canvas.renderAll()
   }
-};
+}
 </script>
 
 <style lang="scss" scoped>

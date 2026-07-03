@@ -1,13 +1,13 @@
 <template>
   <div>
-    <el-popover 
-      placement="right" 
-      width="220" 
-      trigger="click" 
-      popper-class="home-pop" 
-      @before-enter="setHome(true)" 
-      @hide="setHome(false)" 
-      :ref="props.menuPopoverRef" 
+    <el-popover
+      placement="right"
+      width="220"
+      trigger="click"
+      popper-class="home-pop"
+      @before-enter="setHome(true)"
+      @hide="setHome(false)"
+      :ref="props.menuPopoverRef"
       :virtual-ref="props.menuRef"
       virtual-triggering
     >
@@ -16,24 +16,24 @@
         <span class="pop-text">返回首页</span>
       </el-row> -->
       <el-row class="pop-row" @click="createTemplate()">
-        <IconPlus class="pop-icon"/>
+        <IconPlus class="pop-icon" />
         <span class="pop-text">添加模板</span>
       </el-row>
       <el-row class="pop-row">
-        <IconNewlybuild class="pop-icon"/>
+        <IconNewlybuild class="pop-icon" />
         <span class="pop-text">{{ t('message.createDesign') }}</span>
       </el-row>
       <el-row class="pop-row" @click="openUpload">
-        <IconUpload class="pop-icon"/>
+        <IconUpload class="pop-icon" />
         <span class="pop-text">{{ t('message.uploadFiles') }}</span>
       </el-row>
       <el-row class="pop-row" ref="referenceRef">
-        <IconDividingLine class="pop-icon"/>
+        <IconDividingLine class="pop-icon" />
         <span class="pop-text">{{ t('message.referenceLine') }}</span>
       </el-row>
     </el-popover>
-    <FileUpload :visible="dialogVisible" @close="closeUpload"/>
-    <ReferencePopover :reference-ref="referenceRef" :reference-popover-ref="referencePopoverRef"/>
+    <FileUpload :visible="dialogVisible" @close="closeUpload" />
+    <ReferencePopover :reference-ref="referenceRef" :reference-popover-ref="referencePopoverRef" />
   </div>
 </template>
 <script lang="ts" setup>
@@ -54,12 +54,12 @@ const props = defineProps({
     type: null,
   },
   menuPopoverRef: {
-    type: null
+    type: null,
   },
   menuVisibleRef: {
     type: Boolean,
-    default: false
-  }
+    default: false,
+  },
 })
 
 const emit = defineEmits<{
@@ -77,7 +77,6 @@ const openUpload = () => {
 const closeUpload = () => {
   dialogVisible.value = false
 }
-
 </script>
 <style lang="scss" scoped>
 .home-pop {
@@ -95,7 +94,7 @@ const closeUpload = () => {
 
   .pop-text {
     padding-left: 15px;
-  } 
+  }
 }
 .pop-row:hover {
   border-radius: $borderRadius;

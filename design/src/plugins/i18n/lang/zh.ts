@@ -110,7 +110,7 @@ export default {
 
     searchTools: '搜索工具',
     barCode: '条形码',
-    fabricTable:"表格",
+    fabricTable: '表格',
     barCodeTips: '快速生成一维码,支持4种码制',
     QRCode: '二维码',
     QRCodeTips: '快速生成二维码,支持13种样式',
@@ -120,7 +120,7 @@ export default {
     ColorFillImageTips: '图片颜色填充，常用改背景色',
 
     searchLayer: '搜索图层',
-    beginnerGuide: "新手入门",
+    beginnerGuide: '新手入门',
     userGuide: '使用教程',
     shortcuts: '快捷键',
     suggestions: '反馈建议',
@@ -153,14 +153,14 @@ export default {
     UserGuide: '用户导航',
     Shortcuts: '快捷键',
     Suggestions: '建议',
-    OnlineSupport: '在线'
+    OnlineSupport: '在线',
   },
   default: {
     textValue: '双击修改文字',
     cancel: '取消',
     ok: '确定',
     cleanUp: '清除',
-    direction: '方向'
+    direction: '方向',
   },
   style: {
     canvas: '画布',
@@ -318,28 +318,28 @@ export default {
     decreaseIndent: '增大缩进',
   },
   waterMark: {
-    text: "画布水印",
-    modalTitle: "配置水印",
+    text: '画布水印',
+    modalTitle: '配置水印',
     setting: {
-      name: "名称",
-      size: "大小",
-      angle: "角度",
+      name: '名称',
+      size: '大小',
+      angle: '角度',
       position: {
-        label: "位置",
-        lt: "左上角",
-        rt: "右上角",
-        lb: "左下角",
-        rb: "右下角",
-        full: "平铺"
-      }
-    }
+        label: '位置',
+        lt: '左上角',
+        rt: '右上角',
+        lb: '左下角',
+        rb: '右下角',
+        full: '平铺',
+      },
+    },
   },
 
   gpt: {
     openGPTTitle: '开通ChatGPT-4',
     openGPTIntro: '开通GPT服务',
-    
+
     gptTitle: '体验GPT',
-    gptIntro: '体验GPT服务'
-  }
-};
+    gptIntro: '体验GPT服务',
+  },
+}

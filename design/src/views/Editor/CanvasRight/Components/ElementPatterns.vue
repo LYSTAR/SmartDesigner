@@ -1,14 +1,16 @@
 <template>
   <div class="element-shadow">
     <div class="row">
-      <div style="flex: 2; "><b>{{$t('style.enableShading')}}：</b></div>
-      <div class="switch-wrapper" style="flex: 3;">
+      <div style="flex: 2">
+        <b>{{ $t('style.enableShading') }}：</b>
+      </div>
+      <div class="switch-wrapper" style="flex: 3">
         <el-switch v-model="openPattern" @change="togglePatterns()"></el-switch>
       </div>
     </div>
     <template v-if="props.hasPatterns">
       <div class="row">
-        <div style="flex: 2;">{{$t('style.shadingMode')}}：</div>
+        <div style="flex: 2">{{ $t('style.shadingMode') }}：</div>
         <el-select class="select" v-model="repeatPattern" @change="updatePatternElement">
           <el-option value="repeat" :label="$t('style.collage')"></el-option>
           <el-option value="repeat-x" :label="$t('style.horizontal')"></el-option>
@@ -16,7 +18,7 @@
         </el-select>
       </div>
       <div class="row">
-        <div style="flex: 2;">{{$t('style.shadingImage')}}：</div>
+        <div style="flex: 2">{{ $t('style.shadingImage') }}：</div>
         <el-select class="select" v-model="sourcePattern" @change="updatePatternElement">
           <el-option v-for="item in PatternImages" :key="item.name" :value="item.name" :label="item.name"></el-option>
         </el-select>
@@ -41,11 +43,10 @@ const props = defineProps({
   },
 })
 
-const [ canvas ] = useCanvas()
+const [canvas] = useCanvas()
 const { canvasObject } = storeToRefs(useMainStore())
 
 const handleElement = computed(() => canvasObject.value as TextboxElement)
-
 
 const repeatPattern = ref<TPatternRepeat>('repeat')
 const sourcePattern = ref<string>(PatternImages[0].name)
@@ -63,7 +64,7 @@ const updatePatternElement = async () => {
   const imgElement = await util.loadImage(imageURL)
   const workSpacePattern = new Pattern({
     source: imgElement,
-    repeat: repeatPattern.value
+    repeat: repeatPattern.value,
   })
   handleElement.value.fillRepeat = repeatPattern.value ? repeatPattern.value : 'repeat'
   handleElement.value.fillURL = imageURL
@@ -77,8 +78,7 @@ const togglePatterns = () => {
   if (handleElement.value.fillType === 0) {
     handleElement.value.color = handleElement.value.fill as string
     updatePatternElement()
-  }
-  else {
+  } else {
     handleElement.value.fill = handleElement.value.color
     handleElement.value.fillType = 0
   }

@@ -5,11 +5,13 @@ import { padStart } from 'lodash-es'
  */
 
 export function randomColor() {
-  return `#${Math.floor(Math.random() * 0xFFFFFF).toString(16).padEnd(6, '0')}`
+  return `#${Math.floor(Math.random() * 0xffffff)
+    .toString(16)
+    .padEnd(6, '0')}`
 }
 /** 图片转成base64 */
 export function imgTransformBase64(imgUrl: string) {
-  return new Promise((resolve) => {
+  return new Promise(resolve => {
     window.URL = window.URL || window.webkitURL
     const xhr = new XMLHttpRequest()
     xhr.open('get', imgUrl, true)
@@ -23,15 +25,13 @@ export function imgTransformBase64(imgUrl: string) {
         oFileReader.readAsDataURL(blob)
         oFileReader.onloadend = function (e) {
           // 此处拿到的已经是base64的图片了,可以赋值做相应的处理
-          if (e.target)
-            resolve(e.target.result)
+          if (e.target) resolve(e.target.result)
         }
       }
     }
     xhr.send()
   })
 }
-
 
 /**
  * 补足数字位数

@@ -5,12 +5,14 @@ export const WorkSpaceMaskType = 'WorkSpaceMaskType'
 export const WorkSpaceLineType = 'WorkSpaceLineType'
 
 export const WorkSpaceCommonType = [
-  WorkSpaceDrawType, WorkSpaceClipType, WorkSpaceSafeType, WorkSpaceMaskType, WorkSpaceLineType
+  WorkSpaceDrawType,
+  WorkSpaceClipType,
+  WorkSpaceSafeType,
+  WorkSpaceMaskType,
+  WorkSpaceLineType,
 ]
 
-export const WorkSpaceThumbType = [
-  WorkSpaceClipType, WorkSpaceSafeType, WorkSpaceMaskType, WorkSpaceLineType
-]
+export const WorkSpaceThumbType = [WorkSpaceClipType, WorkSpaceSafeType, WorkSpaceMaskType, WorkSpaceLineType]
 
 // 分割服
 export const Separator = '.'
@@ -18,7 +20,7 @@ export const Separator = '.'
 // 固定元素
 export const WorkSpaceName = 'YFT-DRAW'
 
-// 
+//
 export const CropLinesColor = '#f6f7fa'
 
 // 数据库id
@@ -60,26 +62,26 @@ export const WorkSpaceCommonOption = {
 }
 
 export const propertiesToInclude = [
-  'id', 
-  'name', 
+  'id',
+  'name',
   'layer',
   'isShow',
   'editable',
-  'color', 
+  'color',
   'axis',
   'mask',
   'padding',
-  'cropKey', 
-  'cropPath', 
-  'cropSize', 
+  'cropKey',
+  'cropPath',
+  'cropSize',
   'fill',
   'selectable',
   'evented',
-  'fillType', 
-  'fillURL', 
-  'fillRepeat', 
-  'lockMovementX', 
-  'lockMovementY', 
+  'fillType',
+  'fillURL',
+  'fillRepeat',
+  'lockMovementX',
+  'lockMovementY',
   'objectCaching',
   'transparentCorners',
   'codeOption',
@@ -102,46 +104,46 @@ export const propertiesToInclude = [
 ]
 
 export const WorkSpaceDrawData = {
-  "rx": 0,
-  "ry": 0,
-  "id": "WorkSpaceDrawType",
-  "name": "rect",
-  "fill": "#fff",
-  "selectable": false,
-  "evented": false,
-  "lockMovementX": false,
-  "lockMovementY": false,
-  "objectCaching": true,
-  "transparentCorners": false,
-  "hasBorders": true,
-  "type": "Rect",
-  "version": "6.0.0-beta9",
-  "originX": "left",
-  "originY": "top",
-  "left": 0,
-  "top": 0,
-  "width": 1070.5512,
-  "height": 645.3543,
-  "stroke": "rgba(255,255,255,1)",
-  "strokeWidth": 1,
-  "strokeDashArray": null,
-  "strokeLineCap": "butt",
-  "strokeDashOffset": 0,
-  "strokeLineJoin": "miter",
-  "strokeUniform": false,
-  "strokeMiterLimit": 4,
-  "scaleX": 1,
-  "scaleY": 1,
-  "angle": 0,
-  "flipX": false,
-  "flipY": false,
-  "opacity": 1,
-  "shadow": null,
-  "visible": true,
-  "backgroundColor": "",
-  "fillRule": "nonzero",
-  "paintFirst": "fill",
-  "globalCompositeOperation": "source-over",
-  "skewX": 0,
-  "skewY": 0
+  rx: 0,
+  ry: 0,
+  id: 'WorkSpaceDrawType',
+  name: 'rect',
+  fill: '#fff',
+  selectable: false,
+  evented: false,
+  lockMovementX: false,
+  lockMovementY: false,
+  objectCaching: true,
+  transparentCorners: false,
+  hasBorders: true,
+  type: 'Rect',
+  version: '6.0.0-beta9',
+  originX: 'left',
+  originY: 'top',
+  left: 0,
+  top: 0,
+  width: 1070.5512,
+  height: 645.3543,
+  stroke: 'rgba(255,255,255,1)',
+  strokeWidth: 1,
+  strokeDashArray: null,
+  strokeLineCap: 'butt',
+  strokeDashOffset: 0,
+  strokeLineJoin: 'miter',
+  strokeUniform: false,
+  strokeMiterLimit: 4,
+  scaleX: 1,
+  scaleY: 1,
+  angle: 0,
+  flipX: false,
+  flipY: false,
+  opacity: 1,
+  shadow: null,
+  visible: true,
+  backgroundColor: '',
+  fillRule: 'nonzero',
+  paintFirst: 'fill',
+  globalCompositeOperation: 'source-over',
+  skewX: 0,
+  skewY: 0,
 }

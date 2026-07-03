@@ -1,16 +1,22 @@
 <template>
   <el-dialog v-model="dialogVisible" title="导入文件" width="35%" class="upload-dialog" :before-close="closeUpload">
-    <el-upload class="upload-demo" ref="uploadRef" :on-exceed="handleExceed" drag action="http" :http-request="uploadHandle" :limit="1" :accept="fileAccept" v-loading="uploading">
+    <el-upload
+      class="upload-demo"
+      ref="uploadRef"
+      :on-exceed="handleExceed"
+      drag
+      action="http"
+      :http-request="uploadHandle"
+      :limit="1"
+      :accept="fileAccept"
+      v-loading="uploading"
+    >
       <el-icon :size="50">
         <UploadFilled />
       </el-icon>
-      <div class="el-upload__text">
-        拖拽文件到这里 或者 <em>选择文件上传</em>
-      </div>
+      <div class="el-upload__text">拖拽文件到这里 或者 <em>选择文件上传</em></div>
       <template #tip>
-        <div class="el-upload__tip">
-          支持 PSD / PDF / SVG / CDR 以及 图片 等格式
-        </div>
+        <div class="el-upload__tip">支持 PSD / PDF / SVG / CDR 以及 图片 等格式</div>
       </template>
     </el-upload>
   </el-dialog>
@@ -23,15 +29,14 @@ import useCanvasScale from '@/hooks/useCanvasScale'
 import useHandleCreate from '@/hooks/useHandleCreate'
 import useHandleTemplate from '@/hooks/useHandleTemplate'
 import { useTemplatesStore } from '@/store'
-import { Template } from "@/types/canvas"
+import { Template } from '@/types/canvas'
 import { getImageDataURL, getImageText } from '@/utils/image'
 import useCanvas from '@/views/Canvas/useCanvas'
 import { UploadFilled } from '@element-plus/icons-vue'
-import { genFileId, UploadInstance, UploadProps, UploadRawFile } from "element-plus"
+import { genFileId, UploadInstance, UploadProps, UploadRawFile } from 'element-plus'
 import { Object as FabricObject, Image, loadSVGFromString } from 'fabric'
 import { nanoid } from 'nanoid'
 import { ref, watch } from 'vue'
-
 
 const templatesStore = useTemplatesStore()
 const { setCanvasTransform } = useCanvasScale()
@@ -52,12 +57,15 @@ const emit = defineEmits<{
   (event: 'close'): void
 }>()
 
-watch(() => props.visible, (val) => {
-  dialogVisible.value = val
-  if (val) {
-    uploadRef.value?.clearFiles()
+watch(
+  () => props.visible,
+  val => {
+    dialogVisible.value = val
+    if (val) {
+      uploadRef.value?.clearFiles()
+    }
   }
-})
+)
 
 const closeUpload = () => {
   emit('close')
@@ -85,13 +93,13 @@ const generateSVGTemplate = async (dataText: string) => {
       angle: 0,
       scaleX: 1,
       scaleY: 1,
-    }
+    },
   }
   return emptyTemplate
 }
 
 const uploadHandle = async (option: any) => {
-  const [ canvas ] = useCanvas()
+  const [canvas] = useCanvas()
   const filename = option.file.name
   const fileSuffix = filename.split('.').pop()
   if (!fileAccept.value.split(',').includes(`.${fileSuffix}`)) return
@@ -137,7 +145,7 @@ const uploadHandle = async (option: any) => {
       //   // const emptyTemplate = await generateSVGTemplate(dataText)
       //   // parseTemplate.push(emptyTemplate)
       // }
-      
+
       await templatesStore.addTemplate(template)
       setCanvasTransform()
       emit('close')
@@ -154,10 +162,10 @@ const setImageMask = (image: Image) => {
   // const [ pixi ] = usePixi()
   // pixi.postMessage({
   //   id: image.id,
-  //   type: "mask", 
+  //   type: "mask",
   //   src: image.getSrc(),
-  //   mask: JSON.stringify(image.mask), 
-  //   width: image.width, 
+  //   mask: JSON.stringify(image.mask),
+  //   width: image.width,
   //   height: image.height
   // });
 }
@@ -168,15 +176,12 @@ const handleExceed: UploadProps['onExceed'] = (files: File[]) => {
   file.uid = genFileId()
   uploadRef.value!.handleStart(file)
 }
-
 </script>
 
-<style lang="scss" scoped>
-
-</style>
+<style lang="scss" scoped></style>
 <style>
 .upload-dialog .el-dialog__header {
-  text-align: left
+  text-align: left;
 }
 .upload-dialog .el-upload__tip {
   text-align: left;

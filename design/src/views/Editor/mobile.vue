@@ -4,8 +4,8 @@
       <!-- <MobileThumb class="layout-mobile-thumb" />  -->
       <div class="layout-mobile-center">
         <CanvasHeader class="center-header" />
-        <CanvasCenter class="center-body"/>
-        <CanvasFooter class="center-footer"/>
+        <CanvasCenter class="center-body" />
+        <CanvasFooter class="center-footer" />
       </div>
     </div>
     <div class="layout-barcode">
@@ -21,7 +21,6 @@
 import CanvasHeader from './CanvasHeader/index.vue'
 import CanvasCenter from './CanvasCenter/index.vue'
 import CanvasFooter from './CanvasFooter/index.vue'
-
 </script>
 
 <style lang="scss" scoped>

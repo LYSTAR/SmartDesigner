@@ -8,15 +8,13 @@ type IEvent = CanvasEvents & ObjectEvents
 
 export function useCanvasEvent<K extends keyof IEvent, E extends IEvent[K]>(
   eventName: K,
-  handler: TEventCallback<E>,
+  handler: TEventCallback<E>
 ): Fn
 
-export function useCanvasEvent<K extends keyof IEvent, E extends IEvent[K]>(
-  handlers: Record<K, TEventCallback<E>>,
-): Fn
+export function useCanvasEvent<K extends keyof IEvent, E extends IEvent[K]>(handlers: Record<K, TEventCallback<E>>): Fn
 
 export function useCanvasEvent(eventName: any, handler?: any) {
-  const [ canvas ] = useCanvas()
+  const [canvas] = useCanvas()
 
   canvas.on(eventName, handler)
 

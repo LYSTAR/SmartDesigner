@@ -2,13 +2,12 @@ import request from '@/utils/request'
 import { AxiosPromise } from 'axios'
 import { UploadResult } from './types'
 
-
 /**
  * 上传文件
  *
  * @param image
  */
- export function uploadImage(image: File, type?: string): AxiosPromise<UploadResult> {
+export function uploadImage(image: File, type?: string): AxiosPromise<UploadResult> {
   const formData = new FormData()
   formData.append('image', image)
   return request({
@@ -32,6 +31,6 @@ export function uploadURL(image: string): AxiosPromise<UploadResult> {
   return request({
     url: '/api/matting/url',
     method: 'post',
-    data: {image},
+    data: { image },
   })
 }

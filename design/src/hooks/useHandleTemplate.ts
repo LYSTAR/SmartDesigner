@@ -1,17 +1,15 @@
-import { computed } from "vue"
-import { DefaultVersion } from "@/configs/size"
-import { useMainStore, useTemplatesStore } from "@/store"
-import { Template } from "@/types/canvas"
-import { nanoid } from "nanoid"
-import { storeToRefs } from "pinia"
-import { copyText, readClipboard } from "@/utils/clipboard"
-import { encrypt } from "@/utils/crypto"
+import { computed } from 'vue'
+import { DefaultVersion } from '@/configs/size'
+import { useMainStore, useTemplatesStore } from '@/store'
+import { Template } from '@/types/canvas'
+import { nanoid } from 'nanoid'
+import { storeToRefs } from 'pinia'
+import { copyText, readClipboard } from '@/utils/clipboard'
+import { encrypt } from '@/utils/crypto'
 import { ElMessage } from 'element-plus'
 import { KEYS } from '@/configs/hotkey'
-import { WorkSpaceDrawType, CanvasBackground } from "@/configs/canvas"
+import { WorkSpaceDrawType, CanvasBackground } from '@/configs/canvas'
 import usePasteTextClipboardData from '@/hooks/usePasteTextClipboardData'
-
-
 
 export default () => {
   const templatesStore = useTemplatesStore()
@@ -23,7 +21,9 @@ export default () => {
   // const { currentSlide, templates, theme, slideIndex } = storeToRefs(templatesStore)
 
   const selectedTemplatesIndex = computed(() => [..._selectedTemplatesIndex.value, templateIndex.value])
-  const selectedTemplates = computed(() => templates.value.filter((item, index) => selectedTemplatesIndex.value.includes(index)))
+  const selectedTemplates = computed(() =>
+    templates.value.filter((item, index) => selectedTemplatesIndex.value.includes(index))
+  )
   const selectedTemplatesId = computed(() => selectedTemplates.value.map(item => item.id))
 
   const { pasteTextClipboardData } = usePasteTextClipboardData()
@@ -45,7 +45,7 @@ export default () => {
         scaleX: 1,
         scaleY: 1,
       },
-      background: CanvasBackground
+      background: CanvasBackground,
     }
     return emptyTemplate
   }
@@ -64,8 +64,7 @@ export default () => {
   const updateTemplateIndex = async (command: string) => {
     if (command === KEYS.UP && templateIndex.value > 0) {
       templatesStore.setTemplateIndex(templateIndex.value - 1)
-    }
-    else if (command === KEYS.DOWN && templateIndex.value < templates.value.length - 1) {
+    } else if (command === KEYS.DOWN && templateIndex.value < templates.value.length - 1) {
       templatesStore.setTemplateIndex(templateIndex.value + 1)
     }
     await templatesStore.renderTemplate()
@@ -73,10 +72,12 @@ export default () => {
 
   // 将当前页面数据加密后复制到剪贴板
   const copyTemplate = () => {
-    const text = encrypt(JSON.stringify({
-      type: 'slides',
-      data: selectedTemplates.value,
-    }))
+    const text = encrypt(
+      JSON.stringify({
+        type: 'slides',
+        data: selectedTemplates.value,
+      })
+    )
     copyText(text).then(() => {
       mainStore.setThumbnailsFocus(true)
     })
@@ -84,12 +85,16 @@ export default () => {
 
   // 尝试将剪贴板页面数据解密后添加到下一页（粘贴）
   const pasteTemplate = () => {
-    readClipboard().then(text => {
-      pasteTextClipboardData(text, { onlySlide: true })
-    }).catch(err => ElMessage({
-      message: err,
-      type: 'warning'
-    }))
+    readClipboard()
+      .then(text => {
+        pasteTextClipboardData(text, { onlySlide: true })
+      })
+      .catch(err =>
+        ElMessage({
+          message: err,
+          type: 'warning',
+        })
+      )
   }
 
   // 创建一页空白页并添加到下一页
@@ -120,7 +125,7 @@ export default () => {
   //       id: nanoid(10),
   //     }
   //     slidesStore.addSlide(newSlide)
-  //     
+  //
   //   }
   // }
 
@@ -154,7 +159,7 @@ export default () => {
   // 拖拽调整页面顺序同步数据
   const sortTemplates = (newIndex: number, oldIndex: number) => {
     if (oldIndex === newIndex) return
-  
+
     const _templates = JSON.parse(JSON.stringify(templates.value))
     const _template = _templates[oldIndex]
     _templates.splice(oldIndex, 1)

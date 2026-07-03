@@ -12,12 +12,11 @@
 import { computed } from 'vue'
 import useCanvasExport from '@/hooks/useCanvasExport'
 
-const emit = defineEmits<{(event: 'close'): void}>()
+const emit = defineEmits<{ (event: 'close'): void }>()
 
 const { exportSVG, getSVGData } = useCanvasExport()
 
 const svgHtml = computed(() => getSVGData())
-
 </script>
 
 <style lang="scss" scoped>

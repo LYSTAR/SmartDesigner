@@ -19,8 +19,8 @@
 
 <script lang="ts" setup>
 import { ref, watch } from 'vue'
-import useCanvas from "@/views/Canvas/useCanvas"
-import useHandleElement  from '@/hooks/useHandleElement'
+import useCanvas from '@/views/Canvas/useCanvas'
+import useHandleElement from '@/hooks/useHandleElement'
 import useI18n from '@/hooks/useI18n'
 import { storeToRefs } from 'pinia'
 import { useFabricStore, useTemplatesStore } from '@/store'
@@ -29,7 +29,6 @@ const fabricStore = useFabricStore()
 const { isChecked } = storeToRefs(fabricStore)
 const { t } = useI18n()
 const exportFileDialog = ref(false)
-
 
 const exportFileHide = () => {
   exportFileDialog.value = false
@@ -47,7 +46,7 @@ const loadFile = (files: FileList) => {
   const jsonFile = files[0]
   if (!jsonFile) return
   const reader = new FileReader()
-  const [ canvas ] = useCanvas()
+  const [canvas] = useCanvas()
   reader.onload = event => {
     const jsonContent = event.target?.result?.toString()
     if (!jsonContent) return
@@ -57,7 +56,6 @@ const loadFile = (files: FileList) => {
   }
   reader.readAsText(jsonFile)
 }
-
 </script>
 
 <style lang="scss" scoped>

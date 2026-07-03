@@ -8,16 +8,14 @@
     </div>
   </div>
 </template>
-  
-<script lang="ts" setup>
 
-</script>
-  
+<script lang="ts" setup></script>
+
 <style lang="scss" scoped>
 .dom-barcode {
-  height: 50%
+  height: 50%;
 }
 .dom-snap {
-  height: 50%
+  height: 50%;
 }
 </style>

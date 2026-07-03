@@ -1,19 +1,18 @@
-import { defineStore } from "pinia"
-import {  Point } from "fabric/fabric-impl"
-import { verticalLine, horizontalLine } from "@/types/elements"
-
+import { defineStore } from 'pinia'
+import { Point } from 'fabric/fabric-impl'
+import { verticalLine, horizontalLine } from '@/types/elements'
 
 export interface IFabricState {
   wrapperRef: null | HTMLDivElement
   canvasRef: null | HTMLCanvasElement
   zoom: number
-  clip: number       // 出血尺寸
-  safe: number       // 安全尺寸
-  round: number      // 圆角尺寸
-  diagonal: number   // 角线
-  opacity: number    // 蒙版透明度 0-1
-  showClip: boolean  // 显示裁切线
-  showSafe: boolean  // 显示安全线
+  clip: number // 出血尺寸
+  safe: number // 安全尺寸
+  round: number // 圆角尺寸
+  diagonal: number // 角线
+  opacity: number // 蒙版透明度 0-1
+  showClip: boolean // 显示裁切线
+  showSafe: boolean // 显示安全线
   isDragging: boolean
   isDrawing: boolean
   isCropping: boolean
@@ -26,11 +25,10 @@ export interface IFabricState {
   elementCoords: Point[]
   elementHover: string
   scalePercentage: number
-
 }
 
 export const useFabricStore = defineStore({
-  id: "fabricStore",
+  id: 'fabricStore',
   state: (): IFabricState => {
     return {
       wrapperRef: null,
@@ -57,15 +55,13 @@ export const useFabricStore = defineStore({
       scalePercentage: 80,
     }
   },
-  getters: {
-
-  },
+  getters: {},
   actions: {
     getWidth() {
-      return this.wrapperRef?.offsetWidth || (window.innerWidth - 420)
+      return this.wrapperRef?.offsetWidth || window.innerWidth - 420
     },
     getHeight() {
-      return this.wrapperRef?.offsetHeight || (window.innerHeight - 40)
+      return this.wrapperRef?.offsetHeight || window.innerHeight - 40
     },
     // setMouseFrom(data: { x?: number; y?: number; pressure?: number }) {
     //   Object.assign(this.mouseFrom, data)

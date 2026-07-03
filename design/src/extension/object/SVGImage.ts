@@ -1,5 +1,14 @@
 import { getImageSize } from '@/utils/image'
-import { Image, Object as FabricObject, util, classRegistry, ImageProps, ImageSource, SerializedImageProps, TClassProperties } from 'fabric'
+import {
+  Image,
+  Object as FabricObject,
+  util,
+  classRegistry,
+  ImageProps,
+  ImageSource,
+  SerializedImageProps,
+  TClassProperties,
+} from 'fabric'
 
 export class SVGImage extends Image {
   static type: string = 'svgimage'
@@ -9,7 +18,7 @@ export class SVGImage extends Image {
   public srcWidth?: number
   public srcHeight?: number
 
-  static async getScale (src: string, object: SVGImage) {
+  static async getScale(src: string, object: SVGImage) {
     if (!object.srcWidth && !object.srcHeight) {
       const { width, height } = await getImageSize(src)
       object.srcWidth = width
@@ -26,12 +35,15 @@ export class SVGImage extends Image {
     object.width = object.originWidth / scale
     object.height = object.originHeight / scale
   }
-  
+
   static async fromURL(url: string, options: any = {}): Promise<Image> {
-    return util.loadImage(url, options).then((img) => new this(img, options));
+    return util.loadImage(url, options).then(img => new this(img, options))
   }
 
-  static async fromObject({ filters: f, resizeFilter: rf, src, crossOrigin, ...object }: any, options: { signal: AbortSignal }): Promise<Image> {
+  static async fromObject(
+    { filters: f, resizeFilter: rf, src, crossOrigin, ...object }: any,
+    options: { signal: AbortSignal }
+  ): Promise<Image> {
     await this.getScale(src, object)
     return Promise.all([
       util.loadImage(src, { ...options, crossOrigin }),
@@ -46,17 +58,20 @@ export class SVGImage extends Image {
         filters,
         resizeFilter,
         ...hydratedProps,
-      });
+      })
       if (object.originWidth) image.originWidth = object.originWidth
       if (object.originHeight) image.originHeight = object.originHeight
       if (object.originScale) image.originScale = object.originScale
       if (object.srcWidth) image.srcWidth = object.srcWidth
       if (object.srcHeight) image.srcHeight = object.srcHeight
       return image
-    });
+    })
   }
 
-  toObject<T extends Omit<Partial<ImageProps> & TClassProperties<this>, keyof SerializedImageProps>, K extends keyof T = never>(propertiesToInclude?: K[] | undefined): Pick<T, K> & SerializedImageProps {
+  toObject<
+    T extends Omit<Partial<ImageProps> & TClassProperties<this>, keyof SerializedImageProps>,
+    K extends keyof T = never
+  >(propertiesToInclude?: K[] | undefined): Pick<T, K> & SerializedImageProps {
     const object = super.toObject(propertiesToInclude as any[]) as any
     if (object.originWidth) object.width = object.originWidth
     if (object.originHeight) object.height = object.originHeight
@@ -68,5 +83,3 @@ export class SVGImage extends Image {
 }
 
 classRegistry.setClass(SVGImage)
-
-

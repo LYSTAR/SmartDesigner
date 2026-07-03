@@ -12,7 +12,7 @@
 </template>
 
 <script setup lang="ts">
-import { HomeScenes } from '@/configs/home';
+import { HomeScenes } from '@/configs/home'
 </script>
 
 <style lang="scss" scoped>
@@ -21,7 +21,7 @@ import { HomeScenes } from '@/configs/home';
   display: flex;
   flex-wrap: nowrap;
   gap: 16px;
-  margin:16px 0 40px 0;
+  margin: 16px 0 40px 0;
 }
 
 .scene-col {
@@ -44,7 +44,7 @@ import { HomeScenes } from '@/configs/home';
   }
 
   &:hover {
-    background:#f1f2f4;
+    background: #f1f2f4;
   }
 }
 </style>

@@ -45,24 +45,20 @@ export const useUserStore = defineStore('user', {
     joinTime: '',
     lastLoginTime: '',
     loginStatus: false,
-    token: ''
+    token: '',
   }),
 
   getters: {
     activeElementList() {
-    //   const slidesStore = useSlidesStore()
-    //   const currentSlide = slidesStore.currentSlide
-    //   if (!currentSlide || !currentSlide.elements) return []
+      //   const slidesStore = useSlidesStore()
+      //   const currentSlide = slidesStore.currentSlide
+      //   if (!currentSlide || !currentSlide.elements) return []
     },
-  
-    
   },
 
   actions: {
-    
     setLoginStatus(status: boolean) {
       this.loginStatus = status
-    }
-    
+    },
   },
 })

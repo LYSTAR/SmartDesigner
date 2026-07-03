@@ -34,7 +34,11 @@ export function computeStep(radius: number) {
 }
 
 /** 基于新的缩放比例计算新的绘制范围 */
-export function computeNewTransformConfigByScaleRatio(transformConfig: TransformConfig, pictureSize: RectSize, scaleRatio: number): TransformConfig {
+export function computeNewTransformConfigByScaleRatio(
+  transformConfig: TransformConfig,
+  pictureSize: RectSize,
+  scaleRatio: number
+): TransformConfig {
   const { minX, minY } = transformConfig.positionRange
   const { width, height } = pictureSize
   const maxX = minX + width * scaleRatio

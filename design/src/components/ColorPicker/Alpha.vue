@@ -4,11 +4,7 @@
       <Checkboard />
     </div>
     <div class="alpha-gradient" :style="{ background: gradientColor }"></div>
-    <div 
-      class="alpha-container" 
-      ref="alphaRef"
-      @mousedown="$event => handleMouseDown($event)"
-    >
+    <div class="alpha-container" ref="alphaRef" @mousedown="$event => handleMouseDown($event)">
       <div class="alpha-pointer" :style="{ left: color.a * 100 + '%' }">
         <div class="alpha-picker"></div>
       </div>
@@ -34,7 +30,7 @@ const emit = defineEmits<{
 }>()
 
 const color = computed(() => props.value)
-    
+
 const gradientColor = computed(() => {
   const rgbaStr = [color.value.r, color.value.g, color.value.b].join(',')
   return `linear-gradient(to right, rgba(${rgbaStr}, 0) 0%, rgba(${rgbaStr}, 1) 100%)`
@@ -51,7 +47,7 @@ const handleChange = (e: MouseEvent) => {
 
   if (left < 0) a = 0
   else if (left > containerWidth) a = 1
-  else a = Math.round(left * 100 / containerWidth) / 100
+  else a = Math.round((left * 100) / containerWidth) / 100
 
   if (color.value.a !== a) {
     emit('colorChange', {
@@ -102,7 +98,7 @@ onUnmounted(unbindEventListeners)
   cursor: pointer;
   width: 4px;
   height: 8px;
-  box-shadow: 0 0 2px rgba(0, 0, 0, .6);
+  box-shadow: 0 0 2px rgba(0, 0, 0, 0.6);
   background: #fff;
   margin-top: 1px;
   transform: translateX(-2px);

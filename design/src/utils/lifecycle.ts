@@ -20,9 +20,7 @@ export interface IDisposable {
 }
 
 export function isDisposable<E extends object>(thing: E): thing is E & IDisposable {
-  return (
-    typeof (<IDisposable>thing).dispose === 'function' && (<IDisposable>thing).dispose.length === 0
-  )
+  return typeof (<IDisposable>thing).dispose === 'function' && (<IDisposable>thing).dispose.length === 0
 }
 
 /**
@@ -30,7 +28,7 @@ export function isDisposable<E extends object>(thing: E): thing is E & IDisposab
  */
 export function dispose<T extends IDisposable>(disposable: T): T
 export function dispose<T extends IDisposable>(disposable: T | undefined): T | undefined
-export function dispose<T extends IDisposable, A extends Iterable<T> = Iterable<T>>(disposables: A,): A
+export function dispose<T extends IDisposable, A extends Iterable<T> = Iterable<T>>(disposables: A): A
 export function dispose<T extends IDisposable>(disposables: Array<T>): Array<T>
 export function dispose<T extends IDisposable>(disposables: ReadonlyArray<T>): ReadonlyArray<T>
 export function dispose<T extends IDisposable>(arg: T | Iterable<T> | undefined): any {
@@ -114,8 +112,8 @@ export class DisposableStore implements IDisposable {
       if (!DisposableStore.DISABLE_DISPOSED_WARNING) {
         console.warn(
           new Error(
-            'Trying to add a disposable to a DisposableStore that has already been disposed of. The added object will be leaked!',
-          ).stack,
+            'Trying to add a disposable to a DisposableStore that has already been disposed of. The added object will be leaked!'
+          ).stack
         )
       }
     } else {

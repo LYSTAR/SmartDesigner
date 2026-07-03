@@ -15,16 +15,14 @@
 <script lang="ts" setup>
 import useI18n from '@/hooks/useI18n'
 
-const { messages }= useI18n()
+const { messages } = useI18n()
 const locale = computed(() => messages.value)
 
 // 在主入口监听PWA注册事件
-window.addEventListener('beforeinstallprompt', (e) => {
-  e.preventDefault();
-  window.deferredPrompt = e;
+window.addEventListener('beforeinstallprompt', e => {
+  e.preventDefault()
+  window.deferredPrompt = e
 })
-
-
 </script>
 
 <style lang="scss">

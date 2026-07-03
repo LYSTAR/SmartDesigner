@@ -1,9 +1,9 @@
-import { FabricObject, Control as FabricControl } from "fabric"
+import { FabricObject, Control as FabricControl } from 'fabric'
 import type { FabricObject, Point, TPointerEventInfo, TPointerEvent, Rect } from '@fabric'
 import type { FabricObjectProps as FabricObjectPropsOrigin } from 'fabric/src/shapes/Object/types/FabricObjectProps'
 import type { GroupOwnProps } from 'fabric/src/shapes/Group'
-import { LinePoint, Mask } from "./types/elements"
-import { EffectItem } from "./types/common"
+import { LinePoint, Mask } from './types/elements'
+import { EffectItem } from './types/common'
 
 export declare module 'fabric' {
   export declare type ObjectRef = Pick<
@@ -92,10 +92,13 @@ export declare module 'fabric' {
     | 'direction'
   > &
     Pick<Rect, 'rx' | 'ry'>
-  
+
   export declare class Observable<EventSpec> {
-    on(eventName: 'referenceline:moving' | 'referenceline:mouseup', handler: (event: { e: Event; target: ReferenceLine }) => void): T;
-    on(events: { [key: EventName]: (event: { e: Event; target: fabric.GuideLine }) => void }): T;
+    on(
+      eventName: 'referenceline:moving' | 'referenceline:mouseup',
+      handler: (event: { e: Event; target: ReferenceLine }) => void
+    ): T
+    on(events: { [key: EventName]: (event: { e: Event; target: fabric.GuideLine }) => void }): T
     // on<K extends keyof EventSpec, E extends EventSpec[K]>(eventName: K, handler: TEventCallback<E>): VoidFunction;
     // on<K extends string, E>(eventName: K, handler: TEventCallback<E>): VoidFunction;
     // on<K extends keyof EventSpec, E extends EventSpec[K]>(handlers: EventRegistryObject<K, E>): VoidFunction;
@@ -108,26 +111,22 @@ export declare module 'fabric' {
       zoom: Ref<number>
       objects: ComputedRef<FabricObject[]>
     }
-    forEachObject(
-      callback: (object: FabricObject, index: number, array: FabricObject[]) => any,
-    ): void
+    forEachObject(callback: (object: FabricObject, index: number, array: FabricObject[]) => any): void
     getObjects(...types: string[]): FabricObject[]
     absolutePan(point: Point, skipSetCoords?: boolean): void
     relativePan(point: Point, skipSetCoords?: boolean): void
     zoomToPoint(point: Point, value: number, skipSetCoords?: boolean): void
 
-    on(eventName: EventName, handler: (e: IEvent<MouseEvent>) => void): void;
-    on(options: any): void;
-    off(eventName: EventName, handler?: (e: IEvent<MouseEvent>) => void): void;
-    fire<T>(eventName: EventName, options?: any): T;
+    on(eventName: EventName, handler: (e: IEvent<MouseEvent>) => void): void
+    on(options: any): void
+    off(eventName: EventName, handler?: (e: IEvent<MouseEvent>) => void): void
+    fire<T>(eventName: EventName, options?: any): T
   }
 
   export declare interface ActiveSelection {
     multiSelectAdd(...targets: FabricObject[]): void
     getObjects(...types: string[]): FabricObject[]
-    forEachObject(
-      callback: (object: FabricObject, index: number, array: FabricObject[]) => any,
-    ): void
+    forEachObject(callback: (object: FabricObject, index: number, array: FabricObject[]) => any): void
   }
 
   export declare interface Group {
@@ -181,7 +180,7 @@ export declare module 'fabric' {
   }
 
   export declare interface FabricImage {
-    originSrc?: string 
+    originSrc?: string
     effects?: EffectItem[]
     mask?: SerializedImageProps
     lastEventTop: number
@@ -205,7 +204,6 @@ export declare module 'fabric' {
     color: string
   }
 
-
   export declare interface Polygon {
     startStyle: LinePoint
     endStyle: LinePoint
@@ -216,14 +214,7 @@ export declare module 'fabric' {
     setLineMode(value: string, model: 'start' | 'end'): void
   }
 
-  type ExportedKeys =
-    | 'crossOrigin'
-    | 'offsetX'
-    | 'offsetY'
-    | 'patternTransform'
-    | 'repeat'
-    | 'source'
-    | 'fit'
+  type ExportedKeys = 'crossOrigin' | 'offsetX' | 'offsetY' | 'patternTransform' | 'repeat' | 'source' | 'fit'
   export declare type PatternOptions = Partial<Pick<Pattern, ExportedKeys>>
 
   export declare interface Pattern {
@@ -248,7 +239,7 @@ export declare module 'fabric' {
     type: string
   }
 
-  export declare interface GroupProps extends FabricObjectProps, GroupOwnProps { }
+  export declare interface GroupProps extends FabricObjectProps, GroupOwnProps {}
 
   export declare class Control extends FabricControl {
     pointIndex?: number
@@ -261,9 +252,9 @@ export declare namespace fabric {
 
 declare global {
   interface Window {
-    queryLocalFonts(): any[];
+    queryLocalFonts(): any[]
     gifler: any
   }
 
-  declare type Recordable<T = any> = Record<string, T>;
+  declare type Recordable<T = any> = Record<string, T>
 }

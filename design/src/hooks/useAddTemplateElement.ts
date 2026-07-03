@@ -17,10 +17,10 @@ export default () => {
   const addElementsFromData = (elements: CanvasOption[]) => {
     const { groupIdMap, elIdMap } = createElementIdMap(elements)
     const currenttemplateElementIdList = currentTemplate.value.objects.map(el => el.id)
-    
+
     for (const element of elements) {
       const inCurrenttemplate = currenttemplateElementIdList.includes(element.id)
-      
+
       element.id = elIdMap[element.id]
 
       if (inCurrenttemplate && element.left && element.top) {
@@ -45,7 +45,7 @@ export default () => {
       for (const element of template.objects) {
         element.id = elIdMap[element.id]
       }
-      
+
       return {
         ...template,
         id: templateIdMap[template.id],

@@ -7,15 +7,15 @@ export function getImagePages(params?: QueryPgaes): AxiosPromise<ImagePageResult
     url: 'api/design/image/page',
     method: 'get',
     params,
-  });
+  })
 }
 
 export function getImageCategory(params?: QueryCategory): AxiosPromise<ImageCategoryResult> {
   return request({
     url: 'api/design/image/category',
     method: 'get',
-    params
-  });
+    params,
+  })
 }
 
 export function getIllustrationPages(params?: QueryPgaes): AxiosPromise<ImagePageResult> {
@@ -23,13 +23,13 @@ export function getIllustrationPages(params?: QueryPgaes): AxiosPromise<ImagePag
     url: 'api/design/illustration/page',
     method: 'get',
     params,
-  });
+  })
 }
 
 export function getIllustrationCategory(params?: QueryCategory): AxiosPromise<ImageCategoryResult> {
   return request({
     url: 'api/design/illustration/category',
     method: 'get',
-    params
-  });
+    params,
+  })
 }

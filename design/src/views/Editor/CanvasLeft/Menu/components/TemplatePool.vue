@@ -1,16 +1,18 @@
 <template>
   <div>
     <el-row class="layout-search">
-      <el-input
-        :prefix-icon="Search"
-        :placeholder="$t('message.searchTemp')"
-      ></el-input>
+      <el-input :prefix-icon="Search" :placeholder="$t('message.searchTemp')"></el-input>
     </el-row>
     <el-tabs v-model="activeTemplate" class="layout-tabs">
       <el-tab-pane :label="$t('message.recommendTemp')" name="data">
         <div class="layout-templates" @scroll="handleScroll" ref="templateRef">
           <div v-for="(item, index) in templateItems" :key="item.id" class="thumbnail">
-            <img :src="item.preview + '?x-oss-process=style/img_tum'" alt="" :ref="(e: any) => setItemStyle(e, index)" @click="handleChangeTemplate(item)"/>
+            <img
+              :src="item.preview + '?x-oss-process=style/img_tum'"
+              alt=""
+              :ref="(e: any) => setItemStyle(e, index)"
+              @click="handleChangeTemplate(item)"
+            />
           </div>
         </div>
       </el-tab-pane>
@@ -20,53 +22,55 @@
           <el-radio-button value="collect" :label="$t('message.myFavorites')" />
         </el-radio-group>
       </el-tab-pane>
-      <el-tab-pane :label="$t('message.teamTemp')" name="team">{{ $t("message.teamTemp") }}</el-tab-pane>
+      <el-tab-pane :label="$t('message.teamTemp')" name="team">{{ $t('message.teamTemp') }}</el-tab-pane>
     </el-tabs>
   </div>
 </template>
 
 <script lang="ts" setup>
-import { Search } from "@element-plus/icons-vue"
-import { onMounted, ref } from "vue"
+import { Search } from '@element-plus/icons-vue'
+import { onMounted, ref } from 'vue'
 import { getTemplateDetailPages } from '@/api/template'
 import { TemplateItem } from '@/api/template/types'
 import { useTemplatesStore } from '@/store'
 import { ElMessage, ElMessageBox, ElLoading } from 'element-plus'
-import { unzip } from "@/utils/crypto"
-import { PageSize } from "@/configs/size"
+import { unzip } from '@/utils/crypto'
+import { PageSize } from '@/configs/size'
 import { throttle, debounce } from 'lodash-es'
 import { useRouter } from 'vue-router'
 
 const router = useRouter()
 const templatesStore = useTemplatesStore()
 const templateItems = ref<TemplateItem[]>([])
-const activeTemplate = ref("data");
-const activeSelfTemplate = ref("buy");
+const activeTemplate = ref('data')
+const activeSelfTemplate = ref('buy')
 // const images = ref<string[]>([])
 const page = ref(1)
 const totalPage = ref(1)
 const templateRef = ref<HTMLElement | undefined>()
 
 const setItemStyle = (img: HTMLImageElement, index: number) => {
-  if (!img) return;
+  if (!img) return
   const update = () => {
-    const item = img.parentElement;
-    if (!item) return;
-    const gapRows = index >= 2 ? 2 : 0;
-    const rows = Math.ceil(item.clientHeight / 2) + gapRows;
-    item.style.gridRowEnd = `span ${rows}`;
+    const item = img.parentElement
+    if (!item) return
+    const gapRows = index >= 2 ? 2 : 0
+    const rows = Math.ceil(item.clientHeight / 2) + gapRows
+    item.style.gridRowEnd = `span ${rows}`
   }
-  update();
-  img.onload = update;
-  img.onerror = function() {
-    img.src = new URL(`/src/assets/images/loading.gif`, import.meta.url).href;
-    update();
-  };
+  update()
+  img.onload = update
+  img.onerror = function () {
+    img.src = new URL(`/src/assets/images/loading.gif`, import.meta.url).href
+    update()
+  }
 }
 
 const handleScroll = debounce(async () => {
   const mainElement = templateRef.value as HTMLElement
-  const scrollHeight = mainElement.scrollHeight, scrollTop = mainElement.scrollTop, clientHeight = mainElement.clientHeight
+  const scrollHeight = mainElement.scrollHeight,
+    scrollTop = mainElement.scrollTop,
+    clientHeight = mainElement.clientHeight
   if (scrollHeight - (scrollTop + clientHeight) <= 200) {
     if (page.value < totalPage.value) {
       page.value += 1
@@ -84,9 +88,9 @@ const loadTemplateImage = () => {
         const img = new Image()
         img.crossOrigin = 'anonymous'
         img.src = ele
-        img.onerror = function() {
-          img.src = new URL(`/src/assets/images/loading.gif`, import.meta.url).href;
-        };
+        img.onerror = function () {
+          img.src = new URL(`/src/assets/images/loading.gif`, import.meta.url).href
+        }
       })
     }
   })
@@ -104,14 +108,11 @@ const getTemplateItems = async () => {
 }
 
 const handleChangeTemplate = (item: TemplateItem) => {
-  ElMessageBox.confirm(
-    '是否确认更换模板？',
-    {
-      confirmButtonText: 'OK',
-      cancelButtonText: 'Cancel',
-      type: 'warning',
-    }
-  )
+  ElMessageBox.confirm('是否确认更换模板？', {
+    confirmButtonText: 'OK',
+    cancelButtonText: 'Cancel',
+    type: 'warning',
+  })
     .then(async () => {
       router.push(`${router.currentRoute.value.path}?template=${item.id}`)
       const data = unzip(item.data)
@@ -129,7 +130,6 @@ const handleChangeTemplate = (item: TemplateItem) => {
         message: '模板加载失败,请联系管理员修改bug了',
       })
     })
-  
 }
 
 onMounted(async () => {

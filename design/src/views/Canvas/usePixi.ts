@@ -40,7 +40,7 @@
 //   const templatesStore = useTemplatesStore()
 //   const [ canvas ] = useCanvas()
 //   worker.addEventListener('message', async (event) => {
-    
+
 //     const data = event.data
 //     const objects = canvas.getObjects()
 //     const element = findElement(data.id, objects as CanvasElement[]) as Image

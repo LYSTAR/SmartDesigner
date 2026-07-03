@@ -1,9 +1,18 @@
-import { Object as FabricObject, Path as OriginPath, classRegistry, PathProps, SerializedImageProps, SerializedPathProps, util, Image } from "fabric";
-import { Color } from "./Color";
-import { getPathMask } from "../effects/path.mask";
+import {
+  Object as FabricObject,
+  Path as OriginPath,
+  classRegistry,
+  PathProps,
+  SerializedImageProps,
+  SerializedPathProps,
+  util,
+  Image,
+} from 'fabric'
+import { Color } from './Color'
+import { getPathMask } from '../effects/path.mask'
 
 export class Path extends OriginPath {
-  declare mask?: SerializedImageProps;
+  declare mask?: SerializedImageProps
 
   constructor(path: string | [], options?: FabricObject<PathProps>) {
     super(path, options)
@@ -21,7 +30,7 @@ export class Path extends OriginPath {
   // }
 
   // override render(ctx: CanvasRenderingContext2D, options?: any): void {
-    
+
   //   if (this.isNotVisible()) {
   //     return;
   //   }
@@ -56,17 +65,17 @@ export class Path extends OriginPath {
   //   }
   // }
 
-//  static drawMaskOnCache(ctx: CanvasRenderingContext2D, image: Image) {
-//     const mask = this.mask;
-//     if (!mask) return
-//     ctx.save();
-//     ctx.globalCompositeOperation = 'destination-in';
-//     mask.transform(ctx);
-//     ctx.scale(1 / mask.zoomX!, 1 / mask.zoomY!);
-//     ctx.drawImage(image._cacheCanvas!, -mask.cacheTranslationX!, -mask.cacheTranslationY!);
-//     // ctx.globalCompositeOperation = 'source-in';
-//     ctx.restore();
-//   }
+  //  static drawMaskOnCache(ctx: CanvasRenderingContext2D, image: Image) {
+  //     const mask = this.mask;
+  //     if (!mask) return
+  //     ctx.save();
+  //     ctx.globalCompositeOperation = 'destination-in';
+  //     mask.transform(ctx);
+  //     ctx.scale(1 / mask.zoomX!, 1 / mask.zoomY!);
+  //     ctx.drawImage(image._cacheCanvas!, -mask.cacheTranslationX!, -mask.cacheTranslationY!);
+  //     // ctx.globalCompositeOperation = 'source-in';
+  //     ctx.restore();
+  //   }
 
   // _drawMask(ctx: CanvasRenderingContext2D) {
   //   const mask = this.mask;
@@ -85,7 +94,7 @@ export class Path extends OriginPath {
   //     this.fill = 'black';
   //     this.stroke = '';
   //     this._setClippingProperties(ctx);
-  //   } 
+  //   }
   //   else {
   //     this._renderBackground(ctx);
   //   }
@@ -108,7 +117,6 @@ export class Path extends OriginPath {
   //   }
   //   return object
   // }
-  
 }
 
 classRegistry.setClass(Path)

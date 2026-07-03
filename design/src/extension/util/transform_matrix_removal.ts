@@ -1,10 +1,10 @@
-import { CENTER } from '../constants';
-import type { Image, Object as FabricObject, TMat2D } from 'fabric';
-import { qrDecompose } from './misc/matrix';
+import { CENTER } from '../constants'
+import type { Image, Object as FabricObject, TMat2D } from 'fabric'
+import { qrDecompose } from './misc/matrix'
 
 type FabricObjectWithTransformMatrix = FabricObject & {
-  transformMatrix?: TMat2D;
-};
+  transformMatrix?: TMat2D
+}
 
 /**
  * This function is an helper for svg import. it decompose the transformMatrix
@@ -12,22 +12,18 @@ type FabricObjectWithTransformMatrix = FabricObject & {
  * untransformed coordinates
  * @private
  */
-const _assignTransformMatrixProps = (
-  object: FabricObjectWithTransformMatrix
-) => {
+const _assignTransformMatrixProps = (object: FabricObjectWithTransformMatrix) => {
   if (object.transformMatrix) {
-    const { scaleX, scaleY, angle, skewX } = qrDecompose(
-      object.transformMatrix
-    );
-    object.flipX = false;
-    object.flipY = false;
-    object.set('scaleX', scaleX);
-    object.set('scaleY', scaleY);
-    object.angle = angle;
-    object.skewX = skewX;
-    object.skewY = 0;
+    const { scaleX, scaleY, angle, skewX } = qrDecompose(object.transformMatrix)
+    object.flipX = false
+    object.flipY = false
+    object.set('scaleX', scaleX)
+    object.set('scaleY', scaleY)
+    object.angle = angle
+    object.skewX = skewX
+    object.skewY = 0
   }
-};
+}
 
 /**
  * This function is an helper for svg import. it removes the transform matrix
@@ -39,21 +35,21 @@ export const removeTransformMatrixForSvgParsing = (
   object: FabricObjectWithTransformMatrix,
   preserveAspectRatioOptions?: any
 ) => {
-  let center = object._findCenterFromElement();
+  let center = object._findCenterFromElement()
   if (object.transformMatrix) {
-    _assignTransformMatrixProps(object);
-    center = center.transform(object.transformMatrix);
+    _assignTransformMatrixProps(object)
+    center = center.transform(object.transformMatrix)
   }
-  delete object.transformMatrix;
+  delete object.transformMatrix
   if (preserveAspectRatioOptions) {
-    object.scaleX *= preserveAspectRatioOptions.scaleX;
-    object.scaleY *= preserveAspectRatioOptions.scaleY;
-    (object as Image).cropX = preserveAspectRatioOptions.cropX;
-    (object as Image).cropY = preserveAspectRatioOptions.cropY;
-    center.x += preserveAspectRatioOptions.offsetLeft;
-    center.y += preserveAspectRatioOptions.offsetTop;
-    object.width = preserveAspectRatioOptions.width;
-    object.height = preserveAspectRatioOptions.height;
+    object.scaleX *= preserveAspectRatioOptions.scaleX
+    object.scaleY *= preserveAspectRatioOptions.scaleY
+    ;(object as Image).cropX = preserveAspectRatioOptions.cropX
+    ;(object as Image).cropY = preserveAspectRatioOptions.cropY
+    center.x += preserveAspectRatioOptions.offsetLeft
+    center.y += preserveAspectRatioOptions.offsetTop
+    object.width = preserveAspectRatioOptions.width
+    object.height = preserveAspectRatioOptions.height
   }
-  object.setPositionByOrigin(center, CENTER, CENTER);
-};
+  object.setPositionByOrigin(center, CENTER, CENTER)
+}

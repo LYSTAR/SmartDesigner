@@ -14,7 +14,12 @@
     <template #item="{ element }">
       <div v-contextmenu="contextMenusThumbnails">
         <LayerDraggableCom :index="props.index" :element="element" />
-        <LayerDraggableSon v-if="element.type.toLowerCase() === ElementNames.GROUP && element.objects" v-show="element.isShow" :elements="element.objects" :index="props.index + 1"/>
+        <LayerDraggableSon
+          v-if="element.type.toLowerCase() === ElementNames.GROUP && element.objects"
+          v-show="element.isShow"
+          :elements="element.objects"
+          :index="props.index + 1"
+        />
       </div>
     </template>
   </Draggable>
@@ -30,7 +35,6 @@ import useHandleElement from '@/hooks/useHandleElement'
 import LayerDraggableSon from './LayerDraggableSon.vue'
 import LayerDraggableCom from './LayerDraggableCom.vue'
 
-
 const { sortElement, layerElement } = useHandleElement()
 
 const props = defineProps({
@@ -41,7 +45,7 @@ const props = defineProps({
   index: {
     type: Number,
     required: true,
-  }
+  },
 })
 </script>
 

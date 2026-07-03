@@ -7,19 +7,26 @@
  * @Description: 开通GPT弹窗
 -->
 <template>
-   <el-dialog v-model="dialogVisible" :width="500" title="提示" class="upload-dialog" :before-close="handleClose" :close-on-click-modal="false">
+  <el-dialog
+    v-model="dialogVisible"
+    :width="500"
+    title="提示"
+    class="upload-dialog"
+    :before-close="handleClose"
+    :close-on-click-modal="false"
+  >
     <div>
       <div class="mb-[20px] text-center">本 Demo 采用纯前端 AI 服务 Key 直连模式，确保您的数据与隐私安全。</div>
-      <div class="mb-[20px] text-center text-[#667eea] font-medium">请点击右上角【AI 接口配置】齿轮按钮配置您的接口参数。</div>
+      <div class="mb-[20px] text-center text-[#667eea] font-medium">
+        请点击右上角【AI 接口配置】齿轮按钮配置您的接口参数。
+      </div>
     </div>
     <template #footer>
       <div class="dialog-footer">
-        <el-button type="primary" @click="handleClose">
-          我知道了
-        </el-button>
+        <el-button type="primary" @click="handleClose"> 我知道了 </el-button>
       </div>
     </template>
-   </el-dialog>
+  </el-dialog>
 </template>
 
 <script lang="ts" setup>
@@ -36,13 +43,15 @@ const props = defineProps({
 })
 const dialogVisible = ref(false)
 
-const handleClose = debounce(function() {
+const handleClose = debounce(function () {
   dialogVisible.value = false
   emits('close')
 }, 250)
 
-watch(() => props.visible, (val) => {
-  dialogVisible.value = val
-})
-
+watch(
+  () => props.visible,
+  val => {
+    dialogVisible.value = val
+  }
+)
 </script>

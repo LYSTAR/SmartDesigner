@@ -18,7 +18,7 @@ export default () => {
    * @param command 缩放命令：放大、缩小
    */
   const scaleCanvas = (command: '+' | '-') => {
-    const [ canvas ] = useCanvas()
+    const [canvas] = useCanvas()
     let percentage = Math.round(zoom.value * 100)
     const step = 5
     const max = 500
@@ -27,7 +27,10 @@ export default () => {
     if (command === '-' && percentage >= min) percentage -= step
     const { centerPoint } = useCenter()
     canvas.zoomToPoint(centerPoint, percentage / 100)
-    canvas.absolutePan(new Point(centerPoint.x, centerPoint.y).scalarMultiply(canvas.getZoom()).subtract(canvas.getCenterPoint()), true)
+    canvas.absolutePan(
+      new Point(centerPoint.x, centerPoint.y).scalarMultiply(canvas.getZoom()).subtract(canvas.getCenterPoint()),
+      true
+    )
     zoom.value = canvas.getZoom()
   }
 
@@ -37,15 +40,17 @@ export default () => {
    * @param value 目标画布缩放比例
    */
   const setCanvasScalePercentage = (value: number) => {
-    const [ canvas ] = useCanvas()
+    const [canvas] = useCanvas()
     const { centerPoint } = useCenter()
     canvas.zoomToPoint(centerPoint, value / 100)
-    canvas.absolutePan(new Point(centerPoint.x, centerPoint.y).scalarMultiply(canvas.getZoom()).subtract(canvas.getCenterPoint()))
+    canvas.absolutePan(
+      new Point(centerPoint.x, centerPoint.y).scalarMultiply(canvas.getZoom()).subtract(canvas.getCenterPoint())
+    )
     zoom.value = canvas.getZoom()
   }
 
   const setWorkSpace = (width: number, height: number) => {
-    const [ canvas ] = useCanvas()
+    const [canvas] = useCanvas()
     if (!canvas) return
     const fabricStore = useFabricStore()
     const templatesStore = useTemplatesStore()
@@ -59,9 +64,9 @@ export default () => {
       //按照宽度缩放
       if (workWidth / width > workHeight / height) {
         zoomVal = workWidth / (width * scalePercentageVal)
-      } 
+      }
       //按照高度缩放
-      else {  
+      else {
         zoomVal = workHeight / (height * scalePercentageVal)
       }
     }
@@ -70,13 +75,13 @@ export default () => {
     canvas.setZoom(zoom.value)
     return {
       workWidth,
-      workHeight
+      workHeight,
     }
   }
 
   // 更新视图区长宽
   const setCanvasTransform = () => {
-    const [ canvas ] = useCanvas()
+    const [canvas] = useCanvas()
     if (!canvas) return
     const { zoom } = storeToRefs(fabricStore)
     const objects = canvas.getObjects().filter(ele => !WorkSpaceThumbType.includes(ele.id))
@@ -84,9 +89,12 @@ export default () => {
     const boundingBox = getObjectsBoundingBox(objects)
     const { width, height, centerPoint } = useCenter()
     if (!boundingBox) return
-    zoom.value = Math.min(canvas.getWidth() / width, canvas.getHeight() / height) * scalePercentage.value / 100
+    zoom.value = (Math.min(canvas.getWidth() / width, canvas.getHeight() / height) * scalePercentage.value) / 100
     canvas.setZoom(zoom.value)
-    canvas.absolutePan(new Point(centerPoint.x, centerPoint.y).scalarMultiply(zoom.value).subtract(canvas.getCenterPoint()), true)
+    canvas.absolutePan(
+      new Point(centerPoint.x, centerPoint.y).scalarMultiply(zoom.value).subtract(canvas.getCenterPoint()),
+      true
+    )
   }
 
   /**
@@ -97,9 +105,9 @@ export default () => {
   }
 
   const setCanvasSize = () => {
-    const [ canvas ] = useCanvas()
+    const [canvas] = useCanvas()
     const { width, height } = useElementBounding(wrapperRef.value)
-    canvas.setDimensions({width: width.value, height: height.value})
+    canvas.setDimensions({ width: width.value, height: height.value })
   }
 
   return {
@@ -109,6 +117,6 @@ export default () => {
     setWorkSpace,
     scaleCanvas,
     resetCanvas,
-    setCanvasSize
+    setCanvasSize,
   }
 }

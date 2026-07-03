@@ -1,13 +1,13 @@
 <!-- setup 无法设置组件名称，组件名称keepAlive必须 -->
 <script lang="ts">
 export default {
-  name: "Page404",
-};
+  name: 'Page404',
+}
 </script>
 
 <script setup lang="ts">
 function message() {
-  return "The webmaster said that you can not enter this page...";
+  return 'The webmaster said that you can not enter this page...'
 }
 </script>
 

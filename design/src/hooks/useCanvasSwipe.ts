@@ -3,16 +3,15 @@ import { reactive, ref, computed } from 'vue'
 import { useCanvasEvent } from './useCanvasEvent'
 import type { TPointerEventInfo, TPointerEvent, Point } from 'fabric'
 
-
 class TouchEvent extends UIEvent {
   public touches: any
   public targetTouches: any
   public changedTouches: any
   constructor(name: any, initDict: any) {
-    super(name, initDict);
-    this.touches = initDict.touches;
-    this.targetTouches = initDict.targetTouches;
-    this.changedTouches = initDict.changedTouches;
+    super(name, initDict)
+    this.touches = initDict.touches
+    this.targetTouches = initDict.targetTouches
+    this.changedTouches = initDict.changedTouches
   }
 }
 
@@ -22,7 +21,7 @@ export interface UseSwipeOptions {
   onSwipeEnd?: (e: TPointerEventInfo<TPointerEvent>) => void
 }
 
-export default(options: UseSwipeOptions = {}) => {
+export default (options: UseSwipeOptions = {}) => {
   const { onSwipe, onSwipeEnd, onSwipeStart } = options
 
   const coordsStart = reactive({ x: 0, y: 0 })

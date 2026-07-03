@@ -13,11 +13,7 @@ import { LinkedList } from '@/utils/linkedList'
 import { toDisposable, IDisposable, DisposableStore } from '@/utils/lifecycle'
 
 interface Event<T> {
-  (
-    listener: (e: T) => any,
-    thisArgs?: any,
-    disposables?: IDisposable[] | DisposableStore,
-  ): IDisposable
+  (listener: (e: T) => any, thisArgs?: any, disposables?: IDisposable[] | DisposableStore): IDisposable
 }
 
 // TRACING
@@ -27,8 +23,7 @@ const _enableAllTracing = false
 class CyclicDependencyError extends Error {
   constructor(graph: Graph<any>) {
     super('cyclic dependency between services')
-    this.message =
-      graph.findCycleSlow() ?? `UNABLE to detect cycle, dumping graph: \n${graph.toString()}`
+    this.message = graph.findCycleSlow() ?? `UNABLE to detect cycle, dumping graph: \n${graph.toString()}`
   }
 }
 
@@ -42,29 +37,24 @@ export class InstantiationService implements IInstantiationService {
     private readonly _services: ServiceCollection = new ServiceCollection(),
     private readonly _strict: boolean = false,
     private readonly _parent?: InstantiationService,
-    private readonly _enableTracing: boolean = _enableAllTracing,
+    private readonly _enableTracing: boolean = _enableAllTracing
   ) {
     this._services.set(IInstantiationService, this)
-    this._globalGraph = _enableTracing ? _parent?._globalGraph ?? new Graph((e) => e) : undefined
+    this._globalGraph = _enableTracing ? _parent?._globalGraph ?? new Graph(e => e) : undefined
   }
 
   createChild(services: ServiceCollection): IInstantiationService {
     return new InstantiationService(services, this._strict, this, this._enableTracing)
   }
 
-  invokeFunction<R, TS extends any[] = []>(
-    fn: (accessor: ServicesAccessor, ...args: TS) => R,
-    ...args: TS
-  ): R {
+  invokeFunction<R, TS extends any[] = []>(fn: (accessor: ServicesAccessor, ...args: TS) => R, ...args: TS): R {
     const _trace = Trace.traceInvocation(this._enableTracing, fn)
     let _done = false
     try {
       const accessor: ServicesAccessor = {
         get: <T>(id: ServiceIdentifier<T>) => {
           if (_done) {
-            throw new Error(
-              'service accessor is only valid during the invocation of its target method',
-            )
+            throw new Error('service accessor is only valid during the invocation of its target method')
           }
 
           const result = this._getOrCreateServiceInstance(id, _trace)
@@ -91,11 +81,7 @@ export class InstantiationService implements IInstantiationService {
     let result: any
     if (ctorOrDescriptor instanceof SyncDescriptor) {
       _trace = Trace.traceCreation(this._enableTracing, ctorOrDescriptor.ctor)
-      result = this._createInstance(
-        ctorOrDescriptor.ctor,
-        ctorOrDescriptor.staticArguments.concat(rest),
-        _trace,
-      )
+      result = this._createInstance(ctorOrDescriptor.ctor, ctorOrDescriptor.staticArguments.concat(rest), _trace)
     } else {
       _trace = Trace.traceCreation(this._enableTracing, ctorOrDescriptor)
       result = this._createInstance(ctorOrDescriptor, rest, _trace)
@@ -111,23 +97,19 @@ export class InstantiationService implements IInstantiationService {
     for (const dependency of serviceDependencies) {
       const service = this._getOrCreateServiceInstance(dependency.id, _trace)
       if (!service) {
-        this._throwIfStrict(
-          `[createInstance] ${ctor.name} depends on UNKNOWN service ${dependency.id}.`,
-          false,
-        )
+        this._throwIfStrict(`[createInstance] ${ctor.name} depends on UNKNOWN service ${dependency.id}.`, false)
       }
       serviceArgs.push(service)
     }
 
-    const firstServiceArgPos =
-      serviceDependencies.length > 0 ? serviceDependencies[0].index : args.length
+    const firstServiceArgPos = serviceDependencies.length > 0 ? serviceDependencies[0].index : args.length
 
     // check for argument mismatches, adjust static args if needed
     if (args.length !== firstServiceArgPos) {
       console.trace(
         `[createInstance] First service dependency of ${ctor.name} at position ${
           firstServiceArgPos + 1
-        } conflicts with ${args.length} static arguments`,
+        } conflicts with ${args.length} static arguments`
       )
 
       const delta = firstServiceArgPos - args.length
@@ -176,11 +158,7 @@ export class InstantiationService implements IInstantiationService {
 
   private readonly _activeInstantiations = new Set<ServiceIdentifier<any>>()
 
-  private _safeCreateAndCacheServiceInstance<T>(
-    id: ServiceIdentifier<T>,
-    desc: SyncDescriptor<T>,
-    _trace: Trace,
-  ): T {
+  private _safeCreateAndCacheServiceInstance<T>(id: ServiceIdentifier<T>, desc: SyncDescriptor<T>, _trace: Trace): T {
     if (this._activeInstantiations.has(id)) {
       throw new Error(`illegal state - RECURSIVELY instantiating service '${id}'`)
     }
@@ -192,13 +170,9 @@ export class InstantiationService implements IInstantiationService {
     }
   }
 
-  private _createAndCacheServiceInstance<T>(
-    id: ServiceIdentifier<T>,
-    desc: SyncDescriptor<T>,
-    _trace: Trace,
-  ): T {
+  private _createAndCacheServiceInstance<T>(id: ServiceIdentifier<T>, desc: SyncDescriptor<T>, _trace: Trace): T {
     type Triple = { id: ServiceIdentifier<any>; desc: SyncDescriptor<any>; _trace: Trace }
-    const graph = new Graph<Triple>((data) => data.id.toString())
+    const graph = new Graph<Triple>(data => data.id.toString())
 
     let cycleCount = 0
     const stack = [{ id, desc, _trace }]
@@ -215,10 +189,7 @@ export class InstantiationService implements IInstantiationService {
       for (const dependency of _util.getServiceDependencies(item.desc.ctor)) {
         const instanceOrDesc = this._getServiceInstanceOrDescriptor(dependency.id)
         if (!instanceOrDesc) {
-          this._throwIfStrict(
-            `[createInstance] ${id} depends on ${dependency.id} which is NOT registered.`,
-            true,
-          )
+          this._throwIfStrict(`[createInstance] ${id} depends on ${dependency.id} which is NOT registered.`, true)
         }
 
         // take note of all service dependencies
@@ -261,7 +232,7 @@ export class InstantiationService implements IInstantiationService {
             data.desc.ctor,
             data.desc.staticArguments,
             data.desc.supportsDelayedInstantiation,
-            data._trace,
+            data._trace
           )
           this._setServiceInstance(data.id, instance)
         }
@@ -276,18 +247,12 @@ export class InstantiationService implements IInstantiationService {
     ctor: any,
     args: any[] = [],
     supportsDelayedInstantiation: boolean,
-    _trace: Trace,
+    _trace: Trace
   ): T {
     if (this._services.get(id) instanceof SyncDescriptor) {
       return this._createServiceInstance(id, ctor, args, supportsDelayedInstantiation, _trace)
     } else if (this._parent) {
-      return this._parent._createServiceInstanceWithOwner(
-        id,
-        ctor,
-        args,
-        supportsDelayedInstantiation,
-        _trace,
-      )
+      return this._parent._createServiceInstanceWithOwner(id, ctor, args, supportsDelayedInstantiation, _trace)
     } else {
       throw new Error(`illegalState - creating UNKNOWN service instance ${ctor.name}`)
     }
@@ -298,7 +263,7 @@ export class InstantiationService implements IInstantiationService {
     ctor: any,
     args: any[] = [],
     supportsDelayedInstantiation: boolean,
-    _trace: Trace,
+    _trace: Trace
   ): T {
     if (!supportsDelayedInstantiation) {
       // eager instantiation
@@ -410,10 +375,7 @@ export class Trace {
   static traceInvocation(_enableTracing: boolean, ctor: any): Trace {
     return !_enableTracing
       ? Trace._None
-      : new Trace(
-          TraceType.Invocation,
-          ctor.name || new Error().stack!.split('\n').slice(3, 4).join('\n'),
-        )
+      : new Trace(TraceType.Invocation, ctor.name || new Error().stack!.split('\n').slice(3, 4).join('\n'))
   }
 
   static traceCreation(_enableTracing: boolean, ctor: any): Trace {

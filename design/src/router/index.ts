@@ -1,29 +1,29 @@
-import { createRouter, createWebHistory, RouteRecordRaw } from "vue-router";
+import { createRouter, createWebHistory, RouteRecordRaw } from 'vue-router'
 
 type RouteRecordRaw = typeof RouteRecordRaw
 // 静态路由
 export const constantRoutes: RouteRecordRaw[] = [
   {
-    path: "/home",
-    component: () => import("@/views/Home/index.vue"),
-    meta: { 
+    path: '/home',
+    component: () => import('@/views/Home/index.vue'),
+    meta: {
       hidden: true,
-      title: '智绘快设 - 首页'
+      title: '智绘快设 - 首页',
     },
   },
   {
-    path: "/",
-    name: "/",
-    component: () => import("@/views/Editor/index.vue"),
-    meta: { 
-      title: '智绘快设'
+    path: '/',
+    name: '/',
+    component: () => import('@/views/Editor/index.vue'),
+    meta: {
+      title: '智绘快设',
     },
   },
   {
-    path: "/github",
+    path: '/github',
     component: () => import('@/views/OAuth/github.vue'),
-    meta: { 
-      title: '智绘快设 - GitHub'
+    meta: {
+      title: '智绘快设 - GitHub',
     },
     // children: [
     //   {
@@ -36,16 +36,16 @@ export const constantRoutes: RouteRecordRaw[] = [
     // ]
   },
   {
-    path: "/401",
-    component: () => import("@/views/Error/401.vue"),
+    path: '/401',
+    component: () => import('@/views/Error/401.vue'),
     meta: { hidden: true },
   },
   {
-    path: "/404",
-    component: () => import("@/views/Error/404.vue"),
+    path: '/404',
+    component: () => import('@/views/Error/404.vue'),
     meta: { hidden: true },
   },
-];
+]
 
 /**
  * 创建路由
@@ -55,7 +55,7 @@ const router = createRouter({
   routes: constantRoutes,
   // 刷新时，滚动条位置还原
   scrollBehavior: () => ({ left: 0, top: 0 }),
-});
+})
 
 router.beforeResolve((to: any, from: any, next: any) => {
   window.document.title = to.meta.title
@@ -66,7 +66,7 @@ router.beforeResolve((to: any, from: any, next: any) => {
  * 重置路由
  */
 export const resetRouter = () => {
-  router.replace({ path: "/" });
+  router.replace({ path: '/' })
 }
 
-export default router;
+export default router

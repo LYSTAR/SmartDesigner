@@ -15,13 +15,15 @@ import chroma from 'chroma-js'
 // Linear interpolation of two gradients, one for the x and one for the y
 // axis. This is the default Trianglify color function.
 // The bias parameter controls how prevalent the y axis is versus the x axis
-export const interpolateLinear = (bias = 0.5) =>
+export const interpolateLinear =
+  (bias = 0.5) =>
   ({ xPercent, yPercent, xScale, yScale, opts }) =>
     chroma.mix(xScale(xPercent), yScale(yPercent), bias, opts.colorSpace)
 
 // Give the pattern a 'sparkle' effect by introducing random noise into the
 // x and y gradients, making for higher contrast between cells.
-export const sparkle = (jitterFactor = 0.15) =>
+export const sparkle =
+  (jitterFactor = 0.15) =>
   ({ xPercent, yPercent, xScale, yScale, opts, random }) => {
     const jitter = () => (random() - 0.5) * jitterFactor
     const a = xScale(xPercent + jitter())

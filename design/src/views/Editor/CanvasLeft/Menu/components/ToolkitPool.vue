@@ -1,10 +1,7 @@
 <template>
   <div>
     <el-row class="layout-search">
-      <el-input
-        :prefix-icon="Search"
-        :placeholder="$t('message.searchTools')"
-      ></el-input>
+      <el-input :prefix-icon="Search" :placeholder="$t('message.searchTools')"></el-input>
     </el-row>
     <el-row>
       <el-row class="code-common" @click="createBarElement">
@@ -12,8 +9,8 @@
           <IconPayCodeTwo class="icon-font" />
         </el-col>
         <el-col :span="20" class="code-text">
-          <div class="font-middle">{{ $t("message.barCode") }}</div>
-          <div class="font-little">{{ $t("message.barCodeTips") }}</div>
+          <div class="font-middle">{{ $t('message.barCode') }}</div>
+          <div class="font-little">{{ $t('message.barCodeTips') }}</div>
         </el-col>
       </el-row>
     </el-row>
@@ -23,8 +20,8 @@
           <IconTwoDimensionalCodeTwo class="icon-font" />
         </el-col>
         <el-col :span="20" class="code-text">
-          <div class="font-middle">{{ $t("message.QRCode") }}</div>
-          <div class="font-little">{{ $t("message.QRCodeTips") }}</div>
+          <div class="font-middle">{{ $t('message.QRCode') }}</div>
+          <div class="font-little">{{ $t('message.QRCodeTips') }}</div>
         </el-col>
       </el-row>
     </el-row>
@@ -34,8 +31,8 @@
           <IconMagicWand class="icon-font" />
         </el-col>
         <el-col :span="20" class="code-text">
-          <div class="font-middle">{{ $t("message.AICutoutImage") }}</div>
-          <div class="font-little">{{ $t("message.AICutoutImageTips") }}</div>
+          <div class="font-middle">{{ $t('message.AICutoutImage') }}</div>
+          <div class="font-little">{{ $t('message.AICutoutImageTips') }}</div>
         </el-col>
       </el-row>
     </el-row>
@@ -45,20 +42,20 @@
           <IconPlatte class="icon-font" />
         </el-col>
         <el-col :span="20" class="code-text">
-          <div class="font-middle">{{ $t("message.ColorFillImage") }}</div>
-          <div class="font-little">{{ $t("message.ColorFillImageTips") }}</div>
+          <div class="font-middle">{{ $t('message.ColorFillImage') }}</div>
+          <div class="font-little">{{ $t('message.ColorFillImageTips') }}</div>
         </el-col>
       </el-row>
     </el-row>
     <ImageMatting :visible="dialogVisible" @close="closeUpload" />
     <ImageFillColor :visible="ImageFillColorVisible" @close="closeImageFillColor" />
-    <OpenGpt :visible="openGPTVisible" @close="openGPTVisible = false"  />
+    <OpenGpt :visible="openGPTVisible" @close="openGPTVisible = false" />
   </div>
 </template>
 
 <script lang="ts" setup>
-import { ref } from "vue";
-import { Search } from "@element-plus/icons-vue";
+import { ref } from 'vue'
+import { Search } from '@element-plus/icons-vue'
 
 import {
   encodeData,
@@ -75,23 +72,23 @@ import {
   rendererFuncA,
   rendererFuncB,
   CodeOption,
-} from "beautify-qrcode";
+} from 'beautify-qrcode'
 
-import { QRCodeType } from "@/types/canvas";
-import JsBarCode from "jsbarcode";
-import useHandleCreate from "@/hooks/useHandleCreate";
-import useI18n from "@/hooks/useI18n";
-import { debounce } from "lodash-es";
-import { ElMessageBox  } from 'element-plus'
+import { QRCodeType } from '@/types/canvas'
+import JsBarCode from 'jsbarcode'
+import useHandleCreate from '@/hooks/useHandleCreate'
+import useI18n from '@/hooks/useI18n'
+import { debounce } from 'lodash-es'
+import { ElMessageBox } from 'element-plus'
 import type { Action } from 'element-plus'
 
-const { t } = useI18n();
-const { createQRCodeElement, createBarCodeElement } = useHandleCreate();
-const codeContent = ref<string>(window.location.href);
-const codeSpace = ref<boolean>(true);
-const codeError = ref<number>(0);
-const dialogVisible = ref(false);
-const ImageFillColorVisible = ref(false);
+const { t } = useI18n()
+const { createQRCodeElement, createBarCodeElement } = useHandleCreate()
+const codeContent = ref<string>(window.location.href)
+const codeSpace = ref<boolean>(true)
+const codeError = ref<number>(0)
+const dialogVisible = ref(false)
+const ImageFillColorVisible = ref(false)
 const openGPTVisible = ref(false)
 const generateQRCodeMap = {
   A1: rendererRect,
@@ -106,7 +103,7 @@ const generateQRCodeMap = {
   A_a2: rendererLine2,
   A_b1: rendererFuncA,
   A_b2: rendererFuncB,
-};
+}
 
 // 获取qrcode
 const getEncodeData = (width = 118, height = 118) => {
@@ -116,54 +113,52 @@ const getEncodeData = (width = 118, height = 118) => {
     height,
     correctLevel: codeError.value,
     isSpace: codeSpace.value,
-  };
-  return encodeData(codeOption);
-};
+  }
+  return encodeData(codeOption)
+}
 
 const createBarElement = () => {
   const codeOption: JsBarCode.BaseOptions = {
-    format: "pharmacode",
-    lineColor: "#0aa",
+    format: 'pharmacode',
+    lineColor: '#0aa',
     width: 4,
     height: 40,
     displayValue: false,
-  };
-  JsBarCode("#barcode", "1234", codeOption);
-  const barcode = document.getElementById("barcode");
-  if (!barcode) return;
-  const s = new XMLSerializer().serializeToString(barcode);
-  const src = `data:image/svg+xml;base64,` + btoa(s);
-  createBarCodeElement(src, "1234", codeOption);
-};
+  }
+  JsBarCode('#barcode', '1234', codeOption)
+  const barcode = document.getElementById('barcode')
+  if (!barcode) return
+  const s = new XMLSerializer().serializeToString(barcode)
+  const src = `data:image/svg+xml;base64,` + btoa(s)
+  createBarCodeElement(src, '1234', codeOption)
+}
 
 const createQRElement = (style: QRCodeType) => {
-  const src =
-    `data:image/svg+xml;base64,` +
-    btoa(generateQRCodeMap[style](getEncodeData(118, 118)));
+  const src = `data:image/svg+xml;base64,` + btoa(generateQRCodeMap[style](getEncodeData(118, 118)))
   const codeOption = {
     codeStyle: style,
     codeSpace: codeSpace.value,
     codeError: codeError.value,
-  };
-  createQRCodeElement(src, codeOption, codeContent.value);
-};
+  }
+  createQRCodeElement(src, codeOption, codeContent.value)
+}
 
 const openUpload = () => {
-  dialogVisible.value = true;
-};
+  dialogVisible.value = true
+}
 
 const closeUpload = () => {
-  dialogVisible.value = false;
-};
+  dialogVisible.value = false
+}
 
 const openImageFillColor = () => {
-  ImageFillColorVisible.value = true;
-};
+  ImageFillColorVisible.value = true
+}
 
 const closeImageFillColor = () => {
-  ImageFillColorVisible.value = false;
-};
-const openUseGPT = debounce(function() {
+  ImageFillColorVisible.value = false
+}
+const openUseGPT = debounce(function () {
   ElMessageBox.alert('功能开发中，敬请期待', '提示', {
     confirmButtonText: '我知道了',
     callback: (action: Action) => {
@@ -171,7 +166,7 @@ const openUseGPT = debounce(function() {
     },
   })
 }, 250)
-const openGPTServer = debounce(function() {
+const openGPTServer = debounce(function () {
   openGPTVisible.value = true
 }, 250)
 </script>
