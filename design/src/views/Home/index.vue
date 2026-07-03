@@ -4,7 +4,7 @@
       <el-header class="border-b-[1px] items-center flex">
         <el-row class="justify-between items-center">
           <el-col :span="4" class="h-[50px]">
-            <img src="@/assets/logo.svg" alt="" class="h-full" />
+            <img src="@/assets/logo.png" alt="" class="h-full" />
           </el-col>
           <el-col :span="6" class="flex justify-end col-user">
             <div v-if="username" class="cursor-pointer">
