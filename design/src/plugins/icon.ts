@@ -186,6 +186,7 @@ import {
   Navigation,
   ViewList,
   Setting,
+  Search,
 } from '@icon-park/vue-next'
 
 export const icons = {
@@ -372,6 +373,8 @@ export const icons = {
   IconShareOne: ShareOne,
   IconNavigation: Navigation,
   IconViewList: ViewList,
+  IconSetting: Setting,
+  IconSearch: Search,
 }
 
 export default {
