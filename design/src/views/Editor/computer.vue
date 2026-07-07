@@ -8,16 +8,16 @@
 -->
 <template>
   <div
-    class="h-full"
+    class="h-full flex flex-col"
     v-drop-image="{
       url: 'UploadUrl',
       highlightStyle: { backgroundColor: 'lightblue' },
     }"
   >
+    <CanvasHeader />
     <div class="layout-content flex">
       <CanvasLeft />
       <div class="layout-content-center">
-        <CanvasHeader class="center-header relative flex justify-between py-[10px] text-[14px] select-none h-[39px]" />
         <CanvasCenter class="center-body" />
         <!-- <CanvasAffix  class="center-affix"/> -->
         <CanvasICP />
@@ -43,14 +43,14 @@ import CanvasTour from './CanvasTour/index.vue'
 
 <style lang="scss" scoped>
 .layout-content {
-  height: calc(100% - 40px);
+  height: calc(100% - 50px);
+  width: 100%;
 }
 .layout-content-center {
-  width: calc(100% - 50px - 160px - 260px);
+  width: calc(100% - 70px - 220px - 260px);
 
   .center-body {
     height: 100%;
-    // margin: 100px;
   }
   .center-footer {
     border-top: 1px solid $borderColor;

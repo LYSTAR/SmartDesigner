@@ -1,8 +1,8 @@
 <template>
   <div class="flex">
-    <Label class="w-[70px] h-[100vh] z-10 bg-[#fff]" />
+    <Label class="w-[70px] h-full z-10 bg-[#fff] border-r-[1px] border-[#eee]" />
     <Menu />
-    <Thumb class="w-[160px] h-full flex flex-shrink-0 bg-[#fff] flex-col select-none" />
+    <Thumb class="w-[220px] h-full flex flex-shrink-0 bg-[#fff] flex-col select-none" />
   </div>
 </template>
 

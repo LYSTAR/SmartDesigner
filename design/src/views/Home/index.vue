@@ -1,7 +1,7 @@
 <template>
   <div class="page-root">
     <el-container class="outer-container">
-      <el-header class="border-b-[1px] items-center flex">
+      <el-header class="border-b-[1px] items-center flex bg-[#f4f5f7]">
         <el-row class="justify-between items-center">
           <el-col :span="4" class="h-[50px]">
             <img src="@/assets/logo.png" alt="" class="h-full" />
@@ -17,8 +17,8 @@
         </el-row>
       </el-header>
       <el-container class="inner-container">
-        <el-aside width="216px" class="border-r-[1px]">
-          <el-menu :default-active="activeMenu" active-text-color="#000" @select="handleMenuSelect">
+        <el-aside width="216px" class="bg-[#F6F7F8]">
+          <el-menu :default-active="activeMenu" active-text-color="#000" style="border-right: none" @select="handleMenuSelect">
             <el-menu-item index="1">
               <span class="flex w-[30px] justify-center">
                 <IconHome />
@@ -290,18 +290,25 @@ onMounted(() => {
 }
 
 // ========== 侧边栏菜单 ==========
+
+.el-menu {
+  display: flex;
+  flex-direction: column;
+  background-color: #f6f7f8;
+  margin: 10px;
+}
+
 .el-aside .el-menu .el-menu-item {
-  height: 40px;
-  padding-left: 0;
+  margin: 4px 12px;
+  padding-left: 20px;
   padding-right: 0;
-  margin-left: var(--el-menu-level-padding);
-  border-radius: 5px;
+  border-radius: 8px;
   &:hover {
-    background-color: #f1f2f4;
+    background-color: #ffffff;
   }
 }
 .el-aside .el-menu .is-active {
-  background-color: #f1f2f4;
+  background-color: #ffffff;
 }
 
 // ========== 页面高度约束链 ==========
@@ -395,7 +402,6 @@ onMounted(() => {
     align-items: center;
     max-width: 600px;
     margin: 0 auto 14px;
-    gap: 10px;
 
     .search-input {
       flex: 1;

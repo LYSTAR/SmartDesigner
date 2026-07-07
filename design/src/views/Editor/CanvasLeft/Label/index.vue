@@ -1,12 +1,6 @@
 <template>
   <div>
-    <div class="left-top-tabs" id="left-top-tabs">
-      <div class="top-tab">
-        <el-tooltip placement="top" :hide-after="0" content="首页">
-          <IconHome class="handler-item" @click="goHome" />
-        </el-tooltip>
-      </div>
-    </div>
+    <div class="left-top-tabs" id="left-top-tabs"></div>
     <div class="left-bottom-tabs">
       <div class="center-tabs">
         <div
@@ -212,7 +206,6 @@ const goHome = () => {
   bottom: 0;
   width: 64px;
   z-index: 30;
-  border-right: 1px solid #eee;
   padding: 0 6px 8px;
 }
 .bottom-tab {
