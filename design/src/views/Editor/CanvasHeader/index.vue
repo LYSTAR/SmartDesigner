@@ -276,7 +276,7 @@ const applyCanvasPresetScale = (value: number) => {
   display: flex;
   align-items: center;
   justify-content: space-between;
-  height: 50px;
+  height: 60px;
   padding: 0 16px;
   border-bottom: 1px solid $borderColor;
   background-color: #fff;
@@ -289,7 +289,7 @@ const applyCanvasPresetScale = (value: number) => {
   display: flex;
   align-items: center;
   gap: 12px;
-  font-size: 13px;
+  font-size: 16px;
 
   .home-btn {
     display: flex;

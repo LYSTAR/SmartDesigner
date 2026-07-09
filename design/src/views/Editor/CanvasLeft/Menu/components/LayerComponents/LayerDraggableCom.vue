@@ -49,24 +49,6 @@
         <el-tooltip placement="top" :hide-after="0" content="删除">
           <IconDelete class="common-icon" @click.stop="deleteElement(element.id)" />
         </el-tooltip>
-        <div
-          v-if="
-            element.type.toLowerCase() === ElementNames.TEXTBOX || element.type.toLowerCase() === ElementNames.ITEXT
-          "
-        >
-          <el-tooltip
-            placement="top"
-            :hide-after="0"
-            :content="(element as TextboxElement).editable ? '可编辑文字' : '不可编辑文字'"
-          >
-            <IconCheckOne
-              class="common-icon"
-              v-if="(element as TextboxElement).editable"
-              @click.stop="checkElement(element.id)"
-            />
-            <IconRound class="common-icon" v-else @click.stop="checkElement(element.id)" />
-          </el-tooltip>
-        </div>
       </div>
     </div>
   </div>

@@ -17,10 +17,13 @@
     <CanvasHeader />
     <div class="layout-content flex">
       <CanvasLeft />
-      <div class="layout-content-center">
+      <div
+        class="layout-content-center relative"
+        :style="{ width: thumbShow ? 'calc(100% - 70px - 220px - 260px)' : 'calc(100% - 70px - 260px)' }"
+      >
         <CanvasCenter class="center-body" />
+        <CanvasLayerButton />
         <!-- <CanvasAffix  class="center-affix"/> -->
-        <CanvasICP />
       </div>
       <CanvasRight class="layout-content-right h-full w-[260px] bg-[#fff] flex flex-col" />
       <CanvasDom class="absolute -z-[200] -left-[300px]" />
@@ -34,11 +37,14 @@ import CanvasLeft from './CanvasLeft/index.vue'
 import CanvasHeader from './CanvasHeader/index.vue'
 import CanvasCenter from './CanvasCenter/index.vue'
 import CanvasRight from './CanvasRight/index.vue'
-import CanvasFooter from './CanvasFooter/index.vue'
-import CanvasICP from './CanvasICP/index.vue'
-import CanvasAffix from './CanvasAffix/index.vue'
 import CanvasDom from './CanvasDom/index.vue'
 import CanvasTour from './CanvasTour/index.vue'
+import CanvasLayerButton from './CanvasCenter/CanvasLayerButton.vue'
+import { storeToRefs } from 'pinia'
+import { useMainStore } from '@/store'
+
+const mainStore = useMainStore()
+const { thumbShow } = storeToRefs(mainStore)
 </script>
 
 <style lang="scss" scoped>

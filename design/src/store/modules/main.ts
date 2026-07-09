@@ -38,6 +38,8 @@ export interface MainState {
   lastEdit: PoolType
   poolType: PoolType
   poolShow: boolean
+  thumbShow: boolean
+  thumbActiveTab: 'canvas' | 'layer'
 }
 
 const nanoid = customAlphabet('0123456789ABCDEFGHIJKLMNOPQRSTUVWXYZabcdefghijklmnopqrstuvwxyz')
@@ -71,6 +73,8 @@ export const useMainStore = defineStore('main', {
     lastHelp: 'editor', // 左边栏
     poolType: 'editor', // 左边栏
     poolShow: false, // 显示左边栏
+    thumbShow: true, // 显示左边栏缩略图
+    thumbActiveTab: 'canvas', // 缩略图栏的激活 tab
   }),
 
   getters: {
@@ -126,6 +130,14 @@ export const useMainStore = defineStore('main', {
       if (poolType === 'help') this.lastHelp = this.poolType
       // if (poolType === 'editor') this.lastEdit = this.poolType
       this.poolType = poolType
+    },
+
+    setThumbShow(status: boolean) {
+      this.thumbShow = status
+    },
+
+    setThumbActiveTab(tab: 'canvas' | 'layer') {
+      this.thumbActiveTab = tab
     },
 
     setRightState(rightState: RightStates) {

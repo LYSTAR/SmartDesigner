@@ -105,7 +105,8 @@ const { createTemplate, deleteTemplate, sortTemplates, cutTemplate, pasteTemplat
 const { cancelElement } = useHandleElement()
 
 // Tab 状态
-const activeTab = ref<'canvas' | 'layer'>('canvas')
+const { thumbActiveTab } = storeToRefs(mainStore)
+const activeTab = thumbActiveTab
 const showSearch = ref(false)
 const layerKeywords = ref('')
 

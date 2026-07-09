@@ -14,7 +14,6 @@ declare module 'vue' {
     ColorPicker: typeof import('./../components/ColorPicker/index.vue')['default']
     Contextmenu: typeof import('./../components/Contextmenu/index.vue')['default']
     EditableInput: typeof import('./../components/ColorPicker/EditableInput.vue')['default']
-    ElAffix: typeof import('element-plus/es')['ElAffix']
     ElAside: typeof import('element-plus/es')['ElAside']
     ElButton: typeof import('element-plus/es')['ElButton']
     ElButtonGroup: typeof import('element-plus/es')['ElButtonGroup']
